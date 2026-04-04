@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.ffWebApps =
+  flake.homeModules.ffWebApps =
     { ... }:
     {
       imports = [ self.homeModules.firefoxWebapps ];

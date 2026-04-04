@@ -22,7 +22,7 @@
         creativity
         notes
         office
-        ffWebApps
+        self.homeModules.ffWebApps
         devtoolsCommon
         godot
       ];
