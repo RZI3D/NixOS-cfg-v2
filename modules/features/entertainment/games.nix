@@ -1,4 +1,9 @@
-{ self, inputs, ... }:
+{
+  self,
+  inputs,
+  pkgs,
+  ...
+}:
 {
   flake.nixosModules.games =
     { ... }:
