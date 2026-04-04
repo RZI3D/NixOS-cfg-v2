@@ -6,19 +6,17 @@
   flake.homeConfigurations.zackariyyasattaur = inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = import inputs.nixpkgs {
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
+      config.allowUnfree = true
+      extraSpecialArgs = { inherit inputs; };
+
+      overlays = [
+        inputs.nix4vscode.overlays.default
+        self.overlays.patched-pkgs
+      ];
+
     };
     modules = [
       self.homeModules.zackariyyasattaurModule
-      nixpkgs.overlays = [
-        inputs.nix4vscode.overlays.default
-        inputs.dolphin-overlay.overlays.default
-        (final: prev: {
-          qt6Packages = prev.qt6Packages // {
-            qt6ct = prev.callPackage "${self}/modules/pkgs/qt6ct-kde" { pkgs = prev; };
-          };
-        })
-      ];
       {
         home.username = "zackariyyasattaur";
         home.homeDirectory = "/home/zackariyyasattaur";

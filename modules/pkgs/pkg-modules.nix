@@ -1,6 +1,8 @@
 { self, ... }:
 {
   flake.homeModules.firefoxWebapps = import "${self}/modules/pkgs/firefox-webapps";
-  flake.homeModules.colloidCatppuccin = import "${self}/modules/pkgs/colloid-catppuccin";
-  flake.homeModules.qt6ct-kde = import "${self}/modules/pkgs/qt6ct-kde";
+  flake.overlays.patched-pkgs = final: prev: {
+    colloid-catppuccin = prev.callPackage "${self}/modules/pkgs/colloid-catppuccin" { pkgs = prev; };
+    qt6ct-kde = prev.callPackage "${self}/modules/pkgs/qt6ct-kde" { pkgs = prev; };
+  };
 }

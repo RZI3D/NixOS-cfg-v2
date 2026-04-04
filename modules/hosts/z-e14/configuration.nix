@@ -10,10 +10,19 @@
     }:
     {
 
-      imports = [
-        # Include the results of the hardware scan.
-        self.nixosModules.z-e14Hardware
-        self.nixosModules.homeManager
+      imports = with self.nixosModules; [
+        z-e14Hardware
+        self.overlays.patched-pkgs # Patched qt6ct and colloid
+
+        homeManager
+        ai
+        browsers
+        productivityCommon
+        communication
+        creativity
+        notes
+        office
+        ffWebApps
       ];
 
       # Use the systemd-boot EFI boot loader.
