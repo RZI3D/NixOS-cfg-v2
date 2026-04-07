@@ -6,8 +6,8 @@
   ...
 }:
 {
-  flake.nixosModules.devtoolsCommon =
-    { ... }:
+  flake.homeModules.devtoolsCommon =
+    { pkgs, ... }:
     {
       home.packages = with pkgs; [
         gh
@@ -118,6 +118,9 @@
 
             "dtoplak.vscode-glsllint"
             "slevesque.shader"
+
+            "thijsdaniels.vscode-openscad-preview"
+            "Leathong.openscad-language-support"
           ];
 
           userSettings = {

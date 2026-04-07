@@ -1,0 +1,3 @@
+[submodule "pkgs/openbubbles-app/src"]
+	path = pkgs/openbubbles-app/src
+	url = https://github.com/OpenBubbles/openbubbles-app

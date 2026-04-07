@@ -5,8 +5,8 @@
   ...
 }:
 {
-  flake.nixosModules.godot =
-    { ... }:
+  flake.homeModules.godot =
+    { pkgs, ... }:
     {
       home.packages = with pkgs; [
         godot

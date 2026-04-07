@@ -1,11 +1,14 @@
-{ self, ... }:
+{ self, inputs, ... }:
 {
   flake.overlays.patched-pkgs = final: prev: {
+
+    openbubbles-app = inputs.openbubbles-app.packages.${final.system}.openbubbles-app;
+
     colloid-catppuccin =
       let
         colloid-patched = prev.colloid-gtk-theme.overrideAttrs (old: {
           postPatch = (old.postPatch or "") + ''
-            cp ${self}/modules/pkgs/colloid-catppuccin/_color-palette-catppuccin.scss src/sass/_color-palette-catppuccin.scss
+            cp ${self}/pkgs/colloid-catppuccin/_color-palette-catppuccin.scss src/sass/_color-palette-catppuccin.scss
           '';
         });
       in
@@ -15,7 +18,7 @@
       };
 
     qt6ct-kde = prev.qt6Packages.qt6ct.overrideAttrs (old: {
-      patches = (old.patches or [ ]) ++ [ "${self}/modules/pkgs/qt6ct-kde/qt6ct-kde.patch" ];
+      patches = (old.patches or [ ]) ++ [ "${self}/pkgs/qt6ct-kde/qt6ct-kde.patch" ];
     });
   };
 }

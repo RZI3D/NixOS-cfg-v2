@@ -6,7 +6,7 @@
 }:
 {
   flake.nixosModules.games =
-    { ... }:
+    { pkgs, ... }:
     {
       programs.steam.enable = true;
 
@@ -46,7 +46,10 @@
           libvdpau-va-gl
         ];
       };
-
+    };
+  flake.homeModules.games =
+    { pkgs, ... }:
+    {
       home.packages = with pkgs; [
         osu-lazer-bin
         javaPackages.compiler.temurin-bin.jdk-25 # Minecraft

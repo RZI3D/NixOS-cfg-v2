@@ -5,11 +5,13 @@
   ...
 }:
 {
-  flake.homeModules.notes =
+  flake.homeModules.creative3d =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        anytype
+        blender
+        openscad-unstable
+        freecad
       ];
     };
 }

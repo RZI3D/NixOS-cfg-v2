@@ -5,8 +5,8 @@
   ...
 }:
 {
-  flake.nixosModules.creativity =
-    { ... }:
+  flake.homeModules.creativity =
+    { pkgs, ... }:
     {
       home.packages = with pkgs; [
         # Illustration & Image Editing
@@ -15,8 +15,6 @@
         krita
         aseprite # Unfree - pixel art editor
 
-        # 3D & Game Art
-        blender
         pixelorama # Pixel art editor (free alternative to aseprite)
 
         # Video & Recording

@@ -12,26 +12,21 @@
 
       imports = with self.nixosModules; [
         z-e14Hardware
-        self.overlays.patched-pkgs # Patched qt6ct and colloid
-
         homeManager
         ai
-        browsers
-        productivityCommon
-        communication
-        creativity
-        notes
-        office
-        self.homeModules.ffWebApps
-        devtoolsCommon
-        godot
+        games
+      ];
+
+      nixpkgs.overlays = [
+        self.overlays.patched-pkgs
+        inputs.nix4vscode.overlays.default
       ];
 
       # Use the systemd-boot EFI boot loader.
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
       boot.loader.systemd-boot.configurationLimit = 5;
-      networking.hostName = "z-e14-nix"; # Define your hostname.
+      networking.hostName = "z-e14"; # Define your hostname.
       nix.settings.experimental-features = [
         "nix-command"
         "flakes"
@@ -71,6 +66,8 @@
       services.pipewire = {
         enable = true;
         pulse.enable = true;
+        alsa.enable = true;
+        jack.enable = true;
       };
 
       # Enable touchpad support (enabled default in most desktopManager).
@@ -222,7 +219,5 @@
       #
       # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
       system.stateVersion = "26.05"; # Did you read the comment?
-
     };
-
 }

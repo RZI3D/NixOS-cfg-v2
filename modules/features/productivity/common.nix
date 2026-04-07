@@ -5,8 +5,8 @@
   ...
 }:
 {
-  flake.nixosModules.productivityCommon =
-    { ... }:
+  flake.homeModules.productivityCommon =
+    { pkgs, ... }:
     {
       home.packages = with pkgs; [
         # File Management

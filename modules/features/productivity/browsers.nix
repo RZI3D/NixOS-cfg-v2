@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.browsers =
+  flake.homeModules.browsers =
     { ... }:
     {
       # Probally not the most modular way (TODO: Look at later)

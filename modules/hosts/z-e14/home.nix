@@ -17,6 +17,7 @@
     };
     modules = [
       self.homeModules.zackariyyasattaurModule
+
       {
         home.username = "zackariyyasattaur";
         home.homeDirectory = "/home/zackariyyasattaur";
@@ -29,6 +30,23 @@
   flake.homeModules.zackariyyasattaurModule =
     { pkgs, ... }:
     {
+      imports = with self.homeModules; [
+
+        rziTheme
+
+        ffWebApps
+        browsers
+        productivityCommon
+        communication
+        creativity
+        notes
+        office
+        devtoolsCommon
+        godot
+        games
+        creative3d
+      ];
+
       programs.bash = {
         enable = true;
         shellAliases = {
