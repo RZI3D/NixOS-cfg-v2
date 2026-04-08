@@ -4,6 +4,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    # The trick from the Discourse thread:
+    # Use git+file to ensure submodules are fetched for this specific path
+    openbubbles-src = {
+      url = "git+file:///mnt/DATA/Programming/Linux/NixOS-cfg/pkgs/openbubbles-app/src?submodules=1";
+      flake = false;
+    };
   };
 
   outputs =
@@ -20,20 +26,27 @@
       ];
 
       perSystem =
-        { pkgs, ... }:
+        {
+          pkgs,
+          config,
+          inputs',
+          ...
+        }:
         {
           packages.openbubbles-app = pkgs.flutter.buildFlutterApplication {
             pname = "openbubbles-app";
             version = "1.15.0";
 
-            src = ./src;
+            # Access the input through 'inputs' which is available in this scope
+            src = inputs.openbubbles-src;
 
             autoPubspecLock = true;
 
-            # Point to where the Rust code actually lives in the repo
-            cargoRoot = "src-rust";
+            # Point to where the Rust code lives inside that fetched source
+            cargoRoot = "rust";
             cargoDeps = pkgs.rustPlatform.importCargoLock {
-              lockFile = ./src/src-rust/Cargo.lock;
+              # Use the store path from the fetched input
+              lockFile = "${inputs.openbubbles-src}/rust/Cargo.lock";
             };
 
             nativeBuildInputs = with pkgs; [
@@ -52,7 +65,8 @@
               webkitgtk_4_1
             ];
           };
-          packages.default = self.packages.${pkgs.system}.openbubbles-app;
+
+          packages.default = config.packages.openbubbles-app;
         };
     };
 }

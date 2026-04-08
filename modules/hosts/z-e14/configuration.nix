@@ -15,6 +15,8 @@
         homeManager
         ai
         games
+        kdePlasma
+        rziNiri
       ];
 
       nixpkgs.overlays = [
@@ -88,6 +90,7 @@
         extraGroups = [
           "wheel"
           "networkmanager"
+          "input"
         ]; # Enable ‘sudo’ for the user.
         hashedPassword = "$6$rkp83G7XDj8weVI9$hEwyG/13SqUrYvIQc3ZT7/vpvEAGDRvHew47DM2w0Lw44xxVC8YXqHUlNUxEX0VxIdRq6fivmWILvrsODXVoA/";
       };
@@ -139,7 +142,7 @@
         python3 # Used for various scripts
         kdePackages.plasma-workspace-wallpapers
         catppuccin-sddm
-
+        evtest
         # Desktop Components
         swww # Wallpaper daemon
         brightnessctl # Backlight control

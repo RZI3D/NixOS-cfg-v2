@@ -13,7 +13,7 @@
         ayugram-desktop
         whatsapp-electron
         parsec-bin
-        openbubbles-app
+        # openbubbles-app
       ];
     };
 }

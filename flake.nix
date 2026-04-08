@@ -25,7 +25,7 @@
     };
     dolphin-overlay.url = "github:rumboon/dolphin-overlay";
     rzi-shell.url = "github:rzi3d/rzi-shell";
-    openbubbles-app.url = "path:./pkgs/openbubbles-app";
+    # openbubbles-app.url = "path:./pkgs/openbubbles-app";
 
   };
 
