@@ -163,6 +163,9 @@
             "textColor": "none"
           },
           {
+            "id": "plugin:slowbongo"
+          },
+          {
             "colorizeDistroLogo": false,
             "colorizeSystemIcon": "none",
             "customIconPath": "",
@@ -170,9 +173,6 @@
             "icon": "noctalia",
             "id": "ControlCenter",
             "useDistroLogo": false
-          },
-          {
-            "id": "plugin:slowbongo"
           }
         ]
       },
@@ -296,7 +296,7 @@
     },
     "wallpaper": {
       "enabled": true,
-      "overviewEnabled": false,
+      "overviewEnabled": true,
       "directory": "/home/zackariyyasattaur/Pictures/Wallpapers",
       "monitorDirectories": [
         {
@@ -358,7 +358,7 @@
       "position": "center",
       "pinnedApps": [],
       "sortByMostUsed": true,
-      "terminalCommand": "alacritty -e",
+      "terminalCommand": "kitty -e",
       "customLaunchPrefixEnabled": false,
       "customLaunchPrefix": "",
       "viewMode": "list",

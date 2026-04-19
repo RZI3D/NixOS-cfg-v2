@@ -33,6 +33,7 @@
       imports = with self.homeModules; [
 
         rziTheme
+        inputs.spicetify-nix.homeManagerModules.default
 
         ffWebApps
         browsers
@@ -42,9 +43,11 @@
         notes
         office
         devtoolsCommon
+        microcontrollerDev
         godot
         games
         creative3d
+        media
       ];
 
       programs.bash = {

@@ -23,10 +23,12 @@
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     dolphin-overlay.url = "github:rumboon/dolphin-overlay";
     rzi-shell.url = "github:rzi3d/rzi-shell";
+    freyr-js.url = "path:./pkgs/freyr-js";
     # openbubbles-app.url = "path:./pkgs/openbubbles-app";
-
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);

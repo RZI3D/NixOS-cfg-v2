@@ -24,6 +24,7 @@
       programs.nix-ld.enable = true;
       programs.nix-ld.libraries = with pkgs; [
         stdenv.cc.cc.lib
+        libxxf86vm # Minecraft JavaFX
         zlib
         libGL
         SDL2

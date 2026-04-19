@@ -4,6 +4,8 @@
 
     # openbubbles-app = inputs.openbubbles-app.packages.${final.system}.openbubbles-app;
 
+    freyr-js = inputs.freyr-js.packages.${final.system}.freyr-js;
+
     colloid-catppuccin =
       let
         colloid-patched = prev.colloid-gtk-theme.overrideAttrs (old: {
@@ -18,7 +20,12 @@
       };
 
     qt6ct-kde = prev.qt6Packages.qt6ct.overrideAttrs (old: {
-      patches = (old.patches or [ ]) ++ [ "${self}/pkgs/qt6ct-kde/qt6ct-kde.patch" ];
+      patches = (old.patches or [ ]) ++ [
+        (builtins.path {
+          path = "${self}/pkgs/qt6ct-kde/qt6ct-kde.patch";
+          name = "qt6ct-kde.patch";
+        })
+      ];
     });
   };
 }

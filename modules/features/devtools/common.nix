@@ -17,6 +17,7 @@
         nixfmt # Official Nix Formatter
         qt6.qtdeclarative
         kdePackages.qttools
+        kilocode-cli
       ];
 
       # Git Configuration
@@ -50,6 +51,17 @@
             formatter.command = lib.getExe pkgs.nixfmt;
           }
         ];
+      };
+
+      programs.direnv = {
+        enable = true;
+        nix-direnv.enable = true; # This gives faster, cached Nix support (highly recommended)
+        # silent = true; # Don't print direnv messages in the terminal
+        config = {
+          global = {
+            log_filter = "^loading";
+          };
+        };
       };
 
       # 2. VSCode Configuration
@@ -95,7 +107,8 @@
 
             # AI & Remote
             "google.gemini-cli-vscode-ide-companion"
-            "kilocode.kilo-code"
+            # "kilocode.kilo-code" # WHAT is that v7 kilo? Ima try roo.
+            "RooVeterinaryInc.roo-cline"
             "ms-azuretools.vscode-containers"
             "ms-vscode-remote.remote-containers"
             "ms-vscode.remote-explorer"
@@ -121,8 +134,8 @@
 
             "thijsdaniels.vscode-openscad-preview"
             "Leathong.openscad-language-support"
+            "algoscienceacademy.qt-live-preview"
           ];
-
           userSettings = {
             "catppuccin.accentColor" = "sapphire";
             "editor.formatOnSave" = true;
@@ -150,7 +163,7 @@
               "kilo-code.new.agentManagerOpen"
               "kilo-code.new.agentManager.showTerminal"
             ];
-
+            "qtLivePreview.qmlEngine" = "/etc/profiles/per-user/zackariyyasattaur/bin/qml";
           };
         };
 

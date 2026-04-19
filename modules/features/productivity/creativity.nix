@@ -46,6 +46,7 @@
 
         plugins = with pkgs.obs-studio-plugins; [
           wlrobs
+          self.packages.${pkgs.system}.vinciFlow
           obs-backgroundremoval
           obs-pipewire-audio-capture
           obs-vaapi # optional AMD hardware acceleration

@@ -17,17 +17,38 @@
         games
         kdePlasma
         rziNiri
+        productivityCommon
+        virtualisation
       ];
 
       nixpkgs.overlays = [
         self.overlays.patched-pkgs
         inputs.nix4vscode.overlays.default
+        inputs.nix-cachyos-kernel.overlays.default
+        inputs.dolphin-overlay.overlays.default
       ];
+
+      boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+
+      # Binary cache for CachyOS latest kernel
+      nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
+      nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
       # Use the systemd-boot EFI boot loader.
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
       boot.loader.systemd-boot.configurationLimit = 5;
+      boot.kernelParams = [
+        "zswap.enabled=1"
+        "zswap.compressor=zstd"
+        "zswap.zpool=zsmalloc"
+      ];
+      swapDevices = [
+        {
+          device = "/var/lib/swapfile";
+          size = 8 * 1024; # 8GB - plenty for a 32GB RAM system
+        }
+      ];
       networking.hostName = "z-e14"; # Define your hostname.
       nix.settings.experimental-features = [
         "nix-command"
@@ -38,7 +59,7 @@
       networking.networkmanager.enable = true;
 
       # Set your time zone.
-      time.timeZone = "Asia/Riyadh";
+      time.timeZone = "America/New_York";
 
       # Configure network proxy if necessary
       # networking.proxy.default = "http://user:password@proxy:port/";
@@ -71,6 +92,12 @@
         alsa.enable = true;
         jack.enable = true;
       };
+      services.sunshine = {
+        enable = true;
+        autoStart = true; # optional: starts Sunshine automatically on login
+        capSysAdmin = true;
+        openFirewall = true;
+      };
 
       # Enable touchpad support (enabled default in most desktopManager).
       services.libinput.enable = true;
@@ -82,6 +109,7 @@
           Experimental = true;
         };
       };
+      hardware.uinput.enable = true;
 
       # Define a user account. Don't forget to set a password with ‘passwd’.
       users.users.zackariyyasattaur = {
@@ -91,7 +119,10 @@
           "wheel"
           "networkmanager"
           "input"
-        ]; # Enable ‘sudo’ for the user.
+          "uinput"
+          "libvirtd"
+          "kvm"
+        ];
         hashedPassword = "$6$rkp83G7XDj8weVI9$hEwyG/13SqUrYvIQc3ZT7/vpvEAGDRvHew47DM2w0Lw44xxVC8YXqHUlNUxEX0VxIdRq6fivmWILvrsODXVoA/";
       };
       home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModule;
@@ -112,9 +143,6 @@
         ];
       };
       services.desktopManager.plasma6.enable = true;
-      xdg.portal.extraPortals = [
-        pkgs.kdePackages.xdg-desktop-portal-kde
-      ];
       programs.hyprland.enable = true;
 
       services.upower.enable = true; # Battery info

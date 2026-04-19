@@ -20,7 +20,6 @@
 
         # Media Viewing
         kdePackages.gwenview # image viewer
-        vlc # video player
         easyeffects # audio effects/equalizer
 
         # System Tools
@@ -34,6 +33,17 @@
         # Utilities
         wl-mirror # mirror displays on Wayland
         pavucontrol # audio control
+        mailspring
       ];
+    };
+  flake.nixosModules.productivityCommon =
+    { pkgs, lib, ... }:
+    {
+      programs.weylus = {
+        enable = true;
+        # Point the module to use your newly defined package
+        package = self.packages.${pkgs.system}.weylus-ce;
+        openFirewall = true;
+      };
     };
 }

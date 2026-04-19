@@ -10,7 +10,7 @@
       themeName = "Colloid-Dark-Catppuccin";
       kdeMochaLookAndFeel = pkgs.fetchzip {
         url = "https://github.com/catppuccin/kde/releases/download/v0.2.6/Mocha-color-schemes.tar.gz";
-        sha256 = "sha256-I5WIXubfArLsrELLdWvuN66VsQ3dr7PzxYBlzz9qBBI="; # If switch fails, use the hash Nix provides
+        sha256 = "sha256-I5WIXubfArLsrELLdWvuN66VsQ3dr7PzxYBlzz9qBBI=";
       };
     in
 
@@ -24,8 +24,10 @@
         starship
         eza
         # kdePackages.qtstyleplugin-kvantum # switched to qt6ct
+        kdePackages.qtsvg
         libsForQt5.qt5ct
-        qt6Packages.qt6ct # has unfixed issues with kde, so i needed to patch it (see flake.nix)
+        # qt6Packages.qt6ct # has unfixed issues with kde, so i needed to patch it (see flake.nix)
+        qt6ct-kde
       ];
 
       catppuccin.flavor = "mocha";
@@ -50,13 +52,16 @@
 
       programs.fish = {
         enable = true;
-
+        interactiveShellInit = ''
+          set fish_greeting # Disable greeting
+        '';
         shellAliases = {
           clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
           ls = "eza --icons";
           pamcan = "pacman";
           q = "qs -c rzi kill; qs -c rzi";
           qd = "qs -c rzi kill; qs -c rzi -d";
+          rswitch = "sudo nixos-rebuild switch --flake ~/Programming/Linux/NixOS-cfg";
         };
       };
 
@@ -67,7 +72,7 @@
           add_newline = false;
 
           format = ''
-            $time$cmd_duration 󰜥 $directory $git_branch
+            $time$cmd_duration 󰜥 $directory ''${custom.direnv} $git_branch
             $character'';
 
           character = {
@@ -79,8 +84,10 @@
             home_symbol = "  ";
             read_only = "  ";
             style = "bg:green fg:black";
+            truncation_symbol = "…/";
             truncation_length = 6;
-            format = "[](bold fg:green)[󰉋 $path]($style)[](bold fg:green)"; # The Pill
+            fish_style_pwd_dir_length = 2;
+            format = "[](bold fg:green)[󰉋 $path]($style)[](bold fg:green)";
             substitutions = {
               "Desktop" = "  ";
               "Documents" = "  ";
@@ -89,7 +96,23 @@
               "Pictures" = "  ";
               "Videos" = "  ";
               "GitHub" = " 󰊤 ";
+              "Programming" = " 󰨞 ";
+              "Microcontrollers" = "  ";
+
             };
+          };
+
+          custom.direnv = {
+            # Check if the DIRENV_DIR variable is set
+            command = "echo $DIRENV_DIR";
+            # Only show if the command output is not empty
+            when = "test -n \"$DIRENV_DIR\"";
+            shell = [
+              "bash"
+              "--norc"
+              "--noprofile"
+            ];
+            format = "[](bold fg:bright-blue)[ ](bold bg:bright-blue fg:black)[! ](bold bg:bright-blue fg:bright-black)[](bold fg:bright-blue)";
           };
 
           git_branch = {
