@@ -27,7 +27,6 @@
     dolphin-overlay.url = "github:rumboon/dolphin-overlay";
     rzi-shell.url = "github:rzi3d/rzi-shell";
     freyr-js.url = "path:./pkgs/freyr-js";
-    # openbubbles-app.url = "path:./pkgs/openbubbles-app";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 

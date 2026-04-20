@@ -2,8 +2,6 @@
 {
   flake.overlays.patched-pkgs = final: prev: {
 
-    # openbubbles-app = inputs.openbubbles-app.packages.${final.system}.openbubbles-app;
-
     freyr-js = inputs.freyr-js.packages.${final.system}.freyr-js;
 
     colloid-catppuccin =

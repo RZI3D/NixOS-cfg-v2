@@ -142,7 +142,6 @@
           qtsvg
         ];
       };
-      services.desktopManager.plasma6.enable = true;
       programs.hyprland.enable = true;
 
       services.upower.enable = true; # Battery info
