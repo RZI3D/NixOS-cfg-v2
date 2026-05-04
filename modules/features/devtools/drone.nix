@@ -5,14 +5,11 @@
   ...
 }:
 {
-  flake.homeModules.creative3d =
+  flake.homeModules.drone =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        blender
-        openscad-unstable
-        freecad
-        cura-appimage
+        betaflight-configurator
       ];
     };
 }

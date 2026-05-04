@@ -121,8 +121,8 @@
 
             "TheQtCompany.qt-core" # required base for all others
             "TheQtCompany.qt-qml" # QML language support, Quickshell issues
-            "TheQtCompany.qt-cpp" # Qt C++ support
-            "TheQtCompany.qt-ui" # .ui file designer
+            #             "TheQtCompany.qt-cpp" # Qt C++ support
+            #             "TheQtCompany.qt-ui" # .ui file designer
 
             "jnoortheen.nix-ide" # Nix Syntax Highlighting
 
@@ -164,6 +164,28 @@
               "kilo-code.new.agentManager.showTerminal"
             ];
             "qtLivePreview.qmlEngine" = "/etc/profiles/per-user/zackariyyasattaur/bin/qml";
+            "dart.flutterSdkPath" = "/mnt/DATA/Programming/SDK/Flutter/flutter";
+            "terminal.integrated.profiles.linux" = {
+              bash = {
+                path = "bash";
+                icon = "terminal-bash";
+              };
+              zsh = {
+                path = "zsh";
+              };
+              fish = {
+                path = "/etc/profiles/per-user/zackariyyasattaur/bin/fish";
+              };
+              tmux = {
+                path = "tmux";
+                icon = "terminal-tmux";
+              };
+              pwsh = {
+                path = "pwsh";
+                icon = "terminal-powershell";
+              };
+            };
+            "terminal.integrated.defaultProfile.linux" = "fish";
           };
         };
 

@@ -62,6 +62,10 @@
           q = "qs -c rzi kill; qs -c rzi";
           qd = "qs -c rzi kill; qs -c rzi -d";
           rswitch = "sudo nixos-rebuild switch --flake ~/Programming/Linux/NixOS-cfg";
+          rswitch-mac = "nixos-rebuild switch --flake .#rzi-mac-pro \
+            --target-host root@rzi-mac-pro \
+            --sudo \
+            --ask-sudo-password";
         };
       };
 

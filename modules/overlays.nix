@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ self, inputs,  ... }:
 {
   flake.overlays.patched-pkgs = final: prev: {
 

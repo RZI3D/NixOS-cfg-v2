@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.ai =
+  flake.nixosModules.ollamaAI =
     { ... }:
     {
       services.ollama.enable = true;

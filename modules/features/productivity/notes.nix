@@ -1,15 +1,19 @@
 {
   self,
   inputs,
-  pkgs,
   ...
-}:
-{
+}: {
   flake.homeModules.notes =
-    { pkgs, ... }:
-    {
-      home.packages = with pkgs; [
-        anytype
-      ];
+  {pkgs, ...}:
+  let
+    logseq-e39 = pkgs.logseq.override {
+      electron = pkgs.electron_39;
     };
+  in
+  {
+    home.packages = with pkgs; [
+      #anytype
+      logseq-e39
+    ];
+  };
 }

@@ -29,15 +29,16 @@
       "widgets": {
         "left": [
           {
-            "colorizeSystemIcon": "none",
-            "customIconPath": "",
-            "enableColorization": true,
-            "icon": "rocket",
-            "iconColor": "none",
-            "id": "Launcher",
-            "useDistroLogo": true
-          },
-          {
+            "defaultSettings": {
+              "colorHistory": [],
+              "detectedRecorder": "",
+              "installedLangs": [
+                "eng"
+              ],
+              "paletteColors": [],
+              "selectedOcrLang": "eng",
+              "transAvailable": false
+            },
             "id": "plugin:screen-toolkit"
           },
           {
@@ -68,6 +69,7 @@
             "maxWidth": 145,
             "scrollingMode": "hover",
             "showIcon": true,
+            "showText": true,
             "textColor": "none",
             "useFixedWidth": false
           }
@@ -119,9 +121,15 @@
             "textColor": "none",
             "useFixedWidth": false,
             "visualizerType": "linear"
+          },
+          {
+            "id": "plugin:obs-control"
           }
         ],
         "right": [
+          {
+            "id": "plugin:tailscale"
+          },
           {
             "blacklist": [],
             "chevronColor": "none",
@@ -163,6 +171,16 @@
             "textColor": "none"
           },
           {
+            "defaultSettings": {
+              "catColor": "default",
+              "catOffsetY": 0,
+              "catSize": 1,
+              "idleTimeout": 150,
+              "raveMode": false,
+              "tappyMode": false,
+              "useMprisFilter": false,
+              "waitingTimeout": 30000
+            },
             "id": "plugin:slowbongo"
           },
           {
@@ -248,7 +266,8 @@
           "Del"
         ]
       },
-      "reverseScroll": true
+      "reverseScroll": true,
+      "smoothScrollEnabled": true
     },
     "ui": {
       "fontDefault": "Noto Sans",
@@ -268,6 +287,7 @@
       "name": "New York",
       "weatherEnabled": true,
       "weatherShowEffects": true,
+      "weatherTaliaMascotAlways": false,
       "useFahrenheit": false,
       "use12hourFormat": false,
       "showWeekNumberInCalendar": false,
@@ -276,7 +296,8 @@
       "analogClockInCalendar": false,
       "firstDayOfWeek": -1,
       "hideWeatherTimezone": false,
-      "hideWeatherCityName": false
+      "hideWeatherCityName": false,
+      "autoLocate": false
     },
     "calendar": {
       "cards": [
@@ -309,6 +330,7 @@
       "showHiddenFiles": false,
       "viewMode": "single",
       "setWallpaperOnAllMonitors": true,
+      "linkLightAndDarkWallpapers": true,
       "fillMode": "crop",
       "fillColor": "#000000",
       "useSolidColor": false,
@@ -492,7 +514,6 @@
       "indicatorOpacity": 0.6
     },
     "network": {
-      "airplaneModeEnabled": false,
       "bluetoothRssiPollingEnabled": false,
       "bluetoothRssiPollIntervalMs": 60000,
       "networkPanelView": "wifi",
@@ -638,7 +659,8 @@
       "manualSunrise": "06:30",
       "manualSunset": "18:30",
       "generationMethod": "tonal-spot",
-      "monitorForColors": ""
+      "monitorForColors": "",
+      "syncGsettings": true
     },
     "templates": {
       "activeTemplates": [],
@@ -667,7 +689,7 @@
     },
     "plugins": {
       "autoUpdate": false,
-      "notifyUpdates": true
+      "notifyUpdates": false
     },
     "idle": {
       "enabled": false,
@@ -697,15 +719,17 @@
     "barVisible": true,
     "openedPanel": "",
     "lockScreenActive": false,
-    "wallpapers": {},
+    "wallpapers": {
+      "eDP-1": "/home/zackariyyasattaur/Pictures/Wallpapers/wallhaven_x6x3gz.jpg"
+    },
     "desktopWidgetsEditMode": false,
     "display": {
       "eDP-1": {
         "name": "eDP-1",
         "connected": true,
-        "scale": 1.25,
-        "width": 1536,
-        "height": 864,
+        "scale": 1,
+        "width": 1920,
+        "height": 1080,
         "x": 0,
         "y": 0,
         "physical_width": 310,
@@ -717,10 +741,10 @@
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1775594542000
+      "lastSeenTs": 1777902350000
     },
     "changelogState": {
-      "lastSeenVersion": "v4.7.1"
+      "lastSeenVersion": "v4.7.5"
     },
     "colorSchemesList": {
       "schemes": [],

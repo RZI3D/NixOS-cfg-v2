@@ -25,6 +25,8 @@
     };
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     dolphin-overlay.url = "github:rumboon/dolphin-overlay";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
     rzi-shell.url = "github:rzi3d/rzi-shell";
     freyr-js.url = "path:./pkgs/freyr-js";
     # openbubbles-app.url = "path:./pkgs/openbubbles-app";

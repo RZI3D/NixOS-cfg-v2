@@ -13,12 +13,13 @@
       imports = with self.nixosModules; [
         z-e14Hardware
         homeManager
-        ai
+        ollamaAI
         games
         kdePlasma
         rziNiri
         productivityCommon
         virtualisation
+        howdyAuth
       ];
 
       nixpkgs.overlays = [
@@ -26,6 +27,16 @@
         inputs.nix4vscode.overlays.default
         inputs.nix-cachyos-kernel.overlays.default
         inputs.dolphin-overlay.overlays.default
+        # Below is fix for betaflight NWJS
+        (final: prev: {
+          nwjs = prev.nwjs.overrideAttrs {
+            version = "0.84.0";
+            src = prev.fetchurl {
+              url = "https://dl.nwjs.io/v0.84.0/nwjs-v0.84.0-linux-x64.tar.gz";
+              hash = "sha256-VIygMzCPTKzLr47bG1DYy/zj0OxsjGcms0G1BkI/TEI=";
+            };
+          };
+        })
       ];
 
       boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
@@ -42,6 +53,7 @@
         "zswap.enabled=1"
         "zswap.compressor=zstd"
         "zswap.zpool=zsmalloc"
+        "pci=noaer"
       ];
       swapDevices = [
         {
@@ -50,6 +62,8 @@
         }
       ];
       networking.hostName = "z-e14"; # Define your hostname.
+      services.tailscale.enable = true;
+      services.usbmuxd.enable = true; # For iOS device connectivity
       nix.settings.experimental-features = [
         "nix-command"
         "flakes"
@@ -57,6 +71,7 @@
 
       # Configure network connections interactively with nmcli or nmtui.
       networking.networkmanager.enable = true;
+      # services.dnsmasq.enable = true;
 
       # Set your time zone.
       time.timeZone = "America/New_York";
@@ -126,7 +141,7 @@
         hashedPassword = "$6$rkp83G7XDj8weVI9$hEwyG/13SqUrYvIQc3ZT7/vpvEAGDRvHew47DM2w0Lw44xxVC8YXqHUlNUxEX0VxIdRq6fivmWILvrsODXVoA/";
       };
       home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModule;
-
+      home-manager.backupFileExtension = "bkp";
       # Enable the X11 windowing system (needed for SDDM even on Wayland)
       services.xserver.enable = true;
 
@@ -184,6 +199,14 @@
         kdePackages.kwalletmanager
         kdePackages.kwallet-pam
       ];
+
+      services.syncthing = {
+        enable = true;
+        openDefaultPorts = true;
+        user = "zackariyyasattaur";
+        dataDir = "/home/zackariyyasattaur"; # default location for new folders
+        configDir = "/home/zackariyyasattaur/.config/syncthing";
+      };
 
       services.qdrant = {
         enable = true;

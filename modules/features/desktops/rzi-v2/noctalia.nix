@@ -20,6 +20,7 @@
           ffmpeg
           gifski
           evtest
+          qt6.qtwebsockets
         ];
 
         settings = (builtins.fromJSON (builtins.readFile ./noctalia.json)).settings;

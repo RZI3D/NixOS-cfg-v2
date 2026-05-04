@@ -21,6 +21,8 @@
         inherit pkgs;
         settings = {
 
+          prefer-no-csd = true; # Disable Window Decorations for GTK apps, since they look bad in niri (at least in my opinion).
+
           spawn-at-startup = [
             (lib.getExe self'.packages.rziNoctalia)
           ];
@@ -175,7 +177,7 @@
             # Layout & sizing
             "Mod+BracketLeft"."consume-or-expel-window-left" = { };
             "Mod+BracketRight"."consume-or-expel-window-right" = { };
-            "Mod+Comma"."consume-window-into-column" = { };
+            #"Mod+Comma"."consume-window-into-column" = { };
             "Mod+Period"."expel-window-from-column" = { };
 
             "Mod+R"."switch-preset-column-width" = { };
@@ -184,7 +186,7 @@
 
             "Mod+F"."maximize-column" = { };
             "Mod+Shift+F"."fullscreen-window" = { };
-            "Mod+Ctrl+F"."expand-column-to-available-width" = { };
+            "Mod+Ctrl+F"."maximize-window-to-edges" = { };
 
             "Mod+C"."center-column" = { };
             "Mod+Ctrl+C"."center-visible-columns" = { };
