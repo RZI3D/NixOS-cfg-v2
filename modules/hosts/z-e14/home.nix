@@ -36,7 +36,7 @@
         rziTheme
         inputs.spicetify-nix.homeManagerModules.default
 
-        ffWebApps
+        #ffWebApps
         browsers
         productivityCommon
         communication

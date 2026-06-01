@@ -26,14 +26,9 @@
         kdePackages.filelight # disk usage analyzer
         qalculate-gtk # powerful calculator
 
-        # Connectivity
-        networkmanagerapplet # wifi tray applet
-        blueman # bluetooth manager
-
         # Utilities
         wl-mirror # mirror displays on Wayland
         pavucontrol # audio control
-        mailspring
       ];
     };
   flake.nixosModules.productivityCommon =

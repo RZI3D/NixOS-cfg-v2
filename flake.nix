@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
+    nixpkgs-icr.url = "github:nixos/nixpkgs/0c3fc1cd3494aa52a2c111d5f18a7689fd15ab83";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
 
@@ -29,8 +29,11 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     rzi-shell.url = "github:rzi3d/rzi-shell";
     freyr-js.url = "path:./pkgs/freyr-js";
-    # openbubbles-app.url = "path:./pkgs/openbubbles-app";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    nixgl.url = "github:nix-community/nixGL";
+    helium-flake.url = "github:oxcl/nix-flake-helium-browser";
+    helium-flake.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);

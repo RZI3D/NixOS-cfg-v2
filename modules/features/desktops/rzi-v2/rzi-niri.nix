@@ -16,6 +16,9 @@
       self',
       ...
     }:
+    let
+      pkgs' = pkgs.extend inputs.dolphin-overlay.overlays.default;
+    in
     {
       packages.rzi-niri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
@@ -49,7 +52,7 @@
           binds = {
             "Mod+Return".spawn = [ (lib.getExe pkgs.kitty) ];
 
-            "Mod+E".spawn = [ (lib.getExe pkgs.kdePackages.dolphin) ];
+            "Mod+E".spawn = [ (lib.getExe pkgs'.kdePackages.dolphin) ];
             "Mod+S".spawn-sh = "${lib.getExe self'.packages.rziNoctalia} ipc call launcher toggle";
             # "Mod+Super_L".spawn-sh = "${lib.getExe self'.packages.rziNoctalia} ipc call launcher toggle";
 

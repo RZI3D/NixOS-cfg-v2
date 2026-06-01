@@ -13,20 +13,24 @@
       imports = with self.nixosModules; [
         z-e14Hardware
         homeManager
-        ollamaAI
+        #ollamaAI
         games
-        kdePlasma
+        #kdePlasma
         rziNiri
         productivityCommon
         virtualisation
         howdyAuth
       ];
 
+      programs.nh.enable = true;
+
       nixpkgs.overlays = [
         self.overlays.patched-pkgs
         inputs.nix4vscode.overlays.default
         inputs.nix-cachyos-kernel.overlays.default
         inputs.dolphin-overlay.overlays.default
+        inputs.nixgl.overlay
+        inputs.helium-flake.overlays.default
         # Below is fix for betaflight NWJS
         (final: prev: {
           nwjs = prev.nwjs.overrideAttrs {
@@ -54,6 +58,7 @@
         "zswap.compressor=zstd"
         "zswap.zpool=zsmalloc"
         "pci=noaer"
+        "thinkpad_acpi.fan_control=1"
       ];
       swapDevices = [
         {
@@ -68,6 +73,63 @@
         "nix-command"
         "flakes"
       ];
+
+      services.thinkfan = {
+        enable = true;
+
+        sensors = [
+          {
+            type = "hwmon";
+            query = "/sys/class/hwmon/hwmon4/temp1_input";
+            #name = "coretemp";
+          }
+          {
+            type = "hwmon";
+            query = "/sys/class/hwmon/hwmon5/temp1_input";
+            #name = "thinkpad";
+          }
+        ];
+
+        # [ fan-speed, lower-bound, upper-bound ]
+        fans = [
+          {
+            type = "tpacpi";
+            query = "/proc/acpi/ibm/fan";
+          }
+        ];
+        levels = [
+          [
+            "level auto"
+            0
+            55
+          ]
+          [
+            2
+            48
+            60
+          ] # Lower start point for more "stickiness"
+          [
+            4
+            55
+            68
+          ] # Mid-step
+          [
+            6
+            63
+            78
+          ] # High-step
+          [
+            7
+            73
+            88
+          ] # Almost max
+          [
+            "level full-speed"
+            83
+            32767
+          ] # Emergency max
+        ];
+      };
 
       # Configure network connections interactively with nmcli or nmtui.
       networking.networkmanager.enable = true;
@@ -135,6 +197,8 @@
           "networkmanager"
           "input"
           "uinput"
+          "dialout"
+          "tty"
           "libvirtd"
           "kvm"
         ];
@@ -168,6 +232,7 @@
 
       fonts.packages = with pkgs; [
         rubik
+        monocraft
         nerd-fonts.ubuntu
         nerd-fonts.jetbrains-mono
         noto-fonts-cjk-sans
@@ -183,21 +248,23 @@
       environment.systemPackages = with pkgs; [
         git
         python3 # Used for various scripts
-        kdePackages.plasma-workspace-wallpapers
+        #kdePackages.plasma-workspace-wallpapers
         catppuccin-sddm
         evtest
+        libnotify
         # Desktop Components
-        swww # Wallpaper daemon
         brightnessctl # Backlight control
         wl-clipboard # Copy/Paste
         libwebp # For image processing
         # Audio/Media
         wireplumber
         playerctl
+        usbutils
         curl
         kdePackages.kwallet
         kdePackages.kwalletmanager
         kdePackages.kwallet-pam
+        comma
       ];
 
       services.syncthing = {

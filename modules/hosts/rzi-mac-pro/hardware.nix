@@ -34,10 +34,17 @@
         device = "/dev/disk/by-uuid/37d784f6-089e-4f43-85ae-90da6ad859ba";
         fsType = "ext4";
       };
+
       fileSystems."/boot" = {
         device = "/dev/disk/by-uuid/25A5-D7CD";
         fsType = "vfat";
-	options = [ "fmask=0077" "dmask=0077" ];
+        options = [ "fmask=0077" "dmask=0077" ];
+      };
+
+      fileSystems."/mnt/DATA" = {
+        device = "/dev/disk/by-uuid/65C9-7AE4";
+        fsType = "exfat";
+        options = [ "nofail" "uid=1000" "gid=100" "umask=000" "fmask=000" "dmask=000" ];
       };
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

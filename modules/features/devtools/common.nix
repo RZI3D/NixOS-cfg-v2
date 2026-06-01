@@ -17,7 +17,9 @@
         nixfmt # Official Nix Formatter
         qt6.qtdeclarative
         kdePackages.qttools
-        kilocode-cli
+        opencode
+        nodejs # Most MCP servers require nodejs
+        #kilocode-cli
       ];
 
       # Git Configuration

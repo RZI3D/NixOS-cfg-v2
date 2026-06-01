@@ -19,6 +19,7 @@
 
         # Video & Recording
         kdePackages.kdenlive
+        davinci-resolve
         # obs-studio
         obs-cmd
         qpwgraph
@@ -31,7 +32,7 @@
         lmms
 
         # Typography
-        fontforge
+        #fontforge
       ];
 
       programs.obs-studio = {
@@ -47,6 +48,7 @@
         plugins = with pkgs.obs-studio-plugins; [
           wlrobs
           self.packages.${pkgs.system}.vinciFlow
+          self.packages.${pkgs.system}.obsAdvancedMasks
           obs-backgroundremoval
           obs-pipewire-audio-capture
           obs-vaapi # optional AMD hardware acceleration

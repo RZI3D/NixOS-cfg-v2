@@ -36,7 +36,7 @@
         enable = true;
         openFirewall = true;
         listenAddress = "0.0.0.0";
-        port = 8080;
+        port = 8090;
         settings = {
           healthCheckTimeout = 60;
           models = {

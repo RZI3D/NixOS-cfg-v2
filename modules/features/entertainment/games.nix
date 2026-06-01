@@ -12,13 +12,15 @@
 
       environment.systemPackages = with pkgs; [
         lutris
-        wineWow64Packages.stagingFull
+        #wineWow64Packages.stagingFull
         winetricks
         vulkan-tools
         vulkan-loader
         pkgsi686Linux.vulkan-loader
         pkgsi686Linux.libva
         pkgsi686Linux.mesa
+        mangohud
+        nixgl.nixGLIntel
       ];
 
       programs.nix-ld.enable = true;
@@ -40,12 +42,22 @@
       hardware.graphics = {
         enable = true;
         enable32Bit = true;
-        extraPackages = with pkgs; [
-          vulkan-validation-layers
-          intel-media-driver
-          libva-vdpau-driver
-          libvdpau-va-gl
-        ];
+        extraPackages =
+          let
+            # Import the working legacy package set
+            pkgs-stable-opencl = import inputs.nixpkgs-icr {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          in
+          with pkgs;
+          [
+            pkgs-stable-opencl.intel-compute-runtime-legacy1
+            vulkan-validation-layers
+            intel-media-driver
+            libva-vdpau-driver
+            libvdpau-va-gl
+          ];
       };
     };
   flake.homeModules.games =

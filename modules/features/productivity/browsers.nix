@@ -1,9 +1,23 @@
-{ self, inputs, ... }:
+{ self, inputs, pkgs, ... }:
 {
   flake.homeModules.browsers =
-    { ... }:
+    { pkgs, ... }:
     {
       # Probally not the most modular way (TODO: Look at later)
+
+      home.packages = with pkgs; [
+        helium
+      ];
+
+      programs.thunderbird = {
+        enable = true;
+
+        profiles."Zackariyya Sattaur" = {
+          isDefault = true;
+        };
+
+      };
+
       programs.firefox = {
         enable = true;
 

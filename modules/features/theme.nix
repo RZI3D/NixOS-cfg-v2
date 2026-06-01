@@ -23,6 +23,8 @@
         fish
         starship
         eza
+        fzf
+        zoxide
         # kdePackages.qtstyleplugin-kvantum # switched to qt6ct
         kdePackages.qtsvg
         libsForQt5.qt5ct
@@ -68,6 +70,10 @@
             --ask-sudo-password";
         };
       };
+
+      programs.zoxide.enable = true;
+      programs.zoxide.enableFishIntegration= true;
+      programs.zoxide.enableBashIntegration= true;
 
       programs.starship = {
         enable = true;

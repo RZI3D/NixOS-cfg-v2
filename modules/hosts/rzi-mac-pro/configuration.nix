@@ -3,10 +3,13 @@
   flake.nixosModules.rziMacProConfiguration =
     { pkgs, lib, ... }:
     {
+
       imports = with self.nixosModules; [
         rziMacProHardware
         homeManager
         llamaSwap
+        mcServers
+        romMServer
       ];
       nixpkgs.overlays = [
         self.overlays.patched-pkgs
@@ -57,6 +60,8 @@
         # lact
         radeontop
         amdgpu_top
+        mcrcon
+
       ];
       # systemd.services.lact = {
       #   description = "AMDGPU Control Daemon";
@@ -124,7 +129,7 @@
 
       services.harmonia.cache = {
         enable = true;
-        signKeyPaths = ["/var/lib/harmonia/cache-priv-key.pem"];
+        signKeyPaths = [ "/var/lib/harmonia/cache-priv-key.pem" ];
         settings = {
           # Server Nix store
           virtual_nix_store = "/nix/store";
@@ -141,6 +146,12 @@
         6334
         8006 # Zackariyya's Open Terminal
         8007 # Royan's Open Terminal
+        25565 # Minecraft
+      ];
+      networking.firewall.allowedUDPPorts = [
+        25565 # Minecraft
+        24454 # MC Voice Chat
+        24455 # MC Creative Voice Chat
       ];
 
       system.stateVersion = "26.05";
