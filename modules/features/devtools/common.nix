@@ -8,6 +8,96 @@
 {
   flake.homeModules.devtoolsCommon =
     { pkgs, ... }:
+    let
+      mkproj = pkgs.writeShellApplication {
+        name = "mkproj";
+        runtimeInputs = [
+          pkgs.jq
+          pkgs.gum
+        ];
+        text = ''
+          #!/usr/bin/env bash
+
+          set -e
+
+          DEFAULT_SOURCE="github:rzi3d"
+
+          # --- Mode 1: Fast Track (Arguments Provided) ---
+          if [ "$#" -gt 0 ]; then
+              NAME=$1
+              if [ "$2" = "-t" ] && [ -n "$3" ]; then
+                  TEMPLATE=$3
+                  echo "Creating project '$NAME' using template '$TEMPLATE'..."
+                  # Format the default source cleanly to avoid path-parsing bugs
+                  nix flake new "$NAME" -t "github:rzi3d/templates#''${TEMPLATE}"
+                  exit 0
+              else
+                  echo "ERROR: Invalid arguments."
+                  echo "Usage: $0 <name> -t <template>"
+                  echo "$0 (interactive)"
+                  exit 1
+              fi
+          fi
+
+          # --- Mode 2: Interactive Wizard (No Arguments) ---
+
+          if ! command -v gum &> /dev/null; then
+              echo "ERROR: 'gum' is required for the interactive wizard. Please install it first."
+              exit 1
+          fi
+
+          if ! command -v jq &> /dev/null; then
+              echo "ERROR: 'jq' is required for the interactive wizard. Please install it first."
+              exit 1
+          fi
+
+          echo "RZI Quick Project Creator"
+
+          # 1. Ask for template source
+          SOURCE=$(gum input --value="$DEFAULT_SOURCE" --placeholder "Template source (e.g., github:owner/repo)")
+
+          # 2. Extract owner/repo to ensure it's explicitly structured
+          if [[ "$SOURCE" =~ ^github:([^/]+)(/([^/]+))?$ ]]; then
+              OWNER="''${BASH_REMATCH[1]}"
+              REPO="''${BASH_REMATCH[3]}"
+              if [ -z "$REPO" ]; then
+                  REPO="templates"
+              fi
+              TARGET_FLAKE="github:''${OWNER}/''${REPO}"
+          else
+              TARGET_FLAKE="$SOURCE"
+          fi
+
+          TEMPLATES=""
+          echo "Evaluating available templates from $TARGET_FLAKE..."
+
+          # Use nix eval + jq for rock-solid parsing
+          TEMPLATES=$(nix eval --json "''${TARGET_FLAKE}#templates" --refresh --apply "builtins.attrNames" 2>/dev/null | jq -r '.[]' || true)
+
+          # 3. Choose template via interactive list or manual entry fallback
+          if [ -z "$TEMPLATES" ]; then
+              echo "Could not automatically parse templates from source. Falling back to manual entry."
+              TEMPLATE=$(gum input --placeholder "Enter template name manually")
+          else
+              TEMPLATE=$(echo "$TEMPLATES" | gum choose --header "Select a template:")
+          fi
+
+          # 4. Ask for project name
+          NAME=$(gum input --placeholder "Enter your project name")
+
+          if [ -z "$NAME" ]; then
+              echo "ERROR: Project name cannot be empty."
+              exit 1
+          fi
+
+          # 5. Run the nix command
+          # Using explicit `-t` option passing order resolves the ambiguous path parsing bug.
+          echo "Creating project ''${NAME} using template ''${TARGET_FLAKE}#''${TEMPLATE}..."
+          nix flake new "$NAME" -t "''${TARGET_FLAKE}#''${TEMPLATE}" --refresh
+          cd "$NAME"
+        '';
+      };
+    in
     {
       home.packages = with pkgs; [
         gh
@@ -19,6 +109,8 @@
         kdePackages.qttools
         opencode
         nodejs # Most MCP servers require nodejs
+        devenv
+        mkproj
         #kilocode-cli
       ];
 
@@ -167,6 +259,14 @@
             ];
             "qtLivePreview.qmlEngine" = "/etc/profiles/per-user/zackariyyasattaur/bin/qml";
             "dart.flutterSdkPath" = "/mnt/DATA/Programming/SDK/Flutter/flutter";
+            "dart.flutterCreatePlatforms" = [
+              "android"
+              "ios"
+              "linux"
+              "macos"
+              "windows"
+            ];
+
             "terminal.integrated.profiles.linux" = {
               bash = {
                 path = "bash";

@@ -49,7 +49,12 @@
           window_padding_width = 12;
           background_opacity = "0.92";
           confirm_os_window_close = 0;
+          auto_reload_config = 0;
         };
+      };
+
+      home.sessionVariables = {
+        KITTY_WATCHER = "";
       };
 
       programs.fish = {
@@ -63,17 +68,14 @@
           pamcan = "pacman";
           q = "qs -c rzi kill; qs -c rzi";
           qd = "qs -c rzi kill; qs -c rzi -d";
-          rswitch = "sudo nixos-rebuild switch --flake ~/Programming/Linux/NixOS-cfg";
-          rswitch-mac = "nixos-rebuild switch --flake .#rzi-mac-pro \
-            --target-host root@rzi-mac-pro \
-            --sudo \
-            --ask-sudo-password";
+          rswitch = "nh os switch ~/Programming/Linux/NixOS-cfg";
+          mkdevenv = "devenv init; printf '#!/usr/bin/env bash\\n\\neval \"\$(devenv direnvrc)\"\\n\\n# You can pass flags to the devenv command\\n# For example: use devenv --impure --option services.postgres.enable:bool true\\nuse devenv\\n' > .envrc";
         };
       };
 
       programs.zoxide.enable = true;
-      programs.zoxide.enableFishIntegration= true;
-      programs.zoxide.enableBashIntegration= true;
+      programs.zoxide.enableFishIntegration = true;
+      programs.zoxide.enableBashIntegration = true;
 
       programs.starship = {
         enable = true;
@@ -157,7 +159,6 @@
       catppuccin.kvantum.enable = false;
       qt = {
         style.package = with pkgs; [
-          darkly-qt5
           darkly
         ];
         enable = true;

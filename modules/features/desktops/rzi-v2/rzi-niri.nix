@@ -47,12 +47,38 @@
 
           };
 
-          layout.gaps = 5;
+          layout = {
+            gaps = 5;
+
+            border = {
+              width = 2;
+              inactive-color = "#313244";
+              active-color = "#74c7ec";
+            };
+
+            focus-ring = {
+              off = { };
+            };
+          };
+
+          window-rule = [
+            {
+              geometry-corner-radius = 12;
+              clip-to-geometry = true;
+
+              open-maximized = true;
+
+              background-effect = {
+                blur = true;
+              };
+
+            }
+          ];
 
           binds = {
             "Mod+Return".spawn = [ (lib.getExe pkgs.kitty) ];
 
-            "Mod+E".spawn = [ (lib.getExe pkgs'.kdePackages.dolphin) ];
+            "Mod+E".spawn = [ (lib.getExe' pkgs'.kdePackages.dolphin "dolphin") ];
             "Mod+S".spawn-sh = "${lib.getExe self'.packages.rziNoctalia} ipc call launcher toggle";
             # "Mod+Super_L".spawn-sh = "${lib.getExe self'.packages.rziNoctalia} ipc call launcher toggle";
 

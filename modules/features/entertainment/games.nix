@@ -6,7 +6,7 @@
 }:
 {
   flake.nixosModules.games =
-    { pkgs, ... }:
+    { pkgs, inputs, ... }:
     {
       programs.steam.enable = true;
 
@@ -20,6 +20,7 @@
         pkgsi686Linux.libva
         pkgsi686Linux.mesa
         mangohud
+        goverlay
         nixgl.nixGLIntel
       ];
 
@@ -42,28 +43,21 @@
       hardware.graphics = {
         enable = true;
         enable32Bit = true;
-        extraPackages =
-          let
-            # Import the working legacy package set
-            pkgs-stable-opencl = import inputs.nixpkgs-icr {
-              system = "x86_64-linux";
-              config.allowUnfree = true;
-            };
-          in
-          with pkgs;
-          [
-            pkgs-stable-opencl.intel-compute-runtime-legacy1
-            vulkan-validation-layers
-            intel-media-driver
-            libva-vdpau-driver
-            libvdpau-va-gl
-          ];
+        extraPackages = with pkgs; [
+          intel-compute-runtime-legacy1
+          vulkan-validation-layers
+          intel-media-driver
+          libva-vdpau-driver
+          libvdpau-va-gl
+        ];
       };
     };
   flake.homeModules.games =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
+        lumafly
+        eden
         osu-lazer-bin
         javaPackages.compiler.temurin-bin.jdk-25 # Minecraft
       ];

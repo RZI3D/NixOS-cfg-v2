@@ -51,7 +51,9 @@
         media
         drone
       ];
-
+      home.sessionVariables = {
+        NIXOS_OZONE_WL = "1";
+      };
       home.packages = [ pkgs.hello ];
       home.stateVersion = "26.05";
     };

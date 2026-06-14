@@ -1,7 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-icr.url = "github:nixos/nixpkgs/0c3fc1cd3494aa52a2c111d5f18a7689fd15ab83";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
 
@@ -24,7 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-    dolphin-overlay.url = "github:rumboon/dolphin-overlay";
+    dolphin-overlay.url = "github:RZI3D/dolphin-overlay";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     rzi-shell.url = "github:rzi3d/rzi-shell";
@@ -34,6 +33,8 @@
     nixgl.url = "github:nix-community/nixGL";
     helium-flake.url = "github:oxcl/nix-flake-helium-browser";
     helium-flake.inputs.nixpkgs.follows = "nixpkgs";
+    nixcord.url = "github:FlameFlag/nixcord";
+    rzi-plotter.url = "path:pkgs/rzi-inkscape-plotter-tools";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);

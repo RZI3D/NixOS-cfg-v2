@@ -41,6 +41,7 @@
       hardware.graphics = {
         enable = true;
         extraPackages = with pkgs; [
+          zluda-custom
           mesa
           vulkan-loader
           vulkan-tools
@@ -54,6 +55,7 @@
       ];
       hardware.amdgpu.overdrive.enable = true;
       programs.corectrl.enable = true;
+
       environment.systemPackages = with pkgs; [
         git
         htop
@@ -61,8 +63,27 @@
         radeontop
         amdgpu_top
         mcrcon
+        blender
+        pkgs.rocmPackages.rocminfo  # add this
+        pkgs.rocmPackages.clr       # add this
 
       ];
+
+      services.syncthing = {
+        enable = true;
+        openDefaultPorts = true;
+        user = "rzi";
+        dataDir = "/home/rzi"; # default location for new folders
+        configDir = "/home/rzi/.config/syncthing";
+      };
+
+      systemd.tmpfiles.rules = let
+        rocmEnv = pkgs.symlinkJoin {
+          name = "rocm-combined";
+          paths = with pkgs.rocmPackages; [ rocblas hipblas clr ];
+        };
+      in [ "L+ /opt/rocm - - - - ${rocmEnv}" ];
+
       # systemd.services.lact = {
       #   description = "AMDGPU Control Daemon";
       #   after = [ "multi-user.target" ];

@@ -43,16 +43,25 @@
         })
       ];
 
+      nixpkgs.config.permittedInsecurePackages = [
+        "electron-39.8.10"
+      ];
+
       boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
 
       # Binary cache for CachyOS latest kernel
       nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
       nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
+      nix.settings.trusted-users = [ "root" "zackariyyasattaur" ];
 
       # Use the systemd-boot EFI boot loader.
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
       boot.loader.systemd-boot.configurationLimit = 5;
+      boot.kernel.sysctl = {
+        "fs.inotify.max_user_watches" = 524288;
+        "fs.inotify.max_user_instances" = 512; # optional but helps too
+      };
       boot.kernelParams = [
         "zswap.enabled=1"
         "zswap.compressor=zstd"
@@ -68,7 +77,27 @@
       ];
       networking.hostName = "z-e14"; # Define your hostname.
       services.tailscale.enable = true;
-      services.usbmuxd.enable = true; # For iOS device connectivity
+      networking.firewall.checkReversePath = false;
+      services.cloudflare-warp.enable = true;
+      services.cloudflared = {
+        enable = true;
+        tunnels = {
+          "b765985d-055d-4cc2-940c-fb7393c90aab" = {
+            credentialsFile = "/var/lib/cloudflared/creds.json";
+
+            ingress = {
+              "pos-staging.rzi.dpdns.org" = "http://127.0.0.1:8069";
+            };
+
+            default = "http_status:404";
+          };
+        };
+      };
+
+      services.usbmuxd = {
+        enable = true;
+        package = pkgs.usbmuxd2;
+      };
       nix.settings.experimental-features = [
         "nix-command"
         "flakes"
@@ -201,6 +230,7 @@
           "tty"
           "libvirtd"
           "kvm"
+          "wireshark"
         ];
         hashedPassword = "$6$rkp83G7XDj8weVI9$hEwyG/13SqUrYvIQc3ZT7/vpvEAGDRvHew47DM2w0Lw44xxVC8YXqHUlNUxEX0VxIdRq6fivmWILvrsODXVoA/";
       };
@@ -237,10 +267,9 @@
         nerd-fonts.jetbrains-mono
         noto-fonts-cjk-sans
         noto-fonts-color-emoji
-        material-symbols # Essential for his icons
+        material-symbols
       ];
 
-      # Allow unfree for some of his recommended tools
       nixpkgs.config.allowUnfree = true;
 
       # List packages installed in system profile.
@@ -265,6 +294,10 @@
         kdePackages.kwalletmanager
         kdePackages.kwallet-pam
         comma
+        wireguard-tools
+        proton-vpn
+        ripgrep
+
       ];
 
       services.syncthing = {
