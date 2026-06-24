@@ -123,11 +123,46 @@
             "visualizerType": "linear"
           },
           {
+            "defaultSettings": {
+              "autoCloseManagedObs": true,
+              "barLabelMode": "short-label",
+              "launchBehavior": "minimized-to-tray",
+              "leftClickAction": "panel",
+              "openVideosAfterStop": true,
+              "pollIntervalMs": 2500,
+              "showBarWhenReady": true,
+              "showBarWhenRecording": true,
+              "showBarWhenReplay": false,
+              "showBarWhenStreaming": true,
+              "showControlCenterWhenReady": false,
+              "showControlCenterWhenRecording": true,
+              "showControlCenterWhenReplay": true,
+              "showControlCenterWhenStreaming": true,
+              "showElapsedInBar": false,
+              "videosOpener": "xdg-open",
+              "videosPath": ""
+            },
             "id": "plugin:obs-control"
           }
         ],
         "right": [
           {
+            "defaultSettings": {
+              "compactMode": false,
+              "defaultPeerAction": "copy-ip",
+              "hideDisconnected": false,
+              "hideMullvadExitNodes": true,
+              "loginServer": "",
+              "pingCount": 5,
+              "refreshInterval": 5000,
+              "showIpAddress": true,
+              "showPeerCount": true,
+              "sshUsername": "",
+              "taildropDownloadDir": "~/Downloads",
+              "taildropEnabled": true,
+              "taildropReceiveMode": "operator",
+              "terminalCommand": ""
+            },
             "id": "plugin:tailscale"
           },
           {
@@ -137,7 +172,11 @@
             "drawerEnabled": true,
             "hidePassive": false,
             "id": "Tray",
-            "pinned": []
+            "pinned": [
+              "Equibop",
+              "AyuGram Desktop",
+              "ZapZap"
+            ]
           },
           {
             "hideWhenZero": false,
@@ -186,6 +225,7 @@
           {
             "colorizeDistroLogo": false,
             "colorizeSystemIcon": "none",
+            "colorizeSystemText": "none",
             "customIconPath": "",
             "enableColorization": false,
             "icon": "noctalia",
@@ -354,7 +394,7 @@
       "useOriginalImages": false,
       "overviewBlur": 0.4,
       "overviewTint": 0.6,
-      "useWallhaven": false,
+      "useWallhaven": true,
       "wallhavenQuery": "",
       "wallhavenSorting": "relevance",
       "wallhavenOrder": "desc",
@@ -720,7 +760,7 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "eDP-1": "/home/zackariyyasattaur/Pictures/Wallpapers/wallhaven_x6x3gz.jpg"
+      "eDP-1": "/home/zackariyyasattaur/Pictures/Wallpapers/space-artemis-2.jpg"
     },
     "desktopWidgetsEditMode": false,
     "display": {
@@ -741,10 +781,10 @@
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1777902350000
+      "lastSeenTs": 1781220541000
     },
     "changelogState": {
-      "lastSeenVersion": "v4.7.5"
+      "lastSeenVersion": "v4.7.7"
     },
     "colorSchemesList": {
       "schemes": [],

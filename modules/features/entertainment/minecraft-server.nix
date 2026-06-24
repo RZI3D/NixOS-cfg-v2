@@ -6,9 +6,9 @@
 }:
 {
   flake.nixosModules.mcServers =
-    { pkgs, inputs, ... }:
+    { pkgs, inputs, config, ... }:
     {
-      imports = [ inputs.nix-minecraft.nixosModules.minecraft-servers ];
+      imports = [ inputs.nix-minecraft.nixosModules.minecraft-servers inputs.playit-nixos-module.nixosModules.default ];
       nixpkgs.overlays = [ inputs.nix-minecraft.overlay ];
 
       services.minecraft-servers = {
@@ -55,6 +55,11 @@
 
         };
 
+      };
+
+      services.playit = {
+        enable = true;
+        secretPath = config.sops.secrets.playit-secret.path;
       };
 
     };

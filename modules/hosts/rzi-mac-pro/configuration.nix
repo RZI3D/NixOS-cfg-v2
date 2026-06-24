@@ -6,6 +6,8 @@
 
       imports = with self.nixosModules; [
         rziMacProHardware
+        inputs.sops-nix.nixosModules.sops
+        games
         homeManager
         llamaSwap
         mcServers
@@ -13,13 +15,15 @@
       ];
       nixpkgs.overlays = [
         self.overlays.patched-pkgs
-        inputs.nix4vscode.overlays.default
+        #inputs.nix4vscode.overlays.default
+        inputs.nixgl.overlay
         # inputs.dolphin-overlay.overlays.default
       ];
       boot.loader.grub.enable = true;
       boot.loader.grub.efiSupport = true;
       boot.loader.grub.efiInstallAsRemovable = true;
       boot.loader.grub.device = "nodev";
+      boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 80;
 
       networking.hostName = "rzi-mac-pro";
       services.tailscale.enable = true;
@@ -34,6 +38,7 @@
       nix.settings.experimental-features = [
         "nix-command"
         "flakes"
+        "pipe-operators"
       ];
       nixpkgs.config.allowUnfree = true;
 
@@ -41,7 +46,7 @@
       hardware.graphics = {
         enable = true;
         extraPackages = with pkgs; [
-          zluda-custom
+          #zluda-custom
           mesa
           vulkan-loader
           vulkan-tools
@@ -119,17 +124,6 @@
           ];
         };
       };
-
-      users.users.zackariyyasattaur = {
-        isNormalUser = true;
-        extraGroups = [
-          "wheel"
-          "networkmanager"
-          "video"
-          "render"
-        ];
-        hashedPassword = "$6$rkp83G7XDj8weVI9$hEwyG/13SqUrYvIQc3ZT7/vpvEAGDRvHew47DM2w0Lw44xxVC8YXqHUlNUxEX0VxIdRq6fivmWILvrsODXVoA/"; # same as laptop
-      };
       users.users.rzi = {
         isNormalUser = true;
         extraGroups = [
@@ -148,16 +142,15 @@
         settings.PasswordAuthentication = true;
       };
 
-      services.harmonia.cache = {
-        enable = true;
-        signKeyPaths = [ "/var/lib/harmonia/cache-priv-key.pem" ];
-        settings = {
-          # Server Nix store
-          virtual_nix_store = "/nix/store";
-          # Served Nix store
-          real_nix_store = "/var/lib/harmonia/nix/store";
+      sops = {
+        defaultSopsFile = ../../../secrets/rzi-mac-pro/secrets.yaml;
+        defaultSopsFormat = "yaml";
+        age.keyFile = "/home/rzi/.config/sops/age/keys.txt";
+        secrets = {
+          "playit-secret" = {};
         };
       };
+
 
       networking.firewall.allowedTCPPorts = [
         22
@@ -172,6 +165,7 @@
       networking.firewall.allowedUDPPorts = [
         25565 # Minecraft
         24454 # MC Voice Chat
+        48372 # Playit VC -  Survival
         24455 # MC Creative Voice Chat
       ];
 

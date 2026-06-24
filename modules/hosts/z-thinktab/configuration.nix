@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 {
 
-  flake.nixosModules.z-e14Configuration =
+  flake.nixosModules.z-thinktabConfiguration =
     {
       config,
       pkgs,
@@ -11,7 +11,7 @@
     {
 
       imports = with self.nixosModules; [
-        z-e14Hardware
+        z-thinktabHardware
         inputs.sops-nix.nixosModules.sops
         homeManager
         #ollamaAI
@@ -27,73 +27,41 @@
 
       nixpkgs.overlays = [
         self.overlays.patched-pkgs
-        inputs.nix4vscode.overlays.default
-        inputs.nix-cachyos-kernel.overlays.default
+        #inputs.nix4vscode.overlays.default
+        #inputs.nix-cachyos-kernel.overlays.default
         inputs.dolphin-overlay.overlays.default
         inputs.nixgl.overlay
         inputs.helium-flake.overlays.default
-        # Below is fix for betaflight NWJS
-        (final: prev: {
-          nwjs = prev.nwjs.overrideAttrs {
-            version = "0.84.0";
-            src = prev.fetchurl {
-              url = "https://dl.nwjs.io/v0.84.0/nwjs-v0.84.0-linux-x64.tar.gz";
-              hash = "sha256-VIygMzCPTKzLr47bG1DYy/zj0OxsjGcms0G1BkI/TEI=";
-            };
-          };
-        })
       ];
 
       nixpkgs.config.permittedInsecurePackages = [
         "electron-39.8.10"
       ];
 
-      boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
-
-      # Binary cache for CachyOS latest kernel
-      nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
-      nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
       nix.settings.trusted-users = [ "root" "zackariyyasattaur" ];
 
       # Use the systemd-boot EFI boot loader.
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
       boot.loader.systemd-boot.configurationLimit = 5;
-      boot.kernel.sysctl = {
-        "fs.inotify.max_user_watches" = 524288;
-        "fs.inotify.max_user_instances" = 512; # optional but helps too
-      };
+
       boot.kernelParams = [
         "zswap.enabled=1"
         "zswap.compressor=zstd"
         "zswap.zpool=zsmalloc"
         "pci=noaer"
-        "thinkpad_acpi.fan_control=1"
       ];
+
       swapDevices = [
         {
           device = "/var/lib/swapfile";
-          size = 8 * 1024; # 8GB - plenty for a 32GB RAM system
+          size = 2 * 1024;
         }
       ];
-      networking.hostName = "z-e14"; # Define your hostname.
+      networking.hostName = "z-thinktab"; # Define your hostname.
       services.tailscale.enable = true;
       networking.firewall.checkReversePath = false;
       services.cloudflare-warp.enable = true;
-#       services.cloudflared = {
-#         enable = true;
-#         tunnels = {
-#           "b765985d-055d-4cc2-940c-fb7393c90aab" = {
-#             credentialsFile = "/var/lib/cloudflared/creds.json";
-#
-#             ingress = {
-#               "pos-staging.rzi.dpdns.org" = "http://127.0.0.1:8069";
-#             };
-#
-#             default = "http_status:404";
-#           };
-#         };
-#       };
 
       services.usbmuxd = {
         enable = true;
@@ -105,74 +73,17 @@
         "pipe-operators"
       ];
 
-      hardware.graphics = {
-        enable = true;
-        enable32Bit = true;
-        extraPackages = with pkgs; [
-          intel-compute-runtime-legacy1
-          vulkan-validation-layers
-          intel-media-driver
-          libva-vdpau-driver
-          libvdpau-va-gl
-        ];
-      };
-
-      services.thinkfan = {
-        enable = true;
-
-        sensors = [
-          {
-            type = "hwmon";
-            query = "/sys/class/hwmon/hwmon4/temp1_input";
-            #name = "coretemp";
-          }
-          {
-            type = "hwmon";
-            query = "/sys/class/hwmon/hwmon5/temp1_input";
-            #name = "thinkpad";
-          }
-        ];
-
-        # [ fan-speed, lower-bound, upper-bound ]
-        fans = [
-          {
-            type = "tpacpi";
-            query = "/proc/acpi/ibm/fan";
-          }
-        ];
-        levels = [
-          [
-            "level auto"
-            0
-            55
-          ]
-          [
-            2
-            48
-            60
-          ] # Lower start point for more "stickiness"
-          [
-            4
-            55
-            68
-          ] # Mid-step
-          [
-            6
-            63
-            78
-          ] # High-step
-          [
-            7
-            73
-            88
-          ] # Almost max
-          [
-            "level full-speed"
-            83
-            32767
-          ] # Emergency max
-        ];
-      };
+#       hardware.graphics = {
+#         enable = true;
+#         enable32Bit = true;
+#         extraPackages = with pkgs; [
+#           intel-compute-runtime-legacy1
+#           vulkan-validation-layers
+#           intel-media-driver
+#           libva-vdpau-driver
+#           libvdpau-va-gl
+#         ];
+#       };
 
       # Configure network connections interactively with nmcli or nmtui.
       networking.networkmanager.enable = true;
@@ -253,37 +164,16 @@
       # Enable the X11 windowing system (needed for SDDM even on Wayland)
       services.xserver.enable = true;
 
-      # Enable SDDM and Hyprland
+      services.displayManager.gdm.enable = true;
+      services.desktopManager.gnome.enable = true;
 
-      services.displayManager.sddm = {
-        enable = true;
-        wayland.enable = true;
-        theme = "catppuccin-mocha-mauve";
-        extraPackages = with pkgs.kdePackages; [
-          qt5compat
-          qtdeclarative
-          qtsvg
-        ];
-      };
-      services.desktopManager.plasma6.enable = true;
-      programs.hyprland.enable = true;
+
 
       services.upower.enable = true; # Battery info
       services.geoclue2.enable = true; # Night light/location
       services.gvfs.enable = true; # File manager mounting
       services.dbus.enable = true;
       security.pam.services.login.kwallet.enable = true;
-
-      fonts.packages = with pkgs; [
-        rubik
-        monocraft
-        nerd-fonts.ubuntu
-        nerd-fonts.jetbrains-mono
-        noto-fonts-cjk-sans
-        noto-fonts-color-emoji
-        material-symbols
-      ];
-
       nixpkgs.config.allowUnfree = true;
 
       # List packages installed in system profile.
@@ -291,27 +181,6 @@
       environment.systemPackages = with pkgs; [
         git
         python3 # Used for various scripts
-        #kdePackages.plasma-workspace-wallpapers
-        catppuccin-sddm
-        evtest
-        libnotify
-        # Desktop Components
-        brightnessctl # Backlight control
-        wl-clipboard # Copy/Paste
-        libwebp # For image processing
-        # Audio/Media
-        wireplumber
-        playerctl
-        usbutils
-        curl
-        kdePackages.kwallet
-        kdePackages.kwalletmanager
-        kdePackages.kwallet-pam
-        comma
-        wireguard-tools
-        proton-vpn
-        ripgrep
-
       ];
 
       services.syncthing = {
@@ -322,21 +191,6 @@
         configDir = "/home/zackariyyasattaur/.config/syncthing";
       };
 
-      services.qdrant = {
-        enable = true;
-        # Listens on 127.0.0.1 by default.
-        # Set to "0.0.0.0" if you need access from other machines/containers.
-        settings = {
-          service = {
-            host = "127.0.0.1";
-            http_port = 6333;
-            grpc_port = 6334;
-          };
-          storage = {
-            storage_path = "/var/lib/qdrant/storage";
-          };
-        };
-      };
 
       services.dbus.packages = [ pkgs.kdePackages.kwallet ];
       # Some programs need SUID wrappers, can be configured further or are

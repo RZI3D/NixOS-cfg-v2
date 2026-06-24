@@ -33,6 +33,8 @@
       imports = with self.homeModules; [
 
         rziTheme
+        inputs.sops-nix.homeManagerModules.sops
+        podmanStacks
         #         inputs.spicetify-nix.homeManagerModules.default
         #
         #         ffWebApps
@@ -45,10 +47,20 @@
         #         devtoolsCommon
         #         microcontrollerDev
         #         godot
-        #         games
+                 games
         #         creative3d
         #         media
       ];
+
+      sops = {
+        defaultSopsFile = ../../../secrets/rzi-mac-pro/secrets.yaml;
+        defaultSopsFormat = "yaml";
+        age.keyFile = "/home/rzi/.config/sops/age/keys.txt";
+        secrets = {
+          "grimmory/db_user_password" = {};
+          "grimmory/db_root_password" = {};
+        };
+      };
 
       programs.bash = {
         enable = true;

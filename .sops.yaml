@@ -1,0 +1,17 @@
+keys:
+  - &admin_zack age1urnkfw9e6srn3v453p56yqtt874vlfsul3w6ccq5w8977xm929xqum0xwh
+  - &server_mac_pro age1mtup5qzry88swny76rt974u0lz3dgj3uxuye947hg8txnjxtngpqtqem72
+  - &rzi-server_mac_pro age13xrn4apwgc0xj8s6vrjvzgf938w3qupcc2y4wqsyz3nj54phkgpsxmwf6x
+
+creation_rules:
+  - path_regex: secrets/rzi-mac-pro/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_zack
+          - *server_mac_pro
+          - *rzi-server_mac_pro
+
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_zack

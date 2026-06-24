@@ -22,6 +22,9 @@
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sops-nix.url = "github:Mic92/sops-nix";
+
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     dolphin-overlay.url = "github:RZI3D/dolphin-overlay";
     disko.url = "github:nix-community/disko";
@@ -35,6 +38,9 @@
     helium-flake.inputs.nixpkgs.follows = "nixpkgs";
     nixcord.url = "github:FlameFlag/nixcord";
     rzi-plotter.url = "path:pkgs/rzi-inkscape-plotter-tools";
+    nix-podman-stacks.url = "github:Tarow/nix-podman-stacks";
+    playit-nixos-module.url = "github:pedorich-n/playit-nixos-module";
+
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);

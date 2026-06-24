@@ -234,6 +234,9 @@
             "catppuccin.accentColor" = "sapphire";
             "editor.formatOnSave" = true;
             "editor.semanticHighlighting.enabled" = true;
+            "workbench.tree.renderIndentGuides" = "always";
+            "workbench.tree.indent" = 12;
+            "todo-tree.ripgrep" = "/run/current-system/sw/bin/rg";
             "password-store" = "kwallet6";
             "qt-qml.qmlls.additionalImportPaths" = [
               "${pkgs.quickshell}/lib/qml"
