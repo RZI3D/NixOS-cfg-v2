@@ -1,55 +1,38 @@
 { self, inputs, ...}: {
 
     flake.nixosModules.z-thinktabHardware =  { config, lib, pkgs, modulesPath, ... }: {
-        FIX THIS BEFORE BUILDING
-        imports = [
-            (modulesPath + "/installer/scan/not-detected.nix")
-        ];
+        imports =
+            [ (modulesPath + "/installer/scan/not-detected.nix")
+            ];
 
-        boot.initrd.availableKernelModules = [
-            "xhci_pci"
-            "ahci"
-        ];
+        boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_acpi" ];
         boot.initrd.kernelModules = [ ];
         boot.kernelModules = [ "kvm-intel" ];
         boot.extraModulePackages = [ ];
 
-        fileSystems."/" = {
-            device = "/dev/disk/by-uuid/4e5d055a-6b27-4f2b-b0c9-6d1cce2b963f";
+        fileSystems."/" =
+            { device = "/dev/disk/by-uuid/eeaac3c1-07a7-4b6e-9ffe-90830623712b";
             fsType = "btrfs";
-            options = [ "subvol=@nixos" ];
-        };
+            options = [ "subvol=@root" ];
+            };
 
-        fileSystems."/nix" = {
-            device = "/dev/disk/by-uuid/4e5d055a-6b27-4f2b-b0c9-6d1cce2b963f";
+        fileSystems."/nix" =
+            { device = "/dev/disk/by-uuid/eeaac3c1-07a7-4b6e-9ffe-90830623712b";
             fsType = "btrfs";
-            options = [
-            "subvol=@nix"
-            "compress=zstd"
-            "noatime"
-            ];
-        };
+            options = [ "subvol=@nix" ];
+            };
 
-        fileSystems."/boot" = {
-            device = "/dev/disk/by-uuid/7757-64AF";
+        fileSystems."/home" =
+            { device = "/dev/disk/by-uuid/eeaac3c1-07a7-4b6e-9ffe-90830623712b";
+            fsType = "btrfs";
+            options = [ "subvol=@home" ];
+            };
+
+        fileSystems."/boot" =
+            { device = "/dev/disk/by-uuid/8CD7-2252";
             fsType = "vfat";
-            options = [
-            "fmask=0077"
-            "dmask=0077"
-            ];
-        };
-
-        fileSystems."/home" = {
-            device = "/dev/disk/by-uuid/4e5d055a-6b27-4f2b-b0c9-6d1cce2b963f";
-            fsType = "btrfs";
-            options = [ "subvol=@nixos_home" ];
-        };
-
-        fileSystems."/mnt/DATA" = {
-            device = "/dev/disk/by-uuid/4e5d055a-6b27-4f2b-b0c9-6d1cce2b963f";
-            fsType = "btrfs";
-            options = [ "subvol=@data" ];
-        };
+            options = [ "fmask=0022" "dmask=0022" ];
+            };
 
         swapDevices = [ ];
 

@@ -15,12 +15,12 @@
         inputs.sops-nix.nixosModules.sops
         homeManager
         #ollamaAI
-        games
+        #games
         #kdePlasma
-        rziNiri
-        productivityCommon
-        virtualisation
-        howdyAuth
+        #rziNiri
+        #productivityCommon
+        #virtualisation
+        #howdyAuth
       ];
 
       programs.nh.enable = true;
@@ -73,17 +73,15 @@
         "pipe-operators"
       ];
 
-#       hardware.graphics = {
-#         enable = true;
-#         enable32Bit = true;
-#         extraPackages = with pkgs; [
-#           intel-compute-runtime-legacy1
-#           vulkan-validation-layers
-#           intel-media-driver
-#           libva-vdpau-driver
-#           libvdpau-va-gl
-#         ];
-#       };
+      hardware.graphics = {
+        enable = true;
+        enable32Bit = true;
+        extraPackages = with pkgs; [
+          intel-vaapi-driver   # legacy i965 driver — required for Bay Trail (Gen7)
+          libva-vdpau-driver
+          libvdpau-va-gl
+        ];
+      };
 
       # Configure network connections interactively with nmcli or nmtui.
       networking.networkmanager.enable = true;
@@ -159,7 +157,7 @@
         ];
         hashedPassword = "$6$rkp83G7XDj8weVI9$hEwyG/13SqUrYvIQc3ZT7/vpvEAGDRvHew47DM2w0Lw44xxVC8YXqHUlNUxEX0VxIdRq6fivmWILvrsODXVoA/";
       };
-      home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModule;
+      home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModuleThinktab;
       home-manager.backupFileExtension = "bkp";
       # Enable the X11 windowing system (needed for SDDM even on Wayland)
       services.xserver.enable = true;
@@ -167,7 +165,12 @@
       services.displayManager.gdm.enable = true;
       services.desktopManager.gnome.enable = true;
 
-
+#       services.xserver.desktopManager.phosh = {
+#         enable = true;
+#         user = "zackariyyasattaur";
+#         group = "users";
+#         phocConfig.xwayland = "immediate"; # better X11 app compatibility
+#       };
 
       services.upower.enable = true; # Battery info
       services.geoclue2.enable = true; # Night light/location
@@ -181,6 +184,8 @@
       environment.systemPackages = with pkgs; [
         git
         python3 # Used for various scripts
+        moonlight
+        #squeekboard
       ];
 
       services.syncthing = {

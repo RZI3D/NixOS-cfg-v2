@@ -248,7 +248,7 @@
         ];
         hashedPassword = "$6$rkp83G7XDj8weVI9$hEwyG/13SqUrYvIQc3ZT7/vpvEAGDRvHew47DM2w0Lw44xxVC8YXqHUlNUxEX0VxIdRq6fivmWILvrsODXVoA/";
       };
-      home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModule;
+      home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModuleE14;
       home-manager.backupFileExtension = "bkp";
       # Enable the X11 windowing system (needed for SDDM even on Wayland)
       services.xserver.enable = true;
