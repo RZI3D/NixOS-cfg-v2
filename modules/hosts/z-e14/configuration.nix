@@ -311,6 +311,7 @@
         wireguard-tools
         proton-vpn
         ripgrep
+        ffmpeg
 
       ];
 
@@ -322,21 +323,21 @@
         configDir = "/home/zackariyyasattaur/.config/syncthing";
       };
 
-      services.qdrant = {
-        enable = true;
-        # Listens on 127.0.0.1 by default.
-        # Set to "0.0.0.0" if you need access from other machines/containers.
-        settings = {
-          service = {
-            host = "127.0.0.1";
-            http_port = 6333;
-            grpc_port = 6334;
-          };
-          storage = {
-            storage_path = "/var/lib/qdrant/storage";
-          };
-        };
-      };
+#       services.qdrant = {
+#         enable = true;
+#         # Listens on 127.0.0.1 by default.
+#         # Set to "0.0.0.0" if you need access from other machines/containers.
+#         settings = {
+#           service = {
+#             host = "127.0.0.1";
+#             http_port = 6333;
+#             grpc_port = 6334;
+#           };
+#           storage = {
+#             storage_path = "/var/lib/qdrant/storage";
+#           };
+#         };
+#       };
 
       services.dbus.packages = [ pkgs.kdePackages.kwallet ];
       # Some programs need SUID wrappers, can be configured further or are
@@ -353,8 +354,8 @@
       services.openssh = {
         enable = true;
         settings = {
-          PasswordAuthentication = true; # Set to false later once you add your SSH keys
-          PermitRootLogin = "no"; # Arch security best practice
+          PasswordAuthentication = true;
+          PermitRootLogin = "no";
         };
       };
 

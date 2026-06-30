@@ -10,11 +10,11 @@
     {
       home.packages = with pkgs; [
         # File Management
-        yazi
+        #yazi
         kdePackages.dolphin
         kdePackages.ark # archives
         eza
-
+        motrix-next # download manager
         # Text Editing
         kdePackages.kate # simple text editor
 
@@ -27,7 +27,7 @@
         qalculate-gtk # powerful calculator
 
         # Utilities
-        wl-mirror # mirror displays on Wayland
+        #wl-mirror # mirror displays on Wayland
         pavucontrol # audio control
       ];
     };

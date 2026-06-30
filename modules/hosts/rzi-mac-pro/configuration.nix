@@ -11,7 +11,8 @@
         homeManager
         llamaSwap
         mcServers
-        romMServer
+        selfHostedServices
+        #romMServer
       ];
       nixpkgs.overlays = [
         self.overlays.patched-pkgs
@@ -69,8 +70,8 @@
         amdgpu_top
         mcrcon
         blender
-        pkgs.rocmPackages.rocminfo  # add this
-        pkgs.rocmPackages.clr       # add this
+        pkgs.rocmPackages.rocminfo # add this
+        pkgs.rocmPackages.clr # add this
 
       ];
 
@@ -81,13 +82,19 @@
         dataDir = "/home/rzi"; # default location for new folders
         configDir = "/home/rzi/.config/syncthing";
       };
-
-      systemd.tmpfiles.rules = let
-        rocmEnv = pkgs.symlinkJoin {
-          name = "rocm-combined";
-          paths = with pkgs.rocmPackages; [ rocblas hipblas clr ];
-        };
-      in [ "L+ /opt/rocm - - - - ${rocmEnv}" ];
+/*
+      systemd.tmpfiles.rules =
+        let
+          rocmEnv = pkgs.symlinkJoin {
+            name = "rocm-combined";
+            paths = with pkgs.rocmPackages; [
+              rocblas
+              hipblas
+              clr
+            ];
+          };
+        in
+        [ "L+ /opt/rocm - - - - ${rocmEnv}" ];*/
 
       # systemd.services.lact = {
       #   description = "AMDGPU Control Daemon";
@@ -135,6 +142,13 @@
         hashedPassword = "$6$OvnYl4fZQAvjeabE$EsDp260VXyumFBPEpKjSwaul8VszF9qnh9JHTvTNyopLuXk6UGdGsv4UWz5/JOXwap1KdjrhhnSukoClbhX1.1";
       };
 
+      services.sunshine = {
+        enable = true;
+        autoStart = true; # optional: starts Sunshine automatically on login
+        capSysAdmin = true;
+        openFirewall = true;
+      };
+
       home-manager.users.rzi = self.homeModules.rziModule;
       home-manager.backupFileExtension = "bkp";
       services.openssh = {
@@ -147,10 +161,21 @@
         defaultSopsFormat = "yaml";
         age.keyFile = "/home/rzi/.config/sops/age/keys.txt";
         secrets = {
-          "playit-secret" = {};
+          "playit-secret" = { };
+          "multiuser-password" = { };
+          "multiuser-admin-password" = { };
+          "grimmory/db_user_password" = { };
+          "grimmory/db_root_password" = { };
+
         };
       };
 
+      networking.firewall.allowedTCPPortRanges = [
+        {
+          from = 5555;
+          to = 5560;
+        } # for multiuser server
+      ];
 
       networking.firewall.allowedTCPPorts = [
         22

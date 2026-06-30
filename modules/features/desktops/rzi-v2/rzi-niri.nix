@@ -17,11 +17,18 @@
       ...
     }:
     let
+
+      niriVOutPR = pkgs.callPackage ../../../../pkgs/niri-pr-vout.nix { };
+
       pkgs' = pkgs.extend inputs.dolphin-overlay.overlays.default;
+
+
     in
     {
       packages.rzi-niri = inputs.wrapper-modules.wrappers.niri.wrap {
-        inherit pkgs;
+        pkgs = pkgs';
+        package = niriVOutPR;
+
         settings = {
 
           prefer-no-csd = true; # Disable Window Decorations for GTK apps, since they look bad in niri (at least in my opinion).
