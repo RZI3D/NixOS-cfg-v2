@@ -40,6 +40,7 @@
     rzi-plotter.url = "path:pkgs/rzi-inkscape-plotter-tools";
     nix-podman-stacks.url = "github:Tarow/nix-podman-stacks";
     playit-nixos-module.url = "github:pedorich-n/playit-nixos-module";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
   };
 

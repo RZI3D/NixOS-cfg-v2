@@ -13,6 +13,7 @@
       imports = with self.nixosModules; [
         z-e14Hardware
         inputs.sops-nix.nixosModules.sops
+        inputs.nix-flatpak.nixosModules.nix-flatpak
         homeManager
         #ollamaAI
         games
@@ -212,6 +213,7 @@
         alsa.enable = true;
         jack.enable = true;
       };
+
       services.sunshine = {
         enable = true;
         autoStart = true; # optional: starts Sunshine automatically on login
@@ -243,6 +245,7 @@
           "dialout"
           "tty"
           "libvirtd"
+          "docker"
           "kvm"
           "wireshark"
         ];
@@ -339,7 +342,17 @@
 #         };
 #       };
 
+      services.flatpak = {
+        enable = true;
+        packages = [
+          "org.vinegarhq.Sober"
+        ];
+        # optional: prunes anything not declared here on rebuild
+        uninstallUnmanaged = true;
+      };
+
       services.dbus.packages = [ pkgs.kdePackages.kwallet ];
+
       # Some programs need SUID wrappers, can be configured further or are
       # started in user sessions.
       # programs.mtr.enable = true;

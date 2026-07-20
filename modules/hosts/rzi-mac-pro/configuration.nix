@@ -9,7 +9,7 @@
         inputs.sops-nix.nixosModules.sops
         games
         homeManager
-        llamaSwap
+        #llamaSwap
         mcServers
         selfHostedServices
         #romMServer
@@ -70,8 +70,8 @@
         amdgpu_top
         mcrcon
         blender
-        pkgs.rocmPackages.rocminfo # add this
-        pkgs.rocmPackages.clr # add this
+        #pkgs.rocmPackages.rocminfo # add this
+        #pkgs.rocmPackages.clr # add this
 
       ];
 
@@ -82,19 +82,20 @@
         dataDir = "/home/rzi"; # default location for new folders
         configDir = "/home/rzi/.config/syncthing";
       };
-/*
-      systemd.tmpfiles.rules =
-        let
-          rocmEnv = pkgs.symlinkJoin {
-            name = "rocm-combined";
-            paths = with pkgs.rocmPackages; [
-              rocblas
-              hipblas
-              clr
-            ];
-          };
-        in
-        [ "L+ /opt/rocm - - - - ${rocmEnv}" ];*/
+      /*
+            systemd.tmpfiles.rules =
+              let
+                rocmEnv = pkgs.symlinkJoin {
+                  name = "rocm-combined";
+                  paths = with pkgs.rocmPackages; [
+                    rocblas
+                    hipblas
+                    clr
+                  ];
+                };
+              in
+              [ "L+ /opt/rocm - - - - ${rocmEnv}" ];
+      */
 
       # systemd.services.lact = {
       #   description = "AMDGPU Control Daemon";
@@ -162,11 +163,31 @@
         age.keyFile = "/home/rzi/.config/sops/age/keys.txt";
         secrets = {
           "playit-secret" = { };
+
           "multiuser-password" = { };
           "multiuser-admin-password" = { };
+
           "grimmory/db_user_password" = { };
           "grimmory/db_root_password" = { };
 
+          "authentik/pg_pass" = { };
+          "authentik/secret_key" = { };
+
+          "cloudflared-credentials" = { };
+
+          "romm/OIDC_CLIENT_SECRET" = { };
+          "romm/OIDC_CLIENT_ID" = { };
+          "romm/MARIADB_ROOT_PASSWORD" = { };
+          "romm/MARIADB_PASSWORD" = { };
+          "romm/DB_PASSWD" = { };
+          "romm/ROMM_AUTH_SECRET_KEY" = { };
+          "romm/IGDB_CLIENT_ID" = { };
+          "romm/IGDB_CLIENT_SECRET" = { };
+          "romm/SCREENSCRAPER_USER" = { };
+          "romm/SCREENSCRAPER_PASSWORD" = { };
+          "romm/STEAMGRIDDB_API_KEY" = { };
+          "romm/OIDC_CLIENT_ID" = { };
+          "romm/OIDC_CLIENT_SECRET" = { };
         };
       };
 
@@ -193,6 +214,74 @@
         48372 # Playit VC -  Survival
         24455 # MC Creative Voice Chat
       ];
+
+      # BEGIN TEMP NET TESTING BLOCK
+#       networking = {
+#         iproute2.enable = true;
+#
+#         interfaces = {
+#           enp9s0.useDHCP = true;
+#
+#           enp10s0 = {
+#             useDHCP = false;
+#             ipv4.addresses = [
+#               {
+#                 address = "192.168.5.1";
+#                 prefixLength = 24;
+#               }
+#             ];
+#             # Put the routes directly on the interface definition!
+#             ipv4.routes = [
+#               {
+#                 address = "10.0.0.0";
+#                 prefixLength = 8;
+#                 via = "192.168.5.200";
+#               }
+#               {
+#                 address = "10.2.2.0";
+#                 prefixLength = 24;
+#                 via = "192.168.5.200";
+#               }
+#               {
+#                 address = "10.30.30.0";
+#                 prefixLength = 24;
+#                 via = "192.168.5.200";
+#               }
+#               {
+#                 address = "10.40.40.0";
+#                 prefixLength = 24;
+#                 via = "192.168.5.200";
+#               }
+#               {
+#                 address = "10.99.99.0";
+#                 prefixLength = 24;
+#                 via = "192.168.5.200";
+#               }
+#               {
+#                 address = "10.211.211.0";
+#                 prefixLength = 24;
+#                 via = "192.168.5.200";
+#               }
+#             ];
+#           };
+#         };
+#
+#       };
+#
+#       networking.firewall = {
+#         enable = true;
+#         trustedInterfaces = [ "enp10s0" ];
+#         extraCommands = ''
+#           ${pkgs.iptables}/bin/iptables -I FORWARD 1 -s 10.0.0.0/8 -i enp10s0 -o enp9s0 -j ACCEPT
+#           ${pkgs.iptables}/bin/iptables -I FORWARD 2 -d 10.0.0.0/8 -i enp9s0 -o enp10s0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+#         '';
+#       };
+#
+#       networking.nat = {
+#         enable = true;
+#         externalInterface = "enp9s0";
+#         internalInterfaces = [ "enp10s0" ];
+#       };
 
       system.stateVersion = "26.05";
     };

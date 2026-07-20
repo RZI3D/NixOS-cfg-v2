@@ -108,9 +108,11 @@
         qt6.qtdeclarative
         kdePackages.qttools
         opencode
+        pi-coding-agent
         nodejs # Most MCP servers require nodejs
         devenv
         mkproj
+        tio # tty device access
         #kilocode-cli
       ];
 
@@ -211,12 +213,11 @@
             "ms-vscode.vscode-github-issue-notebooks"
             "ms-vsliveshare.vsliveshare"
 
-            # QT (Yessirrr)
-
-            "TheQtCompany.qt-core" # required base for all others
-            "TheQtCompany.qt-qml" # QML language support, Quickshell issues
-            #             "TheQtCompany.qt-cpp" # Qt C++ support
-            #             "TheQtCompany.qt-ui" # .ui file designer
+            # QT
+            #"TheQtCompany.qt-core" # required base for all others
+            #"TheQtCompany.qt-qml" # QML language support, Quickshell issues
+            #"TheQtCompany.qt-cpp" # Qt C++ support
+            #"TheQtCompany.qt-ui" # .ui file designer
 
             "jnoortheen.nix-ide" # Nix Syntax Highlighting
 
@@ -228,7 +229,6 @@
 
             "thijsdaniels.vscode-openscad-preview"
             "Leathong.openscad-language-support"
-            "algoscienceacademy.qt-live-preview"
           ];
           userSettings = {
             "catppuccin.accentColor" = "sapphire";
@@ -261,7 +261,7 @@
               "kilo-code.new.agentManager.showTerminal"
             ];
             "qtLivePreview.qmlEngine" = "/etc/profiles/per-user/zackariyyasattaur/bin/qml";
-            "dart.flutterSdkPath" = "/mnt/DATA/Programming/SDK/Flutter/flutter";
+            # "dart.flutterSdkPath" = "/mnt/DATA/Programming/SDK/Flutter/flutter";
             "dart.flutterCreatePlatforms" = [
               "android"
               "ios"
@@ -291,6 +291,8 @@
               };
             };
             "terminal.integrated.defaultProfile.linux" = "fish";
+            "C_Cpp.intelliSenseEngine" = "disabled";
+            "files.insertFinalNewline" = true;
           };
         };
 

@@ -22,7 +22,6 @@
 
       pkgs' = pkgs.extend inputs.dolphin-overlay.overlays.default;
 
-
     in
     {
       packages.rzi-niri = inputs.wrapper-modules.wrappers.niri.wrap {
@@ -68,17 +67,23 @@
             };
           };
 
-          window-rule = [
+          window-rules = [
             {
               geometry-corner-radius = 12;
               clip-to-geometry = true;
-
               open-maximized = true;
-
               background-effect = {
                 blur = true;
               };
-
+            }
+            {
+              matches = [
+                {
+                  app-id = "^steam$";
+                  title = "^Steam Big Picture Mode$";
+                }
+              ];
+              open-fullscreen = true;
             }
           ];
 

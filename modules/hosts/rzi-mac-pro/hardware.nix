@@ -15,15 +15,16 @@
       # nixos-generate-config on the target machine!
       boot.initrd.availableKernelModules = [
         "uhci_hcd"
-	"ehci_pci"
-	"ahci"
-	"xhci_pci"
-	"firewire_ohci"
-	"usbhid"
-	"usb_storage"
-	"sd_mod"
-	"sr_mod"
+        "ehci_pci"
+        "ahci"
+        "xhci_pci"
+        "firewire_ohci"
+        "usbhid"
+        "usb_storage"
+        "sd_mod"
+        "sr_mod"
       ];
+
       boot.kernelModules = [
         "kvm-intel"
         "amdgpu"
@@ -41,10 +42,15 @@
         options = [ "fmask=0077" "dmask=0077" ];
       };
 
-      fileSystems."/mnt/DATA" = {
-        device = "/dev/disk/by-uuid/65C9-7AE4";
+      fileSystems."/mnt/SHARED" = {
+        device = "/dev/disk/by-uuid/EA71-F2CA";
         fsType = "exfat";
         options = [ "nofail" "uid=1000" "gid=100" "umask=000" "fmask=000" "dmask=000" ];
+      };
+
+      fileSystems."/mnt/DATA" = {
+        device = "/dev/disk/by-uuid/c29f375e-70e7-4b1a-a694-5fce292e2a7c";
+        fsType = "btrfs";
       };
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

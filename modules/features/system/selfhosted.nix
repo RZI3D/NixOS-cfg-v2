@@ -66,6 +66,23 @@
     in
     {
 
+      sops.templates."romm-db.env".content = ''
+        MARIADB_ROOT_PASSWORD=${config.sops.placeholder."romm/MARIADB_ROOT_PASSWORD"}
+        MARIADB_PASSWORD=${config.sops.placeholder."romm/MARIADB_PASSWORD"}
+      '';
+
+      sops.templates."romm.env".content = ''
+        DB_PASSWD=${config.sops.placeholder."romm/DB_PASSWD"}
+        ROMM_AUTH_SECRET_KEY=${config.sops.placeholder."romm/ROMM_AUTH_SECRET_KEY"}
+        IGDB_CLIENT_ID=${config.sops.placeholder."romm/IGDB_CLIENT_ID"}
+        IGDB_CLIENT_SECRET=${config.sops.placeholder."romm/IGDB_CLIENT_SECRET"}
+        SCREENSCRAPER_USER=${config.sops.placeholder."romm/SCREENSCRAPER_USER"}
+        SCREENSCRAPER_PASSWORD=${config.sops.placeholder."romm/SCREENSCRAPER_PASSWORD"}
+        STEAMGRIDDB_API_KEY=${config.sops.placeholder."romm/STEAMGRIDDB_API_KEY"}
+        OIDC_CLIENT_ID=${config.sops.placeholder."romm/OIDC_CLIENT_ID"}
+        OIDC_CLIENT_SECRET=${config.sops.placeholder."romm/OIDC_CLIENT_SECRET"}
+      '';
+
       sops.templates."grimmory-db.env".content = ''
         MARIADB_ROOT_PASSWORD=${config.sops.placeholder."grimmory/db_root_password"}
         MARIADB_PASSWORD=${config.sops.placeholder."grimmory/db_user_password"}
@@ -80,10 +97,32 @@
         admin_password=${config.sops.placeholder."multiuser-admin-password"}
       '';
 
+      sops.templates."authentik.env".content = ''
+        PG_USER=authentik
+        PG_DB=authentik
+        PG_PASS=${config.sops.placeholder."authentik/pg_pass"}
+        AUTHENTIK_SECRET_KEY=${config.sops.placeholder."authentik/secret_key"}
+
+        POSTGRES_PASSWORD=${config.sops.placeholder."authentik/pg_pass"}
+        POSTGRES_USER=authentik
+        POSTGRES_DB=authentik
+      '';
+
+      virtualisation = {
+        containers.enable = true;
+        podman = {
+          enable = true;
+          dockerCompat = true;
+          defaultNetwork.settings.dns_enabled = true;
+        };
+      };
+
       virtualisation.oci-containers.containers = {
+        # ______ START ROMM STACK ______
+
         romm-db = {
           image = "mariadb:latest";
-          environmentFiles = [ "/var/lib/romm/romm.env" ];
+          environmentFiles = [ config.sops.templates."romm-db.env".path ];
           environment = {
             MARIADB_DATABASE = "romm";
             MARIADB_USER = "romm-user";
@@ -94,23 +133,43 @@
         };
 
         romm = {
-          image = "rommapp/romm:latest";
+          image = "rommapp/romm:5.0.0-beta.2";
           dependsOn = [ "romm-db" ];
           ports = [ "8080:8080" ];
-          environmentFiles = [ "/var/lib/romm/romm.env" ];
+          environmentFiles = [ config.sops.templates."romm.env".path ];
           environment = {
             DB_HOST = "romm-db";
             DB_NAME = "romm";
             DB_USER = "romm-user";
+
+            PLAYMATCH_API_ENABLED = "true";
+            LAUNCHBOX_API_ENABLED = "true";
+            HASHEOUS_API_ENABLED = "true";
+
+            OIDC_ENABLED = "true";
+            OIDC_PROVIDER = "authentik";
+            OIDC_REDIRECT_URI = "https://romm.rzi.dpdns.org/api/oauth/openid";
+            OIDC_SERVER_APPLICATION_URL = "https://auth.rzi.dpdns.org/application/o/romm/";
+            OIDC_AUTOLOGIN = "true";
+
+            OIDC_CLAIM_ROLES = "romm-groups";
+            OIDC_ROLE_ADMIN = "admin";
+            OIDC_ROLE_EDITOR = "editor";
+            OIDC_ROLE_VIEWER = "viewer";
+
           };
           volumes = [
-            "/mnt/DATA/Games/romM/library:/romm/library"
-            "/mnt/DATA/Games/romM/resources:/romm/resources"
-            "/mnt/DATA/Games/romM/assets:/romm/assets"
-            "/mnt/DATA/Games/romM/redis:/redis-data"
-            "/mnt/DATA/Games/romM/config:/romm/config"
+            "/mnt/DATA/SrvData/romM/library:/romm/library"
+            "/mnt/DATA/SrvData/romM/resources:/romm/resources"
+            "/mnt/DATA/SrvData/romM/assets:/romm/assets"
+            "/mnt/DATA/SrvData/romM/redis:/redis-data"
+            "/mnt/DATA/SrvData/romM/config:/romm/config"
           ];
         };
+
+        # ______ END ROMM STACK ______
+
+        # ______ START GRIMMORY STACK ______
 
         grimmory-db = {
           image = "mariadb:11";
@@ -136,11 +195,71 @@
           };
 
           volumes = [
-            "/mnt/DATA/Linux/container-storage/grimmory/books:/books"
-            "/mnt/DATA/Linux/container-storage/grimmory/bookdrop:/bookdrop"
-            "/mnt/DATA/Linux/container-storage/grimmory/data:/app/data"
+            "/mnt/DATA/SrvData/grimmory/books:/books"
+            "/mnt/DATA/SrvData/grimmory/bookdrop:/bookdrop"
+            "/mnt/DATA/SrvData/grimmory/data:/app/data"
           ];
         };
+
+        # ______ END GRIMMORY STACK ______
+
+        # ______ START AUTHENTIK STACK ______
+        authentik-postgresql = {
+          image = "docker.io/library/postgres:16-alpine";
+          environmentFiles = [ config.sops.templates."authentik.env".path ];
+          environment = {
+            POSTGRES_DB = "authentik";
+            POSTGRES_USER = "authentik";
+          };
+          volumes = [
+            "/var/lib/authentik/postgres:/var/lib/postgresql/data"
+          ];
+          extraOptions = [ "--health-cmd=pg_isready -d authentik -U authentik" ];
+          autoStart = true;
+        };
+
+        authentik-server = {
+          image = "ghcr.io/goauthentik/server:2026.5.3";
+          dependsOn = [ "authentik-postgresql" ];
+          environmentFiles = [ config.sops.templates."authentik.env".path ];
+          environment = {
+            AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
+            AUTHENTIK_POSTGRESQL__NAME = "authentik";
+            AUTHENTIK_POSTGRESQL__USER = "authentik";
+          };
+          cmd = [ "server" ];
+          ports = [
+            "9000:9000"
+            "9443:9443"
+          ];
+          volumes = [
+            "/var/lib/authentik/data:/data"
+            "/var/lib/authentik/custom-templates:/templates"
+            "/var/lib/authentik/media:/media"
+          ];
+          extraOptions = [ "--shm-size=512m" ];
+          autoStart = true;
+        };
+
+        authentik-worker = {
+          image = "ghcr.io/goauthentik/server:2026.5.3";
+          dependsOn = [ "authentik-postgresql" ];
+          environmentFiles = [ config.sops.templates."authentik.env".path ];
+          environment = {
+            AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
+            AUTHENTIK_POSTGRESQL__NAME = "authentik";
+            AUTHENTIK_POSTGRESQL__USER = "authentik";
+          };
+          cmd = [ "worker" ];
+          volumes = [
+            "/var/lib/authentik/data:/data"
+            "/var/lib/authentik/custom-templates:/templates"
+            "/var/lib/authentik/media:/media"
+          ];
+          extraOptions = [ "--shm-size=512m" ];
+          autoStart = true;
+        };
+        # ______ END AUTHENTIK STACK ______
 
         multiuser-mdanim = {
           image = "replication-server:latest";
@@ -154,5 +273,44 @@
           };
         };
       };
+
+      services.jellyfin = {
+        enable = true;
+        openFirewall = true;
+        dataDir = "/mnt/DATA/SrvData/jellyfin";
+      };
+
+      services.immich = {
+        enable = true;
+        mediaLocation = "/mnt/DATA/SrvData/immich";
+        host = "0.0.0.0";
+        port = 2283;
+        openFirewall = true;
+        environment.IMMICH_LOG_LEVEL = "warn";
+      };
+
+      services.audiobookshelf = {
+        enable = true;
+        host = "0.0.0.0";
+        port = 7070;
+        openFirewall = true;
+      };
+
+      services.cloudflared = {
+        enable = true;
+        tunnels."360a9b1d-96cf-499d-a59a-793b287d0dce" = {
+          credentialsFile = config.sops.secrets."cloudflared-credentials".path;
+          default = "http_status:404";
+          ingress = {
+            "auth.rzi.dpdns.org" = "http://localhost:9000";
+            "books.rzi.dpdns.org" = "http://localhost:6060";
+            "romm.rzi.dpdns.org" = "http://localhost:8080";
+            "audiobooks.rzi.dpdns.org" = "http://localhost:7070";
+            "jellyfin.rzi.dpdns.org" = "http://localhost:8096";
+            "photos.rzi.dpdns.org" = "http://localhost:2283";
+          };
+        };
+      };
+
     };
 }

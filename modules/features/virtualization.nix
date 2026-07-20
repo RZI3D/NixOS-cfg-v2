@@ -10,7 +10,7 @@
     {
       virtualisation.docker = {
         # Consider disabling the system wide Docker daemon
-        enable = false;
+        enable = true;
         storageDriver = "btrfs";
         rootless = {
           enable = true;

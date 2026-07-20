@@ -28,6 +28,7 @@
 
         # If you use a specific Desktop Manager, add it here:
         sddm.howdy.control = "sufficient";
+        sshd.howdy.enable = false;
         # gdm-password.howdy.control = "sufficient";
         # swaylock.howdy.control = "sufficient";
       };

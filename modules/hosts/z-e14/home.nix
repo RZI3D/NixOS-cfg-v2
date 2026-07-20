@@ -48,6 +48,7 @@
         godot
         games
         creative3d
+        recording
         media
         drone
       ];

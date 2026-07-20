@@ -8,7 +8,24 @@
   flake.nixosModules.games =
     { pkgs, inputs, ... }:
     {
-      programs.steam.enable = true;
+
+      programs.steam = {
+        enable = true;
+        package = pkgs.steam.override {
+          extraArgs = "-system-composer";
+        };
+      };
+
+      programs.gamescope = {
+        enable = true;
+        capSysNice = false;
+      };
+
+      programs.opengamepadui = {
+        enable = true;
+        gamescopeSession.enable = true;
+        inputplumber.enable = true;
+      };
 
       environment.systemPackages = with pkgs; [
         lutris
@@ -49,6 +66,7 @@
         lumafly
         eden
         osu-lazer-bin
+        moonlight-qt
         javaPackages.compiler.temurin-bin.jdk-25 # Minecraft
       ];
     };

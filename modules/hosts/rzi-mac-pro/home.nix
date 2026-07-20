@@ -47,6 +47,7 @@
         #         microcontrollerDev
         #         godot
         games
+        recording
         #         creative3d
         #         media
       ];
