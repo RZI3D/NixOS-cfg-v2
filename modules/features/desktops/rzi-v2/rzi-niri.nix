@@ -26,7 +26,7 @@
     {
       packages.rzi-niri = inputs.wrapper-modules.wrappers.niri.wrap {
         pkgs = pkgs';
-        package = niriVOutPR;
+        # package = niriVOutPR; #TODO: Re enable when i fix the niri-vout pkg
 
         settings = {
 
@@ -85,7 +85,19 @@
               ];
               open-fullscreen = true;
             }
+            {
+              # Fixes Vibrancy VScode
+              matches = [
+                {
+                  app-id = "^[C-c]ode$";
+                }
+              ];
+
+              draw-border-with-background = false;
+            }
           ];
+
+          switch-events = {"lid-close".spawn = "${lib.getExe self'.packages.rziNoctalia} ipc call sessionMenu lock";};
 
           binds = {
             "Mod+Return".spawn = [ (lib.getExe pkgs.kitty) ];

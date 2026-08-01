@@ -18,17 +18,17 @@
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+#     quickshell = {
+#       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+#       inputs.nixpkgs.follows = "nixpkgs";
+#     };
+
+    noctalia.url = "github:noctalia-dev/noctalia";
 
     sops-nix.url = "github:Mic92/sops-nix";
 
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     dolphin-overlay.url = "github:RZI3D/dolphin-overlay";
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
     rzi-shell.url = "github:rzi3d/rzi-shell";
     freyr-js.url = "path:./pkgs/freyr-js";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
@@ -36,7 +36,6 @@
     nixgl.url = "github:nix-community/nixGL";
     helium-flake.url = "github:oxcl/nix-flake-helium-browser";
     helium-flake.inputs.nixpkgs.follows = "nixpkgs";
-    nixcord.url = "github:FlameFlag/nixcord";
     rzi-plotter.url = "path:pkgs/rzi-inkscape-plotter-tools";
     nix-podman-stacks.url = "github:Tarow/nix-podman-stacks";
     playit-nixos-module.url = "github:pedorich-n/playit-nixos-module";

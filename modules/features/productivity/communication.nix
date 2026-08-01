@@ -13,6 +13,7 @@
         ayugram-desktop
         zapzap
         parsec-bin
+        fluffychat
       ];
 
       xdg.desktopEntries = {

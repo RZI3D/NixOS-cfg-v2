@@ -296,6 +296,14 @@
         openFirewall = true;
       };
 
+      services.filebrowser = {
+        enable = true;
+        settings.root = "/mnt/DATA/SrvData/filebrowser";
+        settings.address = "0.0.0.0";
+        settings.port = 8069;
+        openFirewall = true;
+      };
+
       services.cloudflared = {
         enable = true;
         tunnels."360a9b1d-96cf-499d-a59a-793b287d0dce" = {
@@ -308,6 +316,7 @@
             "audiobooks.rzi.dpdns.org" = "http://localhost:7070";
             "jellyfin.rzi.dpdns.org" = "http://localhost:8096";
             "photos.rzi.dpdns.org" = "http://localhost:2283";
+            "mcmap.rzi.dpdns.org" = "http://localhost:8100";
           };
         };
       };

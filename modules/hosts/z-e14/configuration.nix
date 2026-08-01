@@ -21,7 +21,7 @@
         rziNiri
         productivityCommon
         virtualisation
-        howdyAuth
+        #howdyAuth
       ];
 
       programs.nh.enable = true;
@@ -60,6 +60,7 @@
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
       boot.loader.systemd-boot.configurationLimit = 5;
+      boot.blacklistedKernelModules = [ "apple_mfi_fastcharge" ]; # interferes with palera1n
       boot.kernel.sysctl = {
         "fs.inotify.max_user_watches" = 524288;
         "fs.inotify.max_user_instances" = 512; # optional but helps too
@@ -346,6 +347,7 @@
         enable = true;
         packages = [
           "org.vinegarhq.Sober"
+          "com.modrinth.ModrinthApp"
         ];
         # optional: prunes anything not declared here on rebuild
         uninstallUnmanaged = true;
@@ -373,7 +375,10 @@
       };
 
       # Open ports in the firewall.
-      networking.firewall.allowedTCPPorts = [ 22 ];
+      networking.firewall.allowedTCPPorts = [
+        22
+        8080 # Debugging
+      ];
       # networking.firewall.allowedUDPPorts = [ ... ];
       # Or disable the firewall altogether.
       # networking.firewall.enable = false;

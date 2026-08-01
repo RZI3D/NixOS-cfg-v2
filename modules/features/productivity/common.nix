@@ -34,11 +34,11 @@
   flake.nixosModules.productivityCommon =
     { pkgs, lib, ... }:
     {
-      programs.weylus = {
-        enable = true;
-        # Point the module to use your newly defined package
-        package = self.packages.${pkgs.system}.weylus-ce;
-        openFirewall = true;
-      };
+#       programs.weylus = {
+#         enable = true;
+#         # Point the module to use your newly defined package
+#         package = self.packages.${pkgs.system}.weylus-ce;
+#         openFirewall = true;
+#       };
     };
 }

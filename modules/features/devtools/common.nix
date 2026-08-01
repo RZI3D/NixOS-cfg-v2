@@ -113,6 +113,8 @@
         devenv
         mkproj
         tio # tty device access
+        jujutsu
+        jjui
         #kilocode-cli
       ];
 
@@ -174,7 +176,9 @@
 
             # Appearance & UI
             "catppuccin.catppuccin-vsc"
+            "illixion.vscode-vibrancy-continued"
             "oderwat.indent-rainbow"
+            "roonie007.hide-files"
             "Gruntfuggly.todo-tree"
 
             # Languages & Tools
@@ -183,9 +187,22 @@
             "dart-code.dart-code"
             "dart-code.flutter"
             "geequlim.godot-tools"
+            "golang.go"
+            "mkhl.direnv"
+            "platformio.platformio-ide"
             "redhat.vscode-yaml"
+            "tamasfe.even-better-toml"
             "swiftlang.swift-vscode"
+            # C/C++ Stack
+            "llvm-vs-code-extensions.vscode-clangd"
             "llvm-vs-code-extensions.lldb-dap"
+            "vadimcn.vscode-lldb"
+            "ms-vscode.cmake-tools"
+            "ms-vscode.cpp-devtools"
+            "ms-vscode.cpptools"
+            "ms-vscode.cpptools-extension-pack"
+            "ms-vscode.cpptools-themes"
+            "ms-vscode.makefile-tools"
 
             # Python Stack
             "ms-python.python"
@@ -203,8 +220,7 @@
 
             # AI & Remote
             "google.gemini-cli-vscode-ide-companion"
-            # "kilocode.kilo-code" # WHAT is that v7 kilo? Ima try roo.
-            "RooVeterinaryInc.roo-cline"
+            "pi0.pi-vscode"
             "ms-azuretools.vscode-containers"
             "ms-vscode-remote.remote-containers"
             "ms-vscode.remote-explorer"
@@ -212,12 +228,6 @@
             "ms-vscode.remote-server"
             "ms-vscode.vscode-github-issue-notebooks"
             "ms-vsliveshare.vsliveshare"
-
-            # QT
-            #"TheQtCompany.qt-core" # required base for all others
-            #"TheQtCompany.qt-qml" # QML language support, Quickshell issues
-            #"TheQtCompany.qt-cpp" # Qt C++ support
-            #"TheQtCompany.qt-ui" # .ui file designer
 
             "jnoortheen.nix-ide" # Nix Syntax Highlighting
 
@@ -236,31 +246,15 @@
             "editor.semanticHighlighting.enabled" = true;
             "workbench.tree.renderIndentGuides" = "always";
             "workbench.tree.indent" = 12;
-            "todo-tree.ripgrep" = "/run/current-system/sw/bin/rg";
-            "password-store" = "kwallet6";
-            "qt-qml.qmlls.additionalImportPaths" = [
-              "${pkgs.quickshell}/lib/qml"
-            ];
-            "qt-qml.qmlls.customExePath" = "qmlls";
+            "todo-tree.ripgrep.ripgrep" = "/run/current-system/sw/bin/rg";
+            "vscode_vibrancy.theme" = "Catppuccin Mocha";
+            "terminal.integrated.gpuAcceleration" = "off";
+            "vscode_vibrancy.opacity" = 0.9;
             "terminal.integrated.minimumContrastRatio" = 1;
             "window.titleBarStyle" = "custom";
             "workbench.colorTheme" = "Catppuccin Mocha";
             "workbench.iconTheme" = "catppuccin-mocha";
-            "workbench.editorAssociations" = {
-              "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc" =
-                "default";
-              "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.ui" = "default";
-              "*.qrc" = "qt-core.qrcEditor";
-            };
-            "qt-qml.doNotAskForQmllsDownload" = true;
-            "kilo-code.debug" = false;
-            "qt-qml.qmlls.enabled" = false;
             "editor.fontFamily" = "'JetBrainsMono Nerd Font', monospace";
-            "terminal.integrated.commandsToSkipShell" = [
-              "kilo-code.new.agentManagerOpen"
-              "kilo-code.new.agentManager.showTerminal"
-            ];
-            "qtLivePreview.qmlEngine" = "/etc/profiles/per-user/zackariyyasattaur/bin/qml";
             # "dart.flutterSdkPath" = "/mnt/DATA/Programming/SDK/Flutter/flutter";
             "dart.flutterCreatePlatforms" = [
               "android"

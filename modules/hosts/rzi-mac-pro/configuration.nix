@@ -9,7 +9,7 @@
         inputs.sops-nix.nixosModules.sops
         games
         homeManager
-        #llamaSwap
+        llamaSwap
         mcServers
         selfHostedServices
         #romMServer

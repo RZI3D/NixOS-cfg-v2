@@ -115,32 +115,32 @@
       };
       users.groups.llama = { };
 
-      services.open-webui = {
-        enable = true;
-
-        package = pkgs.open-webui.overridePythonAttrs (old: {
-          propagatedBuildInputs = (old.propagatedBuildInputs or [ ]) ++ [
-            pkgs.python3Packages.qdrant-client
-          ];
-        });
-
-        port = 3000;
-        host = "0.0.0.0";
-        environment = {
-          OPENAI_API_BASE_URL = "http://127.0.0.1:8080/v1";
-          OPENAI_API_KEY = "sk-unused";
-          ENABLE_OLLAMA_API = "False";
-          VECTOR_DB = "qdrant";
-          QDRANT_URI = "http://127.0.0.1:6333";
-          ENABLE_QDRANT_MULTITENANCY_MODE = "True";
-        };
-      };
-
-      systemd.services.open-webui = {
-        serviceConfig = {
-          LimitNOFILE = 65535;
-        };
-      };
+#       services.open-webui = {
+#         enable = true;
+#
+#         package = pkgs.open-webui.overridePythonAttrs (old: {
+#           propagatedBuildInputs = (old.propagatedBuildInputs or [ ]) ++ [
+#             pkgs.python3Packages.qdrant-client
+#           ];
+#         });
+#
+#         port = 3000;
+#         host = "0.0.0.0";
+#         environment = {
+#           OPENAI_API_BASE_URL = "http://127.0.0.1:8080/v1";
+#           OPENAI_API_KEY = "sk-unused";
+#           ENABLE_OLLAMA_API = "False";
+#           VECTOR_DB = "qdrant";
+#           QDRANT_URI = "http://127.0.0.1:6333";
+#           ENABLE_QDRANT_MULTITENANCY_MODE = "True";
+#         };
+#       };
+#
+#       systemd.services.open-webui = {
+#         serviceConfig = {
+#           LimitNOFILE = 65535;
+#         };
+#       };
 
 
       virtualisation.oci-containers.containers = {
@@ -180,21 +180,21 @@
 
       };
 
-      services.qdrant = {
-        enable = true;
-        # Listens on 127.0.0.1 by default.
-        # Set to "0.0.0.0" if you need access from other machines/containers.
-        settings = {
-          service = {
-            host = "0.0.0.0";
-            http_port = 6333;
-            grpc_port = 6334;
-          };
-          storage = {
-            storage_path = "/var/lib/qdrant/storage";
-          };
-        };
-      };
+#       services.qdrant = {
+#         enable = true;
+#         # Listens on 127.0.0.1 by default.
+#         # Set to "0.0.0.0" if you need access from other machines/containers.
+#         settings = {
+#           service = {
+#             host = "0.0.0.0";
+#             http_port = 6333;
+#             grpc_port = 6334;
+#           };
+#           storage = {
+#             storage_path = "/var/lib/qdrant/storage";
+#           };
+#         };
+#       };
 
     };
 }

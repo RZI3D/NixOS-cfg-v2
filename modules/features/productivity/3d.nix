@@ -10,8 +10,8 @@
     {
       home.packages = with pkgs; [
         blender
-        openscad-unstable
-        freecad
+        # openscad-unstable # TODO: Re-enable when hydra build passes
+        # freecad # TODO: Re-enable when hydra build passes
         cura-appimage
       ];
     };

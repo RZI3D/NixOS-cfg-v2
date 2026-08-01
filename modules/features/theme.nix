@@ -47,7 +47,7 @@
           shell = "fish";
           cursor_shape = "beam";
           window_padding_width = 12;
-          background_opacity = "0.92";
+          background_opacity = "0.9";
           confirm_os_window_close = 0;
           auto_reload_config = 0;
         };
@@ -64,7 +64,7 @@
         '';
         shellAliases = {
           clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
-          ls = "eza --icons";
+          ls = "eza --icons=always";
           pamcan = "pacman";
           q = "qs -c rzi kill; qs -c rzi";
           qd = "qs -c rzi kill; qs -c rzi -d";
