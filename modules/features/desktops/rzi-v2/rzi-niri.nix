@@ -3,6 +3,7 @@
   flake.nixosModules.rziNiri =
     { pkgs, lib, ... }:
     {
+
       programs.niri = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.rzi-niri;
@@ -18,7 +19,7 @@
     }:
     let
 
-      niriVOutPR = pkgs.callPackage ../../../../pkgs/niri-pr-vout.nix { };
+      # niriVOutPR = pkgs.callPackage ../../../../pkgs/niri-pr-vout.nix { };
 
       pkgs' = pkgs.extend inputs.dolphin-overlay.overlays.default;
 
@@ -33,7 +34,7 @@
           prefer-no-csd = true; # Disable Window Decorations for GTK apps, since they look bad in niri (at least in my opinion).
 
           spawn-at-startup = [
-            (lib.getExe self'.packages.rziNoctalia)
+            (lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default)
           ];
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
@@ -97,13 +98,13 @@
             }
           ];
 
-          switch-events = {"lid-close".spawn = "${lib.getExe self'.packages.rziNoctalia} ipc call sessionMenu lock";};
+          switch-events = {"lid-close".spawn = "${lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default} ipc call sessionMenu lock";};
 
           binds = {
             "Mod+Return".spawn = [ (lib.getExe pkgs.kitty) ];
 
             "Mod+E".spawn = [ (lib.getExe' pkgs'.kdePackages.dolphin "dolphin") ];
-            "Mod+S".spawn-sh = "${lib.getExe self'.packages.rziNoctalia} ipc call launcher toggle";
+            "Mod+S".spawn-sh = "${lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default} ipc call launcher toggle";
             # "Mod+Super_L".spawn-sh = "${lib.getExe self'.packages.rziNoctalia} ipc call launcher toggle";
 
             # The following was converted from the default config.kdl by Grok

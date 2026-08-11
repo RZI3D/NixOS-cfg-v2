@@ -52,8 +52,8 @@
       boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
 
       # Binary cache for CachyOS latest kernel
-      nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
-      nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
+      nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" "https://noctalia.cachix.org"];
+      nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
       nix.settings.trusted-users = [ "root" "zackariyyasattaur" ];
 
       # Use the systemd-boot EFI boot loader.

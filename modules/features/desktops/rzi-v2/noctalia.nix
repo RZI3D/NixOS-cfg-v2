@@ -1,35 +1,34 @@
-{ self, inputs, ... }:
 {
-  perSystem =
+  self,
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  flake.homeModules.noctalia =
     { pkgs, ... }:
     {
-      packages.rziNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
-        inherit pkgs; # THIS PART IS VERY IMPORTAINT, I FORGOT IT IN THE VIDEO!!!
+      imports = [
+        inputs.noctalia.homeModules.default
+      ];
 
-        # For plugins:
-        extraPackages = with pkgs; [
-          grim
-          slurp
-          wl-clipboard
-          tesseract
-          imagemagick
-          zbar
-          curl
-          translate-shell
-          wl-screenrec
-          ffmpeg
-          gifski
-          evtest
-          qt6.qtwebsockets
-          qt6.qtdeclarative
-        ];
+      programs.noctalia = {
+        enable = true;
 
-        env = {
-          QT_PLUGIN_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtPluginPrefix}";
-          QML2_IMPORT_PATH = "${pkgs.qt6.qtwebsockets}/${pkgs.qt6.qtbase.qtQmlPrefix}";
-        };
+#         settings = { # This may also be a string or path to a .toml file.
+#           theme = {
+#             mode = "dark";
+#             source = "builtin";
+#             builtin = "Catppuccin";
+#           };
+#
+#           wallpaper = {
+#             enabled = true;
+#             default.path = "/path/to/wallpapers/wallpaper.png";
+#           };
+#         };
 
-        settings = (builtins.fromJSON (builtins.readFile ./noctalia.json)).settings;
-      };
     };
+  };
 }
