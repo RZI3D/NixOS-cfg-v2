@@ -68,7 +68,6 @@
             };
           };
 
-
           layer-rules = [
             {
               matches = [
@@ -89,6 +88,7 @@
               open-maximized = true;
               background-effect = {
                 blur = true;
+                xray = false;
               };
             }
             {
@@ -119,43 +119,67 @@
 
               open-floating = true;
 
-              default-column-width = { fixed = 1080; };
+              default-column-width = {
+                fixed = 1080;
+              };
 
-              default-window-height = { fixed = 920; };
+              default-window-height = {
+                fixed = 920;
+              };
 
             }
           ];
 
           debug = {
             # Allows notification actions and window activation from Noctalia.
-            honor-xdg-activation-with-invalid-serial = {};
+            honor-xdg-activation-with-invalid-serial = { };
           };
 
-          switch-events = {"lid-close".spawn = ["noctalia" "msg" "session" "lock-and-suspend"]; };
+          switch-events = {
+            "lid-close".spawn = [
+              "noctalia"
+              "msg"
+              "session"
+              "lock-and-suspend"
+            ];
+          };
 
           binds = {
             "Mod+Return".spawn = [ (lib.getExe pkgs.kitty) ];
 
             "Mod+E".spawn = [ (lib.getExe' pkgs'.kdePackages.dolphin "dolphin") ];
 
-                # Core Noctalia binds
-                "Mod+Space".spawn-sh = "noctalia msg panel-toggle launcher";
-                "Mod+S".spawn-sh = "noctalia msg settings-toggle";
-                "Alt+Tab".spawn-sh = "noctalia msg window-switcher";
-                # Niri has a built-in window switcher you might want to try it to see which one you prefer.
+            # Core Noctalia binds
+            "Mod+Space".spawn-sh = "noctalia msg panel-toggle launcher";
+            "Mod+S".spawn-sh = "noctalia msg settings-toggle";
+            "Alt+Tab".spawn-sh = "noctalia msg window-switcher";
+            # Niri has a built-in window switcher you might want to try it to see which one you prefer.
 
-                # Audio & Brightness
-                "XF86AudioRaiseVolume".spawn-sh = "noctalia msg volume-up";
-                "XF86AudioLowerVolume".spawn-sh = "noctalia msg volume-down";
-                "XF86AudioMute".spawn-sh = "noctalia msg volume-mute";
-                "XF86MonBrightnessUp".spawn-sh = "noctalia msg brightness-up";
-                "XF86MonBrightnessDown".spawn-sh = "noctalia msg brightness-down";
+            # Audio & Brightness
+            "XF86AudioRaiseVolume".spawn-sh = "noctalia msg volume-up";
+            "XF86AudioLowerVolume".spawn-sh = "noctalia msg volume-down";
+            "XF86AudioMute".spawn-sh = "noctalia msg volume-mute";
+            "XF86MonBrightnessUp".spawn-sh = "noctalia msg brightness-up";
+            "XF86MonBrightnessDown".spawn-sh = "noctalia msg brightness-down";
+            "Ctrl+Alt+V".spawn = [
+              "noctalia"
+              "msg"
+              "panel-toggle"
+              "clipboard"
+            ];
+
+            "Ctrl+Alt+Delete".spawn = [
+              "noctalia"
+              "msg"
+              "panel-toggle"
+              "session"
+            ];
 
             # The following was converted from the default config.kdl by Grok
             # Media keys (flat spawn-sh like vimjoyer)
-#             "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0";
-#             "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
-#             "XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+            #"XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0";
+            #"XF86AudioLowerVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
+            #"XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
             "XF86AudioMicMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
             "XF86AudioPlay".spawn-sh = "playerctl play-pause";
             "XF86AudioStop".spawn-sh = "playerctl stop";
@@ -163,18 +187,18 @@
             "XF86AudioNext".spawn-sh = "playerctl next";
 
             # Brightness (spawn list style)
-#             "XF86MonBrightnessUp".spawn = [
-#               "brightnessctl"
-#               "--class=backlight"
-#               "set"
-#               "+10%"
-#             ];
-#             "XF86MonBrightnessDown".spawn = [
-#               "brightnessctl"
-#               "--class=backlight"
-#               "set"
-#               "10%-"
-#             ];
+            #             "XF86MonBrightnessUp".spawn = [
+            #               "brightnessctl"
+            #               "--class=backlight"
+            #               "set"
+            #               "+10%"
+            #             ];
+            #             "XF86MonBrightnessDown".spawn = [
+            #               "brightnessctl"
+            #               "--class=backlight"
+            #               "set"
+            #               "10%-"
+            #             ];
 
             # General
             "Mod+O"."toggle-overview" = { };
@@ -182,7 +206,7 @@
             "Mod+Escape"."toggle-keyboard-shortcuts-inhibit" = { };
 
             "Mod+Shift+E".quit = { };
-            "Ctrl+Alt+Delete".quit = { };
+            #"Ctrl+Alt+Delete".quit = { };
 
             # Navigation
             "Mod+Left"."focus-column-left" = { };

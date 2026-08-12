@@ -21,6 +21,7 @@
         rziNiri
         productivityCommon
         virtualisation
+        inputs.noctalia-greeter.nixosModules.default
         #howdyAuth
       ];
 
@@ -52,9 +53,18 @@
       boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
 
       # Binary cache for CachyOS latest kernel
-      nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" "https://noctalia.cachix.org"];
-      nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
-      nix.settings.trusted-users = [ "root" "zackariyyasattaur" ];
+      nix.settings.substituters = [
+        "https://attic.xuyh0120.win/lantian"
+        "https://noctalia.cachix.org"
+      ];
+      nix.settings.trusted-public-keys = [
+        "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+        "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      ];
+      nix.settings.trusted-users = [
+        "root"
+        "zackariyyasattaur"
+      ];
 
       # Use the systemd-boot EFI boot loader.
       boot.loader.systemd-boot.enable = true;
@@ -82,20 +92,20 @@
       services.tailscale.enable = true;
       networking.firewall.checkReversePath = false;
       services.cloudflare-warp.enable = true;
-#       services.cloudflared = {
-#         enable = true;
-#         tunnels = {
-#           "b765985d-055d-4cc2-940c-fb7393c90aab" = {
-#             credentialsFile = "/var/lib/cloudflared/creds.json";
-#
-#             ingress = {
-#               "pos-staging.rzi.dpdns.org" = "http://127.0.0.1:8069";
-#             };
-#
-#             default = "http_status:404";
-#           };
-#         };
-#       };
+      #       services.cloudflared = {
+      #         enable = true;
+      #         tunnels = {
+      #           "b765985d-055d-4cc2-940c-fb7393c90aab" = {
+      #             credentialsFile = "/var/lib/cloudflared/creds.json";
+      #
+      #             ingress = {
+      #               "pos-staging.rzi.dpdns.org" = "http://127.0.0.1:8069";
+      #             };
+      #
+      #             default = "http_status:404";
+      #           };
+      #         };
+      #       };
 
       services.usbmuxd = {
         enable = true;
@@ -254,23 +264,35 @@
       };
       home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModuleE14;
       home-manager.backupFileExtension = "bkp";
-      # Enable the X11 windowing system (needed for SDDM even on Wayland)
-      services.xserver.enable = true;
+      # # Enable the X11 windowing system (needed for SDDM even on Wayland)
+      # services.xserver.enable = true;
 
-      # Enable SDDM and Hyprland
+      # # Enable SDDM and Hyprland
 
-      services.displayManager.sddm = {
+      # services.displayManager.sddm = {
+      #   enable = true;
+      #   wayland.enable = true;
+      #   theme = "catppuccin-mocha-mauve";
+      #   extraPackages = with pkgs.kdePackages; [
+      #     qt5compat
+      #     qtdeclarative
+      #     qtsvg
+      #   ];
+      # };
+
+      programs.noctalia-greeter = {
         enable = true;
-        wayland.enable = true;
-        theme = "catppuccin-mocha-mauve";
-        extraPackages = with pkgs.kdePackages; [
-          qt5compat
-          qtdeclarative
-          qtsvg
-        ];
+        # settings = {
+        #   cursor = {
+        #     theme = "Bibata-Modern-Ice";
+        #     size = 24;
+        #     path = "${pkgs.bibata-cursors}/share/icons";
+        #   };
+        #   keyboard = {
+        #     layout = "us";
+        #   };
+        # };
       };
-      services.desktopManager.plasma6.enable = true;
-      programs.hyprland.enable = true;
 
       services.upower.enable = true; # Battery info
       services.geoclue2.enable = true; # Night light/location
@@ -327,21 +349,21 @@
         configDir = "/home/zackariyyasattaur/.config/syncthing";
       };
 
-#       services.qdrant = {
-#         enable = true;
-#         # Listens on 127.0.0.1 by default.
-#         # Set to "0.0.0.0" if you need access from other machines/containers.
-#         settings = {
-#           service = {
-#             host = "127.0.0.1";
-#             http_port = 6333;
-#             grpc_port = 6334;
-#           };
-#           storage = {
-#             storage_path = "/var/lib/qdrant/storage";
-#           };
-#         };
-#       };
+      #       services.qdrant = {
+      #         enable = true;
+      #         # Listens on 127.0.0.1 by default.
+      #         # Set to "0.0.0.0" if you need access from other machines/containers.
+      #         settings = {
+      #           service = {
+      #             host = "127.0.0.1";
+      #             http_port = 6333;
+      #             grpc_port = 6334;
+      #           };
+      #           storage = {
+      #             storage_path = "/var/lib/qdrant/storage";
+      #           };
+      #         };
+      #       };
 
       services.flatpak = {
         enable = true;

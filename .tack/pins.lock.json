@@ -1,0 +1,140 @@
+{
+  "catppuccin": {
+    "type": "github",
+    "owner": "catppuccin",
+    "repo": "nix",
+    "rev": "9e84aa294455c58a1caba475902d06c1170ed5c1",
+    "narHash": "sha256-Bn1EFvCd74JZXJs3pxUdfEMhls3/yuJre4O1owI6oe8=",
+    "lastModified": 1786309022
+  },
+  "dolphin-overlay": {
+    "type": "github",
+    "owner": "RZI3D",
+    "repo": "dolphin-overlay",
+    "rev": "9db2bf328b4e90fea15c54d15aa7c6124546e357",
+    "narHash": "sha256-uwuApLxGBPuNhXX4Nv0BilJQYT+FWPUmr19RUcrDmRE=",
+    "lastModified": 1780334302
+  },
+  "flake-parts": {
+    "type": "github",
+    "owner": "hercules-ci",
+    "repo": "flake-parts",
+    "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
+    "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
+    "lastModified": 1785627969
+  },
+  "helium-flake": {
+    "type": "github",
+    "owner": "oxcl",
+    "repo": "nix-flake-helium-browser",
+    "rev": "23cedd450c55ae1d3b7c0b9777b211289ebafc13",
+    "narHash": "sha256-x95bCXQeJd0QRDxM1DL0x+sPLW2KKnJ+CZSe8fsYRq8=",
+    "lastModified": 1786525802
+  },
+  "home-manager": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "home-manager",
+    "rev": "e13ba5e5abbd9b912fa8c6979bd119e87ca7fdd9",
+    "narHash": "sha256-PH8B1YKxedcWKNw2xsk6cKPVk/rJoLgdlWd5d+Icies=",
+    "lastModified": 1786538400
+  },
+  "nix-cachyos-kernel": {
+    "type": "github",
+    "owner": "xddxdd",
+    "repo": "nix-cachyos-kernel",
+    "rev": "879f45ee15a3b06fdbbf9b6dc825c5fbca137fcd",
+    "narHash": "sha256-l+RTmz09TxwWJRLQuc+cKi3yY0K4PSz8tRPTbBUvaVo=",
+    "lastModified": 1785870829
+  },
+  "nix-flatpak": {
+    "type": "github",
+    "owner": "gmodena",
+    "repo": "nix-flatpak",
+    "rev": "20d42f0ee98c9fe9f85e8d1de474f1409ed10d05",
+    "narHash": "sha256-0H8jDwR4Kegb3heaTrH1ftbgKfZVDT8JE+46uXxDy/Q=",
+    "lastModified": 1783368811
+  },
+  "nix-minecraft": {
+    "type": "github",
+    "owner": "Infinidoge",
+    "repo": "nix-minecraft",
+    "rev": "07aa67175801d9d093d2a769d283fcd1934fe98e",
+    "narHash": "sha256-xbdju4wTQ7QSjDekRX3zW8Y1ZarOWFMlLLMGQycxYJw=",
+    "lastModified": 1786501796
+  },
+  "nix4vscode": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "nix4vscode",
+    "rev": "dbc5d3536f48eaad50f35a0e15f92821b56bb8ff",
+    "narHash": "sha256-+DJMD1kyjYqepWkMql364BJkDBEaZEsYgrmSOVS0jAI=",
+    "lastModified": 1786502973
+  },
+  "nixgl": {
+    "type": "github",
+    "owner": "nix-community",
+    "repo": "nixGL",
+    "rev": "b6105297e6f0cd041670c3e8628394d4ee247ed5",
+    "narHash": "sha256-fbRQzIGPkjZa83MowjbD2ALaJf9y6KMDdJBQMKFeY/8=",
+    "lastModified": 1762090880
+  },
+  "nixpkgs": {
+    "type": "tarball",
+    "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1051473.2fcb964de67f/nixexprs.tar.xz",
+    "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+    "narHash": "sha256-OETwiymkMwunF+pfL25DzLMF2/YpMcJUjVd9qZ0YdsM="
+  },
+  "noctalia": {
+    "type": "github",
+    "owner": "noctalia-dev",
+    "repo": "noctalia",
+    "rev": "cd06851db4f40ab61d219a903518a1ca03fc3db3",
+    "narHash": "sha256-JOcHQWCcYsPq0bOP42UdV4f42nvlip7sh3vuxvSpEUM=",
+    "lastModified": 1786566000
+  },
+  "noctalia-greeter": {
+    "type": "github",
+    "owner": "noctalia-dev",
+    "repo": "noctalia-greeter",
+    "rev": "d0180243312ebcb241c64391e7c42ac71a2fcac4",
+    "narHash": "sha256-bcQneBQi7E27pEoSPIkiYwGFvar4/NPxkiO9nrw6NXI=",
+    "lastModified": 1786468029
+  },
+  "playit-nixos-module": {
+    "type": "github",
+    "owner": "pedorich-n",
+    "repo": "playit-nixos-module",
+    "rev": "4e887ff0a2ebdaa45831eef95772945a52c36eb3",
+    "narHash": "sha256-HWiuQL1Bt0d/V0DhRPeprM5cmyvCduTcaWf0B34weKM=",
+    "lastModified": 1785596970
+  },
+  "rzi-plotter": {
+    "type": "path",
+    "path": "../pkgs/rzi-inkscape-plotter-tools"
+  },
+  "sops-nix": {
+    "type": "github",
+    "owner": "Mic92",
+    "repo": "sops-nix",
+    "rev": "d1337e05ba0a8e88a75d2c0e1595d82f3b3e2ac4",
+    "narHash": "sha256-G7qDAT98nywA4EFmJCwIRO5wKvDlBBN3BWpsOnjAto8=",
+    "lastModified": 1786375908
+  },
+  "spicetify-nix": {
+    "type": "github",
+    "owner": "Gerg-L",
+    "repo": "spicetify-nix",
+    "rev": "a87616995724d27079b495ca07318512af799449",
+    "narHash": "sha256-a9SbkJWloPso00G4zIUkerd9n2qRyDYoDPeUc4O3ME8=",
+    "lastModified": 1786252193
+  },
+  "wrapper-modules": {
+    "type": "github",
+    "owner": "BirdeeHub",
+    "repo": "nix-wrapper-modules",
+    "rev": "6e7f66fa2cdf4d63162580b438f7fcf87c28a46f",
+    "narHash": "sha256-vAmbArdCyjqpVW+37aCy/PMBOLIqukUXLQuEKLwUhA4=",
+    "lastModified": 1782135443
+  }
+}
