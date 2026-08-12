@@ -68,6 +68,20 @@
             };
           };
 
+
+          layer-rules = [
+            {
+              matches = [
+                {
+                  namespace = "^noctalia-backdrop";
+                }
+              ];
+
+              place-within-backdrop = true;
+
+            }
+          ];
+
           window-rules = [
             {
               geometry-corner-radius = 12;
@@ -96,22 +110,52 @@
 
               draw-border-with-background = false;
             }
+            {
+              matches = [
+                {
+                  app-id = "dev.noctalia.Noctalia";
+                }
+              ];
+
+              open-floating = true;
+
+              default-column-width = { fixed = 1080; };
+
+              default-window-height = { fixed = 920; };
+
+            }
           ];
 
-          switch-events = {"lid-close".spawn = "${lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default} ipc call sessionMenu lock";};
+          debug = {
+            # Allows notification actions and window activation from Noctalia.
+            honor-xdg-activation-with-invalid-serial = {};
+          };
+
+          switch-events = {"lid-close".spawn = ["noctalia" "msg" "session" "lock-and-suspend"]; };
 
           binds = {
             "Mod+Return".spawn = [ (lib.getExe pkgs.kitty) ];
 
             "Mod+E".spawn = [ (lib.getExe' pkgs'.kdePackages.dolphin "dolphin") ];
-            "Mod+S".spawn-sh = "${lib.getExe inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default} ipc call launcher toggle";
-            # "Mod+Super_L".spawn-sh = "${lib.getExe self'.packages.rziNoctalia} ipc call launcher toggle";
+
+                # Core Noctalia binds
+                "Mod+Space".spawn-sh = "noctalia msg panel-toggle launcher";
+                "Mod+S".spawn-sh = "noctalia msg settings-toggle";
+                "Alt+Tab".spawn-sh = "noctalia msg window-switcher";
+                # Niri has a built-in window switcher you might want to try it to see which one you prefer.
+
+                # Audio & Brightness
+                "XF86AudioRaiseVolume".spawn-sh = "noctalia msg volume-up";
+                "XF86AudioLowerVolume".spawn-sh = "noctalia msg volume-down";
+                "XF86AudioMute".spawn-sh = "noctalia msg volume-mute";
+                "XF86MonBrightnessUp".spawn-sh = "noctalia msg brightness-up";
+                "XF86MonBrightnessDown".spawn-sh = "noctalia msg brightness-down";
 
             # The following was converted from the default config.kdl by Grok
             # Media keys (flat spawn-sh like vimjoyer)
-            "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0";
-            "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
-            "XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+#             "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0";
+#             "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
+#             "XF86AudioMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
             "XF86AudioMicMute".spawn-sh = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
             "XF86AudioPlay".spawn-sh = "playerctl play-pause";
             "XF86AudioStop".spawn-sh = "playerctl stop";
@@ -119,18 +163,18 @@
             "XF86AudioNext".spawn-sh = "playerctl next";
 
             # Brightness (spawn list style)
-            "XF86MonBrightnessUp".spawn = [
-              "brightnessctl"
-              "--class=backlight"
-              "set"
-              "+10%"
-            ];
-            "XF86MonBrightnessDown".spawn = [
-              "brightnessctl"
-              "--class=backlight"
-              "set"
-              "10%-"
-            ];
+#             "XF86MonBrightnessUp".spawn = [
+#               "brightnessctl"
+#               "--class=backlight"
+#               "set"
+#               "+10%"
+#             ];
+#             "XF86MonBrightnessDown".spawn = [
+#               "brightnessctl"
+#               "--class=backlight"
+#               "set"
+#               "10%-"
+#             ];
 
             # General
             "Mod+O"."toggle-overview" = { };
