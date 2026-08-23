@@ -52,6 +52,7 @@
         media
         drone
         noctalia
+        umbriel
       ];
       home.sessionVariables = {
         NIXOS_OZONE_WL = "1";

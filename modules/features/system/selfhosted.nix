@@ -118,6 +118,22 @@
       };
 
       virtualisation.oci-containers.containers = {
+
+        asset-server = {
+          image = "docker.io/library/caddy:latest";
+          ports = [ "127.0.0.1:8091:80" ]; # bind local, tunnel handles public exposure
+          volumes = [
+            "/srv/assets:/srv/assets:ro"
+          ];
+          cmd = [
+            "caddy"
+            "file-server"
+            "--root"
+            "/srv/assets"
+            "--browse=false"
+          ];
+        };
+
         # ______ START ROMM STACK ______
 
         romm-db = {
@@ -274,6 +290,30 @@
         };
       };
 
+      services.forgejo = {
+        enable = true;
+        database.type = "postgres";
+        stateDir = "/mnt/DATA/SrvData/forgejo";
+        settings = {
+          server = {
+            DOMAIN = "git.rzi.dpdns.org";
+            ROOT_URL = "https://git.rzi.dpdns.org/";
+            HTTP_PORT = 3000;
+            LANDING_PAGE = "home";
+          };
+          ui = {
+            THEMES = "catppuccin-latte-rosewater,catppuccin-latte-flamingo,catppuccin-latte-pink,catppuccin-latte-mauve,catppuccin-latte-red,catppuccin-latte-maroon,catppuccin-latte-peach,catppuccin-latte-yellow,catppuccin-latte-green,catppuccin-latte-teal,catppuccin-latte-sky,catppuccin-latte-sapphire,catppuccin-latte-blue,catppuccin-latte-lavender,catppuccin-frappe-rosewater,catppuccin-frappe-flamingo,catppuccin-frappe-pink,catppuccin-frappe-mauve,catppuccin-frappe-red,catppuccin-frappe-maroon,catppuccin-frappe-peach,catppuccin-frappe-yellow,catppuccin-frappe-green,catppuccin-frappe-teal,catppuccin-frappe-sky,catppuccin-frappe-sapphire,catppuccin-frappe-blue,catppuccin-frappe-lavender,catppuccin-macchiato-rosewater,catppuccin-macchiato-flamingo,catppuccin-macchiato-pink,catppuccin-macchiato-mauve,catppuccin-macchiato-red,catppuccin-macchiato-maroon,catppuccin-macchiato-peach,catppuccin-macchiato-yellow,catppuccin-macchiato-green,catppuccin-macchiato-teal,catppuccin-macchiato-sky,catppuccin-macchiato-sapphire,catppuccin-macchiato-blue,catppuccin-macchiato-lavender,catppuccin-mocha-rosewater,catppuccin-mocha-flamingo,catppuccin-mocha-pink,catppuccin-mocha-mauve,catppuccin-mocha-red,catppuccin-mocha-maroon,catppuccin-mocha-peach,catppuccin-mocha-yellow,catppuccin-mocha-green,catppuccin-mocha-teal,catppuccin-mocha-sky,catppuccin-mocha-sapphire,catppuccin-mocha-blue,catppuccin-mocha-lavender";
+          };
+          service.ALLOW_ONLY_EXTERNAL_REGISTRATION = true; # login via Authentik
+
+          openid = {
+            ENABLE_OPENID_SIGNIN = false;
+            ENABLE_OPENID_SIGNUP = false;
+          };
+
+        };
+      };
+
       services.jellyfin = {
         enable = true;
         openFirewall = true;
@@ -317,6 +357,8 @@
             "jellyfin.rzi.dpdns.org" = "http://localhost:8096";
             "photos.rzi.dpdns.org" = "http://localhost:2283";
             "mcmap.rzi.dpdns.org" = "http://localhost:8100";
+            "assets.rzi.dpdns.org" = "http://localhost:8091";
+            "git.rzi.dpdns.org" = "http://localhost:3000";
           };
         };
       };

@@ -23,6 +23,8 @@
         virtualisation
         inputs.noctalia-greeter.nixosModules.default
         #howdyAuth
+        umbriel
+
       ];
 
       programs.nh.enable = true;
@@ -260,6 +262,7 @@
           "kvm"
           "wireshark"
         ];
+        shell = pkgs.nushell;
         hashedPassword = "$6$rkp83G7XDj8weVI9$hEwyG/13SqUrYvIQc3ZT7/vpvEAGDRvHew47DM2w0Lw44xxVC8YXqHUlNUxEX0VxIdRq6fivmWILvrsODXVoA/";
       };
       home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModuleE14;
@@ -282,19 +285,20 @@
 
       programs.noctalia-greeter = {
         enable = true;
-        # settings = {
-        #   cursor = {
-        #     theme = "Bibata-Modern-Ice";
-        #     size = 24;
-        #     path = "${pkgs.bibata-cursors}/share/icons";
-        #   };
-        #   keyboard = {
-        #     layout = "us";
-        #   };
-        # };
+        settings = {
+          cursor = {
+            theme = "Bibata-Modern-Ice";
+            size = 24;
+            path = "${pkgs.bibata-cursors}/share/icons";
+          };
+          keyboard = {
+            layout = "us";
+          };
+        };
       };
 
       services.upower.enable = true; # Battery info
+      services.power-profiles-daemon.enable = true; # Power profiles
       services.geoclue2.enable = true; # Night light/location
       services.gvfs.enable = true; # File manager mounting
       services.dbus.enable = true;
@@ -308,6 +312,7 @@
         noto-fonts-cjk-sans
         noto-fonts-color-emoji
         material-symbols
+        google-fonts
       ];
 
       nixpkgs.config.allowUnfree = true;
@@ -338,8 +343,12 @@
         proton-vpn
         ripgrep
         ffmpeg
+        tack
 
       ];
+
+      virtualisation.waydroid.enable = true;
+      virtualisation.waydroid.package = pkgs.waydroid-nftables;
 
       services.syncthing = {
         enable = true;

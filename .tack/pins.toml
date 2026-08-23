@@ -12,6 +12,7 @@
 # opt out per-input with exclude_follow
 [all_follow]
 nixpkgs = "nixpkgs"
+flake-utils = "flake-utils"
 # nixpkgs = ["nixpkgs-stable", "nixpkgs-unstable"]
 
 # inputs.<name> fields
@@ -24,6 +25,9 @@ nixpkgs = "nixpkgs"
 #   submodules      fetch git submodules
 #   unpack          fixed-only tarball or file
 [inputs]
+
+[inputs.nixpkgs]
+url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
 
 [inputs.flake-parts]
 url = "github:hercules-ci/flake-parts"
@@ -77,5 +81,12 @@ url = "github:gmodena/nix-flatpak"
 [inputs.noctalia-greeter]
 url = "github:noctalia-dev/noctalia-greeter"
 
-[inputs.nixpkgs]
-url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
+[inputs.flake-utils]
+url = "github:numtide/flake-utils"
+
+[inputs.nix-index-database]
+url = "github:nix-community/nix-index-database"
+
+[inputs.umbriel]
+url = "git+https://github.com/noctalia-dev/umbriel"
+submodules = true

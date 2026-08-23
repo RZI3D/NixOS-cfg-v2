@@ -29,6 +29,7 @@
         swappy
         satty
         translate-shell
+        mpvpaper
         # For the gamelauncher
         clang # idk either man
       ];

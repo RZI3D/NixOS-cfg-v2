@@ -4,6 +4,10 @@
     { pkgs, lib, ... }:
     {
 
+      environment.systemPackages = with pkgs; [
+        bibata-cursors
+      ];
+
       programs.niri = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.rzi-niri;
@@ -42,6 +46,11 @@
           outputs."eDP-1" = {
             mode = "1920x1080@60.00";
             scale = 1.0;
+          };
+
+          cursor = {
+            xcursor-theme = "Bibata-Modern-Ice";
+            xcursor-size = 24;
           };
 
           input = {
@@ -110,6 +119,24 @@
 
               draw-border-with-background = false;
             }
+
+            {
+              matches = [
+                {
+                  app-id = "Emulator";
+                }
+              ];
+
+              open-maximized = false;
+              default-column-width = {
+                fixed = 580;
+              };
+              default-window-height = {
+                fixed = 1036;
+              };
+
+            }
+
             {
               matches = [
                 {

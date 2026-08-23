@@ -71,14 +71,14 @@
         osu-lazer-bin
         moonlight-qt
         javaPackages.compiler.temurin-bin.jdk-25 # Minecraft
-        (pkgs.symlinkJoin {
-          name = "flightgear-wrapped";
-          paths = [ pkgs.flightgear ];
-          buildInputs = [ pkgs.makeWrapper ];
-          postBuild = ''
-            wrapProgram $out/bin/fgfs --unset QML2_IMPORT_PATH --unset QML_IMPORT_PATH
-          '';
-        })
+        # (pkgs.symlinkJoin {
+        #   name = "flightgear-wrapped";
+        #   paths = [ pkgs.flightgear ];
+        #   buildInputs = [ pkgs.makeWrapper ];
+        #   postBuild = ''
+        #     wrapProgram $out/bin/fgfs --unset QML2_IMPORT_PATH --unset QML_IMPORT_PATH
+        #   '';
+        # })
       ];
     };
 }

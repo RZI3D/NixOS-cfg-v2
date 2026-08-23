@@ -3,7 +3,12 @@
 
   # This is your module that imports and configures home-manager
   flake.homeModules.rziTheme =
-    { pkgs, config, ... }:
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
 
     let
       colloid-catppuccin = pkgs.colloid-catppuccin; # Patched in overlays.nix, probaly dont need this?
@@ -22,9 +27,9 @@
         # papirus-icon-theme # Handled by catppuccin, it patches it with your accent
         fish
         starship
-        eza
         fzf
         zoxide
+        nushell
         # kdePackages.qtstyleplugin-kvantum # switched to qt6ct
         kdePackages.qtsvg
         libsForQt5.qt5ct
@@ -35,6 +40,74 @@
       catppuccin.flavor = "mocha";
       catppuccin.accent = "sapphire";
       catppuccin.enable = true;
+      catppuccin.autoEnable = true;
+
+      programs.eza = {
+        enable = true;
+        git = true;
+        icons = "auto";
+        extraOptions = [
+          "--header"
+          "--sort=type"
+          "--no-permissions"
+          "--hyperlink"
+          "--level=3"
+          "--git-ignore"
+          "--time=created"
+          "--time-style=long-iso"
+          "--short-nix"
+        ];
+      };
+
+      programs.nix-index = {
+        enable = true;
+        package =
+          inputs.nix-index-database.packages.${pkgs.stdenv.hostPlatform.system}.nix-index-with-small-db;
+      };
+
+      programs.nushell = {
+        enable = true;
+
+        settings = {
+          show_banner = false;
+          completions = {
+            external = {
+              enable = true;
+              max_results = 200;
+            };
+          };
+        };
+
+        extraConfig = ''
+          $env.config = ($env.config | upsert hooks {
+            pre_prompt: [{ ||
+              direnv export json | from json | default {} | load-env
+            }]
+          })
+
+          def rswitch [] { nh os switch ~/Programming/Linux/NixOS-cfg }
+          def rswitch-mac-pro [] { nh os switch ~/Programming/Linux/NixOS-cfg/.#rzi-mac-pro --target-host root@rzi-mac-pro; cvlc --play-and-exit ~/Music/SFX/outcome-success.ogg }
+          def l [] { ls | sort-by type name | table --icons -i false }
+          def la [] { ls -a | sort-by type name | table --icons -i false }
+          def lt [] { eza --tree }
+          def ns [] { ^${lib.getExe pkgs.nix-search-tv} print | fzf --preview '${lib.getExe pkgs.nix-search-tv} preview {}' --scheme history | str trim }
+
+          if ($nu.is-interactive) and ($env.SKIP_MICROFETCH? != 1) {
+            ^${lib.getExe pkgs.microfetch}
+          }
+        '';
+        extraEnv = ''
+          $env.EDITOR = "hx"
+          $env.config.buffer_editor = "hx"
+          $env.CARAPACE_BRIDGES = "fish,inshellisense"
+        '';
+      };
+
+      programs.carapace = {
+        enable = true;
+        enableNushellIntegration = true;
+        enableFishIntegration = true;
+      };
 
       # ── Kitty & terminal (Catppuccin via HM module) ────────────────────────────────
       catppuccin.kitty.enable = true;
@@ -44,7 +117,7 @@
           font_family = "JetBrainsMono Nerd Font";
           font_size = "11.0";
           cursor_trail = 1; # ms delay before trail triggers (0 = always, higher = only on big jumps)
-          shell = "fish";
+          shell = "nu";
           cursor_shape = "beam";
           window_padding_width = 12;
           background_opacity = "0.9";
@@ -65,7 +138,6 @@
         shellAliases = {
           clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
           ls = "eza --icons=always";
-          pamcan = "pacman";
           q = "qs -c rzi kill; qs -c rzi";
           qd = "qs -c rzi kill; qs -c rzi -d";
           rswitch = "nh os switch ~/Programming/Linux/NixOS-cfg";
@@ -76,16 +148,41 @@
       programs.zoxide.enable = true;
       programs.zoxide.enableFishIntegration = true;
       programs.zoxide.enableBashIntegration = true;
+      programs.zoxide.enableNushellIntegration = true;
 
       programs.starship = {
         enable = true;
         enableFishIntegration = true;
+        enableNushellIntegration = true;
         settings = {
           add_newline = false;
 
           format = ''
-            $time$cmd_duration 󰜥 $directory ''${custom.direnv} $git_branch
+            $time$cmd_duration 󰜥 $username$hostname ''${custom.ssh}$directory ''${custom.direnv}$git_branch
             $character'';
+
+          username = {
+            style_user = "bg:blue fg:black";
+            style_root = "bg:red fg:black";
+            format = "[](bold fg:blue)[$user]($style)";
+            show_always = true;
+          };
+
+          hostname = {
+            ssh_only = false;
+            style = "bg:blue fg:black";
+            format = "[@$hostname]($style)[](bold fg:blue)";
+          };
+
+          custom.ssh = {
+            when = "test -n \"$SSH_CONNECTION\" -o -n \"$SSH_CLIENT\" -o -n \"$SSH_TTY\"";
+            shell = [
+              "bash"
+              "--norc"
+              "--noprofile"
+            ];
+            format = "[](bold fg:bright-blue)[SSH](bold bg:bright-blue fg:black)[](bold fg:bright-blue) ";
+          };
 
           character = {
             success_symbol = "[   ](bold fg:blue)";
@@ -124,7 +221,7 @@
               "--norc"
               "--noprofile"
             ];
-            format = "[](bold fg:bright-blue)[ ](bold bg:bright-blue fg:black)[! ](bold bg:bright-blue fg:bright-black)[](bold fg:bright-blue)";
+            format = "[](bold fg:bright-blue)[ ](bold bg:bright-blue fg:black)[! ](bold bg:bright-blue fg:bright-black)[ ](bold fg:bright-blue)";
           };
 
           git_branch = {
@@ -149,9 +246,6 @@
           memory_usage.disabled = true;
         };
       };
-
-      # -- Helix --
-      catppuccin.helix.enable = true;
 
       # ── GTK & QT theming ──────────────────────────────────────────────────────────────
 
@@ -396,8 +490,6 @@
       # };
 
       gtk.gtk4.theme = config.gtk.theme;
-      catppuccin.firefox.enable = true;
-
     };
 
 }

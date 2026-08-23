@@ -121,12 +121,19 @@
       # Git Configuration
       programs.git = {
         enable = true;
+
+        package = pkgs.git.override { withLibsecret = true; };
+
         signing.format = null;
         settings = {
+
+          credential.helper = "libsecret";
+
           user = {
             name = "rzi3d";
             email = "zackiesattaur@gmail.com";
           };
+
           init.defaultBranch = "main";
 
         };
@@ -265,26 +272,27 @@
             ];
 
             "terminal.integrated.profiles.linux" = {
+
               bash = {
                 path = "bash";
                 icon = "terminal-bash";
               };
-              zsh = {
-                path = "zsh";
-              };
+
               fish = {
                 path = "/etc/profiles/per-user/zackariyyasattaur/bin/fish";
               };
-              tmux = {
-                path = "tmux";
-                icon = "terminal-tmux";
+
+              nu = {
+                path = "/etc/profiles/per-user/zackariyyasattaur/bin/nu";
               };
-              pwsh = {
-                path = "pwsh";
-                icon = "terminal-powershell";
-              };
+
             };
-            "terminal.integrated.defaultProfile.linux" = "fish";
+            "terminal.integrated.defaultProfile.linux" = "nu";
+
+            "terminal.integrated.env.linux" = {
+              "SKIP_MICROFETCH" = "1";
+            };
+
             "C_Cpp.intelliSenseEngine" = "disabled";
             "files.insertFinalNewline" = true;
           };

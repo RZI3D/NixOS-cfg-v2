@@ -8,7 +8,9 @@
     "**/flutter/ephemeral": true,
     "**/Flutter/ephemeral": true,
     "**/.symlinks": true,
-    "**/.plugin_symlinks": true
+    "**/.plugin_symlinks": true,
+    "**/.jj": true
   },
-  "hide-files.files": []
+  "hide-files.files": [],
+  "git.enabled": false
 }
