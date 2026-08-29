@@ -8,61 +8,37 @@
   flake.nixosModules.selfHostedServices =
     { pkgs, config, ... }:
     let
-      replicationPkg =
-        ps:
-        ps.buildPythonPackage rec {
-          pname = "replication";
-          version = "0.9.11";
-          format = "wheel";
-
-          src = ps.fetchPypi {
-            inherit pname version;
-            format = "wheel";
-            dist = "py3";
-            python = "py3";
-            abi = "none";
-            platform = "any";
-            hash = "sha256-lLoGNtCx5+hertFLvA3d6HbD61JZlGQlPYyqtETdhh4=";
-          };
-
-          nativeBuildInputs = [ ps.pythonRelaxDepsHook ];
-
-          pythonRemoveDeps = [
-            "pyzmq"
-            "deepdiff"
-          ];
-
-          propagatedBuildInputs = [
-            ps.pyzmq
-            ps.deepdiff
-          ];
-
-          doCheck = false;
-        };
-
-      replication-server = pkgs.dockerTools.streamLayeredImage {
-        name = "replication-server";
+      devenvCiImage = pkgs.dockerTools.buildLayeredImage {
+        name = "devenv-ci";
         tag = "latest";
 
-        contents = [
-          (pkgs.python3.withPackages (ps: [
-            (replicationPkg ps)
-          ]))
-          pkgs.coreutils
-          pkgs.bash
+        fromImage = pkgs.dockerTools.pullImage {
+          imageName = "ghcr.io/cachix/devenv/devenv";
+          imageDigest = "sha256:770d57ba236961e23cd7d82314573084afcc473eb97b512fd244d214864f9233";
+          hash = "sha256-5ssn8JigkkDBlhB1irqhx404x8KUSvvVU3Fur0u/YNo=";
+          finalImageName = "ghcr.io/cachix/devenv/devenv";
+          finalImageTag = "latest";
+        };
+
+        contents = with pkgs; [
+          nodejs_22
+          curl
+          gnutar
+          gzip
+          zstd
+          rsync
+          jq
         ];
 
         config = {
-
-          Cmd = [
-            "bash"
-            "-c"
-            "exec replication.server -p \"$port\" -apwd \"$admin_password\" -spwd \"$password\" -t \"$timeout\" -l \"$log_level\""
+          User = "root";
+          Env = [
+            "PATH=/bin:/home/devenv/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/nix/var/nix/profiles/default/sbin"
+            "HOME=/root"
           ];
-
-          Env = [ "PYTHONUNBUFFERED=1" ];
         };
       };
+
     in
     {
 
@@ -108,11 +84,28 @@
         POSTGRES_DB=authentik
       '';
 
+      sops.templates."forgejo-runner-token".content = ''
+        TOKEN=${config.sops.placeholder."forgejo-runner-token"}
+      '';
+
+      systemd.services.build-devenv-ci-image = {
+        description = "Build and load devenv-ci image into Podman";
+        wantedBy = [ "multi-user.target" ];
+        after = [ "network-online.target" ];
+        requires = [ "podman.socket" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = "${pkgs.podman}/bin/podman load -i ${devenvCiImage}";
+        };
+      };
+
       virtualisation = {
         containers.enable = true;
         podman = {
           enable = true;
           dockerCompat = true;
+          dockerSocket.enable = true;
           defaultNetwork.settings.dns_enabled = true;
         };
       };
@@ -277,17 +270,6 @@
         };
         # ______ END AUTHENTIK STACK ______
 
-        multiuser-mdanim = {
-          image = "replication-server:latest";
-          imageStream = replication-server;
-          ports = [ "5555-5560:5555-5560" ];
-          environmentFiles = [ config.sops.templates."multiuser.env".path ];
-          environment = {
-            port = "5555";
-            log_level = "INFO";
-            timeout = "5000";
-          };
-        };
       };
 
       services.forgejo = {
@@ -298,6 +280,7 @@
           server = {
             DOMAIN = "git.rzi.dpdns.org";
             ROOT_URL = "https://git.rzi.dpdns.org/";
+            #LOCAL_ROOT_URL = "http://host.containers.internal:3000/";
             HTTP_PORT = 3000;
             LANDING_PAGE = "home";
           };
@@ -311,6 +294,40 @@
             ENABLE_OPENID_SIGNUP = false;
           };
 
+        };
+      };
+
+      systemd.services."gitea-runner-rzi\\x2dmac\\x2dpro" = {
+        unitConfig = {
+          # Ensure systemd waits for and builds the mount dependency for /mnt/DATA
+          RequiresMountsFor = [ "/mnt/DATA/SrvData/forgejo-runner/cache" ];
+        };
+        serviceConfig = {
+          # Expose the external cache path as writable inside the sandbox
+          ReadWritePaths = [ "/mnt/DATA/SrvData/forgejo-runner/cache" ];
+        };
+      };
+
+      services.gitea-actions-runner = {
+        package = pkgs.forgejo-runner;
+        instances.rzi-mac-pro = {
+          enable = true;
+          name = "rzi-mac-pro";
+          url = "http://localhost:3000/";
+          tokenFile = config.sops.templates."forgejo-runner-token".path;
+          settings = {
+            container.network = "host";
+            cache = {
+              dir = "/mnt/DATA/SrvData/forgejo-runner/cache";
+              offline_mode = true;
+              enabled = true;
+            };
+          };
+          labels = [
+            "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
+            "devenv:docker://localhost/devenv-ci:latest"
+            "nix:docker://nixos/nix"
+          ];
         };
       };
 

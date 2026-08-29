@@ -152,6 +152,7 @@
 
       home-manager.users.rzi = self.homeModules.rziModule;
       home-manager.backupFileExtension = "bkp";
+      home-manager.overwriteBackup = true;
       services.openssh = {
         enable = true;
         settings.PasswordAuthentication = true;
@@ -188,6 +189,7 @@
           "romm/STEAMGRIDDB_API_KEY" = { };
           "romm/OIDC_CLIENT_ID" = { };
           "romm/OIDC_CLIENT_SECRET" = { };
+          "forgejo-runner-token" = { };
         };
       };
 
@@ -216,72 +218,72 @@
       ];
 
       # BEGIN TEMP NET TESTING BLOCK
-#       networking = {
-#         iproute2.enable = true;
-#
-#         interfaces = {
-#           enp9s0.useDHCP = true;
-#
-#           enp10s0 = {
-#             useDHCP = false;
-#             ipv4.addresses = [
-#               {
-#                 address = "192.168.5.1";
-#                 prefixLength = 24;
-#               }
-#             ];
-#             # Put the routes directly on the interface definition!
-#             ipv4.routes = [
-#               {
-#                 address = "10.0.0.0";
-#                 prefixLength = 8;
-#                 via = "192.168.5.200";
-#               }
-#               {
-#                 address = "10.2.2.0";
-#                 prefixLength = 24;
-#                 via = "192.168.5.200";
-#               }
-#               {
-#                 address = "10.30.30.0";
-#                 prefixLength = 24;
-#                 via = "192.168.5.200";
-#               }
-#               {
-#                 address = "10.40.40.0";
-#                 prefixLength = 24;
-#                 via = "192.168.5.200";
-#               }
-#               {
-#                 address = "10.99.99.0";
-#                 prefixLength = 24;
-#                 via = "192.168.5.200";
-#               }
-#               {
-#                 address = "10.211.211.0";
-#                 prefixLength = 24;
-#                 via = "192.168.5.200";
-#               }
-#             ];
-#           };
-#         };
-#
-#       };
-#
-#       networking.firewall = {
-#         enable = true;
-#         trustedInterfaces = [ "enp10s0" ];
-#         extraCommands = ''
-#           ${pkgs.iptables}/bin/iptables -I FORWARD 1 -s 10.0.0.0/8 -i enp10s0 -o enp9s0 -j ACCEPT
-#           ${pkgs.iptables}/bin/iptables -I FORWARD 2 -d 10.0.0.0/8 -i enp9s0 -o enp10s0 -m state --state RELATED,ESTABLISHED -j ACCEPT
-#         '';
-#       };
-#
-#       networking.nat = {
-#         enable = true;
-#         externalInterface = "enp9s0";
-#         internalInterfaces = [ "enp10s0" ];
-#       };
+      #       networking = {
+      #         iproute2.enable = true;
+      #
+      #         interfaces = {
+      #           enp9s0.useDHCP = true;
+      #
+      #           enp10s0 = {
+      #             useDHCP = false;
+      #             ipv4.addresses = [
+      #               {
+      #                 address = "192.168.5.1";
+      #                 prefixLength = 24;
+      #               }
+      #             ];
+      #             # Put the routes directly on the interface definition!
+      #             ipv4.routes = [
+      #               {
+      #                 address = "10.0.0.0";
+      #                 prefixLength = 8;
+      #                 via = "192.168.5.200";
+      #               }
+      #               {
+      #                 address = "10.2.2.0";
+      #                 prefixLength = 24;
+      #                 via = "192.168.5.200";
+      #               }
+      #               {
+      #                 address = "10.30.30.0";
+      #                 prefixLength = 24;
+      #                 via = "192.168.5.200";
+      #               }
+      #               {
+      #                 address = "10.40.40.0";
+      #                 prefixLength = 24;
+      #                 via = "192.168.5.200";
+      #               }
+      #               {
+      #                 address = "10.99.99.0";
+      #                 prefixLength = 24;
+      #                 via = "192.168.5.200";
+      #               }
+      #               {
+      #                 address = "10.211.211.0";
+      #                 prefixLength = 24;
+      #                 via = "192.168.5.200";
+      #               }
+      #             ];
+      #           };
+      #         };
+      #
+      #       };
+      #
+      #       networking.firewall = {
+      #         enable = true;
+      #         trustedInterfaces = [ "enp10s0" ];
+      #         extraCommands = ''
+      #           ${pkgs.iptables}/bin/iptables -I FORWARD 1 -s 10.0.0.0/8 -i enp10s0 -o enp9s0 -j ACCEPT
+      #           ${pkgs.iptables}/bin/iptables -I FORWARD 2 -d 10.0.0.0/8 -i enp9s0 -o enp10s0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+      #         '';
+      #       };
+      #
+      #       networking.nat = {
+      #         enable = true;
+      #         externalInterface = "enp9s0";
+      #         internalInterfaces = [ "enp10s0" ];
+      #       };
 
       system.stateVersion = "26.05";
     };

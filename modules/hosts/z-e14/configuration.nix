@@ -267,6 +267,7 @@
       };
       home-manager.users.zackariyyasattaur = self.homeModules.zackariyyasattaurModuleE14;
       home-manager.backupFileExtension = "bkp";
+      home-manager.overwriteBackup = true;
       # # Enable the X11 windowing system (needed for SDDM even on Wayland)
       # services.xserver.enable = true;
 

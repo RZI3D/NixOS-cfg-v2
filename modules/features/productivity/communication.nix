@@ -9,7 +9,9 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        equibop
+        (discord.override {
+          withEquicord = true;
+        })
         ayugram-desktop
         zapzap
         parsec-bin
@@ -17,20 +19,20 @@
       ];
 
       xdg.desktopEntries = {
-#         discord = {
-#           name = "EquibBop (Optimized)";
-#           genericName = "Customizable Discord app";
-#           comment = "Equibop is a customizable and privacy friendly Discord desktop app!";
-#           exec = "equibop --ozone-platform=x11 --ignore-gpu-blocklist --disable-gpu-driver-bug-workarounds --use-gl=angle --use-angle=gl --enable-features=AcceleratedVideoDecodeLinuxGL,AcceleratedVideoDecodeLinuxZeroCopyGL,AcceleratedVideoEncoder,VaapiIgnoreDriverChecks %U";
-#           icon = "equibop"; # Pulls the official system Discord icon automatically
-#           terminal = false;
-#           categories = [
-#             "Network"
-#             "InstantMessaging"
-#             "Chat"
-#           ];
-#           mimeType = [ "x-scheme-handler/discord" ];
-#         };
+        #         discord = {
+        #           name = "EquibBop (Optimized)";
+        #           genericName = "Customizable Discord app";
+        #           comment = "Equibop is a customizable and privacy friendly Discord desktop app!";
+        #           exec = "equibop --ozone-platform=x11 --ignore-gpu-blocklist --disable-gpu-driver-bug-workarounds --use-gl=angle --use-angle=gl --enable-features=AcceleratedVideoDecodeLinuxGL,AcceleratedVideoDecodeLinuxZeroCopyGL,AcceleratedVideoEncoder,VaapiIgnoreDriverChecks %U";
+        #           icon = "equibop"; # Pulls the official system Discord icon automatically
+        #           terminal = false;
+        #           categories = [
+        #             "Network"
+        #             "InstantMessaging"
+        #             "Chat"
+        #           ];
+        #           mimeType = [ "x-scheme-handler/discord" ];
+        #         };
       };
 
     };

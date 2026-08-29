@@ -295,6 +295,16 @@
 
             "C_Cpp.intelliSenseEngine" = "disabled";
             "files.insertFinalNewline" = true;
+
+            "yaml.disableSchemaDetection" = [
+              "**/.github/workflows/*.yml"
+              "**/.github/workflows/*.yaml"
+              "**/.gitea/workflows/*.yml"
+              "**/.gitea/workflows/*.yaml"
+              "**/.forgejo/workflows/*.yml"
+              "**/.forgejo/workflows/*.yaml"
+            ];
+
           };
         };
 
