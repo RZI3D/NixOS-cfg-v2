@@ -91,7 +91,7 @@
           def la [path = .] { ls -a $path | sort-by type name | table --icons -i false }
           def lt [path = .] { eza --tree $path }
           def ns [] { ^${lib.getExe pkgs.nix-search-tv} print | fzf --preview '${lib.getExe pkgs.nix-search-tv} preview {}' --scheme history | str trim }
-          def p [prompt] { ${lib.getExe pkgs.gum} spin --spinner dot --title "Thinking..." --show-output -- pi --no-extensions -p "$prompt" | , mdcat -}
+          def p [prompt] { ${lib.getExe pkgs.gum} spin --spinner dot --title "Thinking..." --show-output -- pi --no-extensions -p $prompt | , mdcat -}
 
           if ($nu.is-interactive) and not ($env.SKIP_MICROFETCH? | default false | into bool) {
               ^${lib.getExe pkgs.microfetch}
