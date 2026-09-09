@@ -11,7 +11,7 @@
         homeManager
         llamaSwap
         mcServers
-        selfHostedServices
+        selfhosted
         #romMServer
       ];
       nixpkgs.overlays = [
@@ -164,32 +164,6 @@
         age.keyFile = "/home/rzi/.config/sops/age/keys.txt";
         secrets = {
           "playit-secret" = { };
-
-          "multiuser-password" = { };
-          "multiuser-admin-password" = { };
-
-          "grimmory/db_user_password" = { };
-          "grimmory/db_root_password" = { };
-
-          "authentik/pg_pass" = { };
-          "authentik/secret_key" = { };
-
-          "cloudflared-credentials" = { };
-
-          "romm/OIDC_CLIENT_SECRET" = { };
-          "romm/OIDC_CLIENT_ID" = { };
-          "romm/MARIADB_ROOT_PASSWORD" = { };
-          "romm/MARIADB_PASSWORD" = { };
-          "romm/DB_PASSWD" = { };
-          "romm/ROMM_AUTH_SECRET_KEY" = { };
-          "romm/IGDB_CLIENT_ID" = { };
-          "romm/IGDB_CLIENT_SECRET" = { };
-          "romm/SCREENSCRAPER_USER" = { };
-          "romm/SCREENSCRAPER_PASSWORD" = { };
-          "romm/STEAMGRIDDB_API_KEY" = { };
-          "romm/OIDC_CLIENT_ID" = { };
-          "romm/OIDC_CLIENT_SECRET" = { };
-          "forgejo-runner-token" = { };
         };
       };
 
