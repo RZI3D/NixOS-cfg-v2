@@ -129,6 +129,14 @@
     "type": "path",
     "path": "../pkgs/rzi-inkscape-plotter-tools"
   },
+  "snowfall-lib": {
+    "type": "github",
+    "owner": "snowfallorg",
+    "repo": "lib",
+    "rev": "6ee3542cb459ca4b038cfe50ceb8797f05cdabad",
+    "narHash": "sha256-4R5WV74NHhPk21ctoPmjL7nQ6txDnoBLwSWULvIw0TY=",
+    "lastModified": 1784328457
+  },
   "sops-nix": {
     "type": "github",
     "owner": "Mic92",

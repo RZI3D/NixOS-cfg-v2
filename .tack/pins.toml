@@ -69,8 +69,8 @@ url = "github:nix-community/nixGL"
 [inputs.helium-flake]
 url = "github:oxcl/nix-flake-helium-browser"
 
-[inputs.rzi-plotter]
-url = "path:pkgs/rzi-inkscape-plotter-tools"
+# [inputs.rzi-plotter]
+# url = "path:pkgs/rzi-inkscape-plotter-tools"
 
 [inputs.playit-nixos-module]
 url = "github:pedorich-n/playit-nixos-module"
@@ -90,3 +90,6 @@ url = "github:nix-community/nix-index-database"
 [inputs.umbriel]
 url = "git+https://github.com/noctalia-dev/umbriel"
 submodules = true
+
+[inputs.snowfall-lib]
+url = "github:snowfallorg/lib"

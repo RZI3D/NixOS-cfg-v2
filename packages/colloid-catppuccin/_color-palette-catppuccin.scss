@@ -1,0 +1,104 @@
+// Catppuccin Theme Color Palette
+
+// Red
+$red-light: #f38ba8;
+$red-dark: 
+#ed8796;
+
+// Pink
+$pink-light: #f5c2e7;
+$pink-dark: 
+#f5bde6;
+
+// Purple
+$purple-light: #cba6f7;
+$purple-dark: 
+#c6a0f6;
+
+// Blue
+$blue-light: #89b4fa;
+$blue-dark: 
+#8aadf4;
+
+// Teal
+$teal-light: #94e2d5;
+$teal-dark: 
+#8bd5ca;
+
+// Green
+$green-light: #a6e3a1;
+$green-dark: 
+#a6da95;
+
+// Yellow
+$yellow-light: #f9e2af;
+$yellow-dark: 
+#eed49f;
+
+// Orange
+$orange-light: #fab387;
+$orange-dark: 
+#f5a97f;
+
+// Muave
+$muave-light: #cba6f7;
+$muave-dark:
+#cba6f7;
+
+// Grey
+$grey-050: #cdd6f4;
+$grey-100: 
+#bac2de;
+$grey-150: 
+#a6adc8;
+$grey-200: 
+#a6adc8;
+$grey-250: 
+#9399b2;
+$grey-300: 
+#7f849c;
+$grey-350: 
+#7f849c;
+$grey-400: 
+#6c7086;
+$grey-450: 
+#585b70;
+$grey-500: 
+#585b70;
+$grey-550: 
+#45475a;
+$grey-600: 
+#313244;
+$grey-650: 
+#313244;
+$grey-700: 
+#1e1e2e;
+$grey-750: 
+#1e1e2e;
+$grey-800: 
+#181825;
+$grey-850: 
+#11111b;
+$grey-900: 
+#11111b;
+$grey-950: 
+#11111b;
+
+// White
+$white: #cdd6f4;
+
+// Black
+$black: #11111b;
+
+// Button
+$button-close: if($variant == 'light', $red-dark, $red-light);
+$button-max: if($variant == 'light', $green-dark, $green-light);
+$button-min: if($variant == 'light', $yellow-dark, $yellow-light);
+
+// Link
+$links: if($variant == 'light', #04a5e5, 
+#99d1db);
+
+// Theme
+$default-light: $muave-light;
+$default-dark: $muave-dark;

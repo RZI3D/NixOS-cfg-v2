@@ -32,7 +32,6 @@
       nixpkgs.overlays = [
         self.overlays.patched-pkgs
         inputs.nix4vscode.overlays.default
-        inputs.nix-cachyos-kernel.overlays.default
         inputs.dolphin-overlay.overlays.default
         inputs.nixgl.overlay
         inputs.helium-flake.overlays.default
@@ -52,15 +51,11 @@
         "electron-39.8.10"
       ];
 
-      boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
-
       # Binary cache for CachyOS latest kernel
       nix.settings.substituters = [
-        "https://attic.xuyh0120.win/lantian"
         "https://noctalia.cachix.org"
       ];
       nix.settings.trusted-public-keys = [
-        "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       ];
       nix.settings.trusted-users = [
@@ -72,7 +67,8 @@
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
       boot.loader.systemd-boot.configurationLimit = 5;
-      boot.blacklistedKernelModules = [ "apple_mfi_fastcharge" ]; # interferes with palera1n
+      rzi.kernels.cachyos.enable = true;
+
       boot.kernel.sysctl = {
         "fs.inotify.max_user_watches" = 524288;
         "fs.inotify.max_user_instances" = 512; # optional but helps too
@@ -82,7 +78,6 @@
         "zswap.compressor=zstd"
         "zswap.zpool=zsmalloc"
         "pci=noaer"
-        "thinkpad_acpi.fan_control=1"
       ];
       swapDevices = [
         {
