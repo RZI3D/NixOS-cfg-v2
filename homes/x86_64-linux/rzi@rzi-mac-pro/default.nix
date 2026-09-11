@@ -10,6 +10,9 @@
   ];
 
   rzi.theme.enable = true;
+  rzi.media.enable = true;
+  rzi.recording.enable = true;
+  rzi.games.enable = true;
 
   xdg.userDirs = {
     enable = true;

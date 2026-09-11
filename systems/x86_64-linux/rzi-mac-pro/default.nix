@@ -9,20 +9,11 @@
     ./hardware.nix
     ./rx580.nix
     inputs.sops-nix.nixosModules.sops
-    # games
-    # homeManager
-    # llamaSwap
-    # mcServers
-    # selfhosted is auto-available via Snowfall's modules/nixos/ discovery —
-    # enable it below with the option flag instead of importing it directly
+    # games / home-manager / llama-swap / minecraft-servers / selfhosted are all
+    # auto-discovered under modules/nixos and toggled with `rzi.*.enable` below.
   ];
 
-  # rzi.system.selfhosted.enable = true; # assuming that's the option path you gave it
-
-  nixpkgs.overlays = [
-    #inputs.self.overlays.patched-pkgs
-    inputs.nixgl.overlay
-  ];
+  nixpkgs.overlays = [ ];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
@@ -45,9 +36,14 @@
     "flakes"
     "pipe-operators"
   ];
-  nixpkgs.config.allowUnfree = true;
-  nix.generateRegistryFromInputs = true; # Fixes `error: attribute 'self' missing` in flake-utils-plus
+  nix.generateRegistryFromInputs = true;
 
+  rzi.games.enable = true;
+  rzi.llama-swap.enable = true;
+  rzi.selfhosted.enable = true;
+  rzi.minecraft-servers.enable = true;
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
   programs.corectrl.enable = true;
 
   environment.systemPackages = with pkgs; [

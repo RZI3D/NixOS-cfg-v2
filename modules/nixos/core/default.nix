@@ -19,9 +19,14 @@ in
       wireplumber
       usbutils
       curl
-      # kdePackages.kwallet
-      # kdePackages.kwalletmanager
-      # kdePackages.kwallet-pam
+      ripgrep
+      ffmpeg
+      libnotify
+      playerctl
+      wl-clipboard
+      brightnessctl
+      wireguard-tools
+      proton-vpn
     ];
   };
 }

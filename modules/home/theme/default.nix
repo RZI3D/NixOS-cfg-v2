@@ -39,6 +39,10 @@ in
 
     home.packages = with pkgs; [
       comma
+      fzf
+      kdePackages.qtsvg
+      libsForQt5.qt5ct
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.qt6ct-kde
     ];
 
   };

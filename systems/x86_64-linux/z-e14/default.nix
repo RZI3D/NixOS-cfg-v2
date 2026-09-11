@@ -38,13 +38,24 @@
   ];
 
   # Nix configuration
-  nixpkgs.config.allowUnfree = true;
   nix.generateRegistryFromInputs = true; # Fixes `error: attribute 'self' missing` in flake-utils-plus
   programs.tack.enable = true;
+  programs.nh.enable = true;
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
     "pipe-operators"
+  ];
+  nix.settings.trusted-users = [
+    "root"
+    "zackariyyasattaur"
+  ];
+  # Binary cache for the Noctalia packages
+  nix.settings.substituters = [
+    "https://noctalia.cachix.org"
+  ];
+  nix.settings.trusted-public-keys = [
+    "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
   ];
 
   # Networking configuration
@@ -81,6 +92,53 @@
 
   rzi.corepkgs.enable = true;
   rzi.umbriel.enable = true;
+  rzi.niri.enable = true; # backup compositor while Umbriel is still beta
+  rzi.noctalia.greeter.enable = true;
+  rzi.virtualization.enable = true;
+  rzi.games.enable = true;
+  rzi.network-analysis.enable = true;
+
+  # Fonts (were in the old host configuration)
+  fonts.packages = with pkgs; [
+    rubik
+    monocraft
+    nerd-fonts.ubuntu
+    nerd-fonts.jetbrains-mono
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
+    material-symbols
+    google-fonts
+  ];
+
+  # Desktop / input services
+  services.libinput.enable = true;
+  services.geoclue2.enable = true; # Night light/location
+  security.pam.services.login.kwallet.enable = true;
+
+  # Devices & remote access
+  services.usbmuxd = {
+    enable = true;
+    package = pkgs.usbmuxd2;
+  };
+  services.cloudflare-warp.enable = true;
+  services.sunshine = {
+    enable = true;
+    autoStart = true; # optional: starts Sunshine automatically on login
+    capSysAdmin = true;
+    openFirewall = true;
+  };
+
+  virtualisation.waydroid.enable = true;
+  virtualisation.waydroid.package = pkgs.waydroid-nftables;
+
+  environment.systemPackages = with pkgs; [
+    catppuccin-sddm
+    evtest
+    libwebp
+  ];
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
 
   # Sound configuration
   services.pipewire = {

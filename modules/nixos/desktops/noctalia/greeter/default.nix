@@ -18,6 +18,13 @@ in
     security.pam.services.greetd.kwallet.enable = true;
     security.pam.services.greetd.enableGnomeKeyring.enable = true;
 
+    environment.systemPackages = with pkgs; [
+      kdePackages.kwallet
+      kdePackages.kwalletmanager
+      kdePackages.kwallet-pam
+    ];
+    services.dbus.packages = [ pkgs.kdePackages.kwallet ];
+
     programs.noctalia-greeter = {
       enable = true;
       settings = {

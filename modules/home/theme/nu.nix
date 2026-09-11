@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -34,7 +33,8 @@
       def ns [] { ^${lib.getExe pkgs.nix-search-tv} print | fzf --preview '${lib.getExe pkgs.nix-search-tv} preview {}' --scheme history | str trim }
       def p [prompt] { ${lib.getExe pkgs.gum} spin --spinner dot --title "Thinking..." --show-output -- pi --no-extensions -p $prompt | , mdcat -}
 
-      if ($nu.is-interactive) and not ($env.SKIP_MICROFETCH? | default false | into bool) {
+      if ($nu.is-interactive) and not ($env.SKIP_MICROFETCH? | default 0 | into bool) {
+
           ^${lib.getExe pkgs.microfetch}
       }
     '';

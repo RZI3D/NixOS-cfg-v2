@@ -7,6 +7,10 @@
 }:
 let
   cfg = config.rzi.umbriel;
+
+  # Same reason as productivity-common: keep the wrapped Dolphin local so the
+  # `.dev`-output side effect of the overlay doesn't leak onto every host.
+  pkgs' = pkgs.extend inputs.dolphin-overlay.overlays.default;
 in
 {
   options.rzi.umbriel.enable = lib.mkEnableOption "Umbriel WM (hmModule)";
@@ -103,7 +107,10 @@ in
           # Launchers / apps
           "Mod" = "overview-toggle";
           "Mod+Return" = "spawn:${lib.getExe pkgs.kitty}";
-          "Mod+E" = "spawn:${lib.getExe' pkgs.kdePackages.dolphin "dolphin"}";
+          "Mod+E" = "spawn:${lib.getExe' pkgs'.kdePackages.dolphin "dolphin"}";
+
+          "Mod+D" = "scratchpad-toggle";
+          "Mod+Shift+D" = "window-toggle-scratchpad";
 
           # Core Noctalia
           "Mod+Space" = "spawn:noctalia msg panel-toggle launcher";
