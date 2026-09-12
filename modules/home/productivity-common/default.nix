@@ -15,16 +15,18 @@ let
   pkgs' = pkgs.extend inputs.dolphin-overlay.overlays.default;
 in
 {
-  options.rzi.productivity-common.enable = lib.mkEnableOption "Common productivity packages (hmModule)";
+  options.rzi.productivity-common.enable = lib.mkEnableOption "Common productivity packages (nixosModule)";
 
   config = lib.mkIf cfg.enable {
+    programs.superfile.enable = true;
+
     home.packages = with pkgs; [
       pkgs'.kdePackages.dolphin
       kdePackages.ark
       motrix-next
       kdePackages.kate
       kdePackages.gwenview
-      yazi
+      # yazi # superfile is better imo
       easyeffects
       kdePackages.filelight
       qalculate-gtk

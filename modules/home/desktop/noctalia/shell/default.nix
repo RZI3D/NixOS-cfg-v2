@@ -25,7 +25,6 @@ in
       zbar
       curl
       jq
-      ffmpeg-full
       bc
       mpv
       swappy

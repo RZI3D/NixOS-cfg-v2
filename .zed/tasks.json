@@ -3,7 +3,7 @@
 // Example:
 [
   {
-    "label": "Nix: rswitch current system",
+    "label": "Nix: Rebuild & Switch this machine",
     "command": "nh os switch .",
     //"args": [],
     // Env overrides for the command, will be appended to the terminal's environment from the settings.
@@ -58,5 +58,19 @@
     // Hooks that cause this task to run automatically on certain events:
     // * `create_worktree` — run this task after creating a new git worktree (e.g. to install dependencies or copy untracked config files into it)
     // "hooks": ["create_worktree"]
+  },
+
+  {
+    "label": "Nix: Rebuild & Switch macpro",
+    "command": "nh os switch .#rzi-mac-pro --target-host root@rzi-mac-pro",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": false,
+    "save": "all",
   },
 ]

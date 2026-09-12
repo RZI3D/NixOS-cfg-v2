@@ -12,6 +12,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
+      flightgear
       lumafly
       eden
       osu-lazer-bin

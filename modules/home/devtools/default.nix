@@ -190,7 +190,7 @@ in
           "editor.semanticHighlighting.enabled" = true;
           "workbench.tree.renderIndentGuides" = "always";
           "workbench.tree.indent" = 12;
-          "todo-tree.ripgrep.ripgrep" = "/run/current-system/sw/bin/rg";
+          "todo-tree.ripgrep.ripgrep" = "${lib.getExe pkgs.ripgrep}";
           "vscode_vibrancy.theme" = "Catppuccin Mocha";
           "terminal.integrated.gpuAcceleration" = "off";
           "vscode_vibrancy.opacity" = 0.9;

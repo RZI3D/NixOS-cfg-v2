@@ -15,17 +15,20 @@ in
   # Enables the same set the old `selfhosted` aggregate imported.
   # `multiuser-server` is intentionally left opt-in (as before).
   config = lib.mkIf cfg.enable {
-    rzi.selfhosted.podman.enable = true;
-    rzi.selfhosted.asset-server.enable = true;
-    rzi.selfhosted.audiobookshelf.enable = true;
-    rzi.selfhosted.authentik.enable = true;
-    rzi.selfhosted.cloudflared.enable = true;
-    rzi.selfhosted.filebrowser.enable = true;
-    rzi.selfhosted.forgejo-runner.enable = true;
-    rzi.selfhosted.forgejo-server.enable = true;
-    rzi.selfhosted.grimmory.enable = true;
-    rzi.selfhosted.immich.enable = true;
-    rzi.selfhosted.jellyfin.enable = true;
-    rzi.selfhosted.romm.enable = true;
+    rzi.selfhosted = {
+      podman.enable = true;
+      asset-server.enable = true;
+      audiobookshelf.enable = true;
+      authentik.enable = true;
+      cloudflared.enable = true;
+      filebrowser.enable = true;
+      forgejo-runner.enable = true;
+      forgejo-server.enable = true;
+      grimmory.enable = true;
+      immich.enable = true;
+      jellyfin.enable = true;
+      romm.enable = true;
+      silverbullet.enable = true;
+    };
   };
 }

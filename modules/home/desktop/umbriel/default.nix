@@ -18,7 +18,7 @@ in
   config = lib.mkIf cfg.enable {
 
     home.packages = with pkgs; [
-      pkgs.bibata-cursors
+      bibata-cursors
     ];
 
     programs.umbriel = {
@@ -31,20 +31,42 @@ in
 
         layout.gap = 5;
 
+        # animation.windows_in = {
+        #   enabled = true;
+        #   duration_ms = 150;
+        #   curve = "easeout";
+        #   style = "popin"; # "popin", "zoom", "slide", "fade", or "none"
+        #   scale = 0.2; # 0.1-1.0, used by "popin"
+        # };
+
         animation.windows_in = {
-          enabled = true;
-          duration_ms = 150;
-          curve = "easeout";
-          style = "popin"; # "popin", "zoom", "slide", "fade", or "none"
-          scale = 0.2; # 0.1-1.0, used by "popin"
+          duration_ms = 200;
+          curve = "ease";
+          shader = "/home/zackariyyasattaur/.local/share/umbriel/shaders/window_in.glsl";
         };
 
+        # animation.windows_out = {
+        #   enabled = true;
+        #   duration_ms = 150;
+        #   curve = "easein";
+        #   style = "slide"; # "fade" or "slide"
+        # };
+
         animation.windows_out = {
-          enabled = true;
-          duration_ms = 150;
-          curve = "easein";
-          style = "slide"; # "fade" or "slide"
+          duration_ms = 500;
+          curve = "easeout";
+          shader = "/home/zackariyyasattaur/.local/share/umbriel/shaders/window_out.glsl";
         };
+
+        layer_rule = [
+          {
+            match.namespace = ''^noctalia-(bar-[^"]+|notification|dock|panel|attached-panel|osd|desktop-widget-[^"]*)$'';
+            blur = true;
+            blur_ignore_alpha = 0.5;
+            blur_popups = true;
+            blur_optimized = false;
+          }
+        ];
 
         window_rule = [
           {
@@ -55,14 +77,14 @@ in
             match.app_id = "^(Emulator|zenity|xdg-desktop-portal|qalculate-gtk|org\\.pulseaudio\\.pavucontrol)$";
             default_floating = true;
           }
-          {
-            match.is_focused = false;
-            opacity = 0.85;
-          }
-          {
-            match.is_focused = true;
-            opacity = 1.0;
-          }
+          # {
+          #   match.is_focused = false;
+          #   opacity = 0.85;
+          # }
+          # {
+          #   match.is_focused = true;
+          #   opacity = 1.0;
+          # }
           {
             match.app_id = "^dev.noctalia.Noctalia$";
             default_floating = true;
@@ -75,10 +97,10 @@ in
           {
             match.app_id = "^dev.noctalia.UmbrielSharePicker$";
             default_floating = true;
-            default_size = [
-              800
-              600
-            ];
+            default_floating_size_px = {
+              height = 800;
+              width = 600;
+            };
             default_position = {
               x = 32;
               y = 32;
@@ -229,12 +251,12 @@ in
           "Mod+Ctrl+9" = "column-move-to-workspace:9";
 
           # Layout & sizing
-          "Mod+BracketLeft" = "window-consume-left";
-          "Mod+BracketRight" = "window-expel-right";
-          "Mod+Period" = "window-expel-right";
+          # "Mod+BracketLeft" = "window-consume-left";
+          # "Mod+BracketRight" = "window-expel-right";
+          # "Mod+Period" = "window-expel-right";
 
-          "Mod+R" = "window-cycle-width";
-          "Mod+Shift+R" = "window-cycle-width-back";
+          # "Mod+R" = "window-cycle-width";
+          # "Mod+Shift+R" = "window-cycle-width-back";
 
           "Mod+F" = "window-toggle-maximize";
           "Mod+Shift+F" = "window-toggle-fullscreen";
@@ -242,8 +264,8 @@ in
 
           "Mod+C" = "column-center";
 
-          "Mod+Minus" = "window-modify-width:-0.1";
-          "Mod+equal" = "window-modify-width:+0.1";
+          # "Mod+Minus" = "window-modify-width:-0.1";
+          # "Mod+equal" = "window-modify-width:+0.1";
 
           "Mod+V" = "window-toggle-floating";
           "Mod+Shift+V" = "window-focus-switch-floating";

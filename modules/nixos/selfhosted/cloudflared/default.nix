@@ -27,6 +27,7 @@ in
           "mcmap.rzi.dpdns.org" = "http://localhost:8100";
           "assets.rzi.dpdns.org" = "http://localhost:8091";
           "git.rzi.dpdns.org" = "http://localhost:3000";
+          "notes.rzi.dpdns.org" = "http://localhost:3005";
         };
       };
     };

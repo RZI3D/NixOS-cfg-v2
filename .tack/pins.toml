@@ -93,3 +93,6 @@ submodules = true
 
 [inputs.snowfall-lib]
 url = "github:snowfallorg/lib"
+
+[inputs.hermes-agent]
+url = "github:NousResearch/hermes-agent"

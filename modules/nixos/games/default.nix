@@ -14,7 +14,7 @@ in
   config = lib.mkIf cfg.enable {
     programs.steam = {
       enable = true;
-      package = pkgs.steam.override { extraArgs = "-system-composer"; };
+      package = pkgs.steam; # .override { extraArgs = "-system-composer"; };
     };
 
     programs.gamescope = {

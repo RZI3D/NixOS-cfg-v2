@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  inputs,
   pkgs,
   ...
 }:
@@ -20,12 +19,7 @@ in
       usbutils
       curl
       ripgrep
-      ffmpeg
       libnotify
-      playerctl
-      wl-clipboard
-      brightnessctl
-      wireguard-tools
       proton-vpn
     ];
   };

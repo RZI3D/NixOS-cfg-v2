@@ -1,7 +1,6 @@
 {
   inputs,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -42,6 +41,7 @@
   rzi.llama-swap.enable = true;
   rzi.selfhosted.enable = true;
   rzi.minecraft-servers.enable = true;
+  rzi.hermes.enable = true;
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   programs.corectrl.enable = true;
@@ -87,6 +87,9 @@
       ];
     };
   };
+
+  programs.fish.enable = true;
+
   users.users.rzi = {
     isNormalUser = true;
     extraGroups = [
@@ -95,6 +98,7 @@
       "video"
       "render"
     ];
+    shell = pkgs.fish;
     hashedPassword = "$6$OvnYl4fZQAvjeabE$EsDp260VXyumFBPEpKjSwaul8VszF9qnh9JHTvTNyopLuXk6UGdGsv4UWz5/JOXwap1KdjrhhnSukoClbhX1.1";
   };
 

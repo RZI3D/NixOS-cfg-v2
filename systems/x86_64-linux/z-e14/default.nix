@@ -1,7 +1,6 @@
 {
   inputs,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -15,19 +14,23 @@
 
   # Bootloader & Kernel configuration
   rzi.kernels.cachyos.enable = true;
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
-  boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = 524288;
-    "fs.inotify.max_user_instances" = 512; # optional but helps too
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      systemd-boot.configurationLimit = 5;
+    };
+    kernel.sysctl = {
+      "fs.inotify.max_user_watches" = 524288;
+      "fs.inotify.max_user_instances" = 512; # optional but helps too
+    };
+    kernelParams = [
+      "zswap.enabled=1"
+      "zswap.compressor=zstd"
+      "zswap.zpool=zsmalloc"
+      "pci=noaer"
+    ];
   };
-  boot.kernelParams = [
-    "zswap.enabled=1"
-    "zswap.compressor=zstd"
-    "zswap.zpool=zsmalloc"
-    "pci=noaer"
-  ];
 
   # Memory & Swap configuration
   swapDevices = [
@@ -120,7 +123,6 @@
     enable = true;
     package = pkgs.usbmuxd2;
   };
-  services.cloudflare-warp.enable = true;
   services.sunshine = {
     enable = true;
     autoStart = true; # optional: starts Sunshine automatically on login
@@ -135,6 +137,7 @@
     catppuccin-sddm
     evtest
     libwebp
+    pkgs.rzi.iloader-latest
   ];
 
   home-manager.useGlobalPkgs = true;
@@ -154,6 +157,15 @@
     General = {
       Experimental = true;
     };
+  };
+
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      cups-filters
+      cups-browsed
+      rzi.hplip-patched
+    ];
   };
 
   hardware.uinput.enable = true; # Trackpad support
