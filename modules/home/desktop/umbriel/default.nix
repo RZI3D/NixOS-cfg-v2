@@ -86,15 +86,6 @@ in
           #   opacity = 1.0;
           # }
           {
-            match.app_id = "^dev.noctalia.Noctalia$";
-            default_floating = true;
-            default_size = [
-              800
-              1000
-            ];
-            blur_popups = false;
-          }
-          {
             match.app_id = "^dev.noctalia.UmbrielSharePicker$";
             default_floating = true;
             default_floating_size_px = {
@@ -108,20 +99,25 @@ in
             };
           }
           {
-            match.title = "^notificationtoasts_.+_desktop";
-            default_position = {
-              x = 0;
-              y = 0;
-              anchor = "bottom_right";
+            match.title = "^termfilechooser$";
+            default_floating = true;
+            default_floating_size_px = {
+              width = 1200;
+              height = 800;
             };
-            default_focused = false;
-            default_pinned = true;
+            blur = true;
+            blur_optimized = false;
+          }
+          {
+            match.title = "^Waydroid$";
+            default_scrolling_extent = 0.25;
           }
         ];
 
         input = {
           keyboard.layout = "us";
           touchpad.natural_scroll = true;
+          touchpad.disable_while_typing = false;
           cursor.theme = "Bibata-Modern-Ice";
         };
 
@@ -133,20 +129,6 @@ in
 
           "Mod+D" = "scratchpad-toggle";
           "Mod+Shift+D" = "window-toggle-scratchpad";
-
-          # Core Noctalia
-          "Mod+Space" = "spawn:noctalia msg panel-toggle launcher";
-          "Mod+S" = "spawn:noctalia msg settings-toggle";
-          "Alt+Tab" = "spawn:noctalia msg window-switcher";
-          "Ctrl+Alt+V" = "spawn:noctalia msg panel-toggle clipboard";
-          "Ctrl+Alt+Delete" = "spawn:noctalia msg panel-toggle session";
-
-          # Audio & brightness (Noctalia)
-          "XF86AudioRaiseVolume" = "spawn:noctalia msg volume-up";
-          "XF86AudioLowerVolume" = "spawn:noctalia msg volume-down";
-          "XF86AudioMute" = "spawn:noctalia msg volume-mute";
-          "XF86MonBrightnessUp" = "spawn:noctalia msg brightness-up";
-          "XF86MonBrightnessDown" = "spawn:noctalia msg brightness-down";
 
           # Extra media
           "XF86AudioMicMute" = "spawn:wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
@@ -269,11 +251,6 @@ in
 
           "Mod+V" = "window-toggle-floating";
           "Mod+Shift+V" = "window-focus-switch-floating";
-
-          # Screenshots
-          "Print" = "spawn:noctalia msg screenshot-region";
-          "Ctrl+Print" = "spawn:noctalia msg screenshot-fullscreen";
-          "Alt+Print" = "spawn:noctalia msg screenshot-window";
         };
       };
     };

@@ -12,12 +12,11 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      flightgear
+      # flightgear
       lumafly
       eden
       osu-lazer-bin
       moonlight-qt
-      javaPackages.compiler.temurin-bin.jdk-25
     ];
   };
 }

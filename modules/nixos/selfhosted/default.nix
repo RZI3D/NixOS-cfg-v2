@@ -21,7 +21,7 @@ in
       audiobookshelf.enable = true;
       authentik.enable = true;
       cloudflared.enable = true;
-      filebrowser.enable = true;
+      opencloud.enable = true;
       forgejo-runner.enable = true;
       forgejo-server.enable = true;
       grimmory.enable = true;

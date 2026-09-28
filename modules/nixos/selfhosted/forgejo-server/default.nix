@@ -18,7 +18,7 @@ in
         server = {
           DOMAIN = "git.rzi.dpdns.org";
           ROOT_URL = "https://git.rzi.dpdns.org/";
-          HTTP_PORT = 3000;
+          HTTP_PORT = 4500;
           LANDING_PAGE = "home";
         };
         ui = {

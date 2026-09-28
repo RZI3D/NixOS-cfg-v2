@@ -37,6 +37,9 @@ inputs.wrapper-modules.wrappers.niri.wrap {
     input = {
       keyboard.xkb.layout = "us";
 
+      # Let the power button reach the keybinds below instead of sleeping.
+      disable-power-key-handling = { };
+
       touchpad = {
         tap = { };
         natural-scroll = { };
@@ -177,6 +180,14 @@ inputs.wrapper-modules.wrappers.niri.wrap {
       ];
 
       "Ctrl+Alt+Delete".spawn = [
+        "noctalia"
+        "msg"
+        "panel-toggle"
+        "session"
+      ];
+
+      # Hardware power button.
+      "XF86PowerOff".spawn = [
         "noctalia"
         "msg"
         "panel-toggle"

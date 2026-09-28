@@ -89,7 +89,16 @@ in
 
     programs.git = {
       enable = true;
-      package = pkgs.git.override { withLibsecret = true; };
+
+      package =
+        (pkgs.git.override {
+          withLibsecret = true;
+        }).overrideAttrs
+          (old: {
+            doCheck = false;
+            doInstallCheck = false;
+          });
+
       signing.format = null;
       settings = {
         credential.helper = "libsecret";

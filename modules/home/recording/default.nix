@@ -21,7 +21,7 @@ in
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
         inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.vinci-flow
-        obs-advanced-masks
+        # obs-advanced-masks
         obs-backgroundremoval
         obs-pipewire-audio-capture
         obs-vaapi

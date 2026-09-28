@@ -45,6 +45,20 @@
 
       }
 
+      def h264-to-dnx [
+        ...files: path
+        --profile (-p): string = "dnxhr_hq"   # dnxhr_lb, dnxhr_sq, dnxhr_hq, dnxhr_hqx
+      ] {
+        let pix = if $profile == "dnxhr_hqx" { "yuv422p10le" } else { "yuv422p" }
+
+        for f in $files {
+          let p = ($f | path parse)
+          let out = ($p | update stem $"($p.stem).dnxhr" | update extension "mov" | path join)
+
+          ^ffmpeg -nostdin -n -i $f -c:v dnxhd -profile:v $profile -pix_fmt $pix -c:a pcm_s16le $out
+        }
+      }
+
       if ($nu.is-interactive) and not ($env.SKIP_MICROFETCH? | default 0 | into bool) {
 
           ^${lib.getExe pkgs.microfetch}

@@ -23,6 +23,7 @@
 
   rzi.umbriel.enable = true;
   rzi.noctalia.shell.enable = true;
+  rzi.termfilechooser-portal.enable = true;
   rzi.theme.enable = true;
   rzi.browsers.enable = true;
   rzi.productivity-common.enable = true;

@@ -115,6 +115,9 @@
 
   # Desktop / input services
   services.libinput.enable = true;
+  # Do not power the machine off on the power button; the compositor binds
+  # XF86PowerOff to the Noctalia session panel instead.
+  services.logind.settings.Login.HandlePowerKey = "ignore";
   services.geoclue2.enable = true; # Night light/location
   security.pam.services.login.kwallet.enable = true;
 
@@ -131,7 +134,7 @@
   };
 
   virtualisation.waydroid.enable = true;
-  virtualisation.waydroid.package = pkgs.waydroid-nftables;
+  networking.firewall.trustedInterfaces = [ "waydroid0" ];
 
   environment.systemPackages = with pkgs; [
     catppuccin-sddm

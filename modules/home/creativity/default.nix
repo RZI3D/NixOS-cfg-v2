@@ -34,6 +34,7 @@ in
       losslesscut-bin
       darktable
       audacity
+      davinci-resolve
     ];
 
     xdg.desktopEntries.audacity = {
@@ -41,7 +42,11 @@ in
       exec = "${audacityAppImage}/bin/audacity";
       icon = "audacity";
       comment = "Free, open source, cross-platform audio software for multi-track recording and editing.";
-      categories = [ "AudioVideo" "Audio" "Recorder" ];
+      categories = [
+        "AudioVideo"
+        "Audio"
+        "Recorder"
+      ];
     };
   };
 }

@@ -18,6 +18,7 @@ in
         credentialsFile = config.sops.secrets."cloudflared-credentials".path;
         default = "http_status:404";
         ingress = {
+          # I should probably order the ports or something...
           "auth.rzi.dpdns.org" = "http://localhost:9000";
           "books.rzi.dpdns.org" = "http://localhost:6060";
           "romm.rzi.dpdns.org" = "http://localhost:8080";
@@ -26,8 +27,10 @@ in
           "photos.rzi.dpdns.org" = "http://localhost:2283";
           "mcmap.rzi.dpdns.org" = "http://localhost:8100";
           "assets.rzi.dpdns.org" = "http://localhost:8091";
-          "git.rzi.dpdns.org" = "http://localhost:3000";
+          "git.rzi.dpdns.org" = "http://localhost:4500";
           "notes.rzi.dpdns.org" = "http://localhost:3005";
+          "cloud.rzi.dpdns.org" = "http://localhost:9200";
+          "collabora.rzi.dpdns.org" = "http://localhost:9980";
         };
       };
     };

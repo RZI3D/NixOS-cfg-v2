@@ -25,6 +25,10 @@ in
       UNOROUTER_API_KEY=${config.sops.placeholder."hermes-env/UNOROUTER_API_KEY"}
       DISCORD_BOT_TOKEN=${config.sops.placeholder."hermes-env/DISCORD_BOT_TOKEN"}
       DISCORD_ALLOW_ALL_USERS=true
+      WHATSAPP_ENABLED=true
+      WHATSAPP_MODE=bot
+      WHATSAPP_ALLOW_ALL_USERS=true
+      WHATSAPP_REQUIRE_MENTION=true
     '';
 
     services.hermes-agent = {
@@ -38,6 +42,12 @@ in
 
       settings = {
         group_sessions_per_user = false;
+
+        whatsapp = {
+          unauthorized_dm_behavior = "ignore";
+          group_policy = "allowlist";
+          group_allow_from = "120363430533392058@g.us";
+        };
 
         discord = {
           auto_thread = false;

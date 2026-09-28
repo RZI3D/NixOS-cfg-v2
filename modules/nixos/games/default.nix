@@ -40,14 +40,23 @@ in
       pkgsi686Linux.libva
       pkgsi686Linux.mesa
       mangohud
-      goverlay
+      # goverlay # build failing
       nixgl.nixGLIntel
       gpu-screen-recorder-gtk
     ];
 
+    programs.java = {
+      enable = true;
+      package = pkgs.temurin-bin-21;
+    };
+
     programs.nix-ld.enable = true;
     programs.nix-ld.libraries = with pkgs; [
       stdenv.cc.cc.lib
+      alsa-lib
+      openal
+      libXtst
+      libXrender
       libxxf86vm
       zlib
       libGL

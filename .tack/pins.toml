@@ -95,4 +95,5 @@ submodules = true
 url = "github:snowfallorg/lib"
 
 [inputs.hermes-agent]
-url = "github:NousResearch/hermes-agent"
+# url = "github:NousResearch/hermes-agent"
+url = "github:yinkev/hermes-agent/fix-nix-whatsapp-bridge"

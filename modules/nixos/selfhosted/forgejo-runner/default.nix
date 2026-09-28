@@ -39,7 +39,8 @@ let
   };
 in
 {
-  options.rzi.selfhosted.forgejo-runner.enable = lib.mkEnableOption "Forgejo Actions runner (selfhosted)";
+  options.rzi.selfhosted.forgejo-runner.enable =
+    lib.mkEnableOption "Forgejo Actions runner (selfhosted)";
 
   config = lib.mkIf cfg.enable {
     rzi.selfhosted.podman.enable = true;
@@ -76,7 +77,7 @@ in
       instances.rzi-mac-pro = {
         enable = true;
         name = "rzi-mac-pro";
-        url = "http://localhost:3000/";
+        url = "http://localhost:4500/";
         tokenFile = config.sops.templates."forgejo-runner-token".path;
         settings = {
           container.network = "host";
