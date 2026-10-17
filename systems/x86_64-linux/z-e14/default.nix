@@ -13,7 +13,8 @@
   ];
 
   # Bootloader & Kernel configuration
-  rzi.kernels.cachyos.enable = true;
+  # TODO: re-enable cachy kernel when https://github.com/xddxdd/nix-cachyos-kernel/issues/110 gets resolved
+  rzi.kernels.cachyos.enable = false;
   boot = {
     loader = {
       systemd-boot.enable = true;
